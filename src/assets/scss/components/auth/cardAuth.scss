@@ -1,0 +1,59 @@
+.cardAuth{
+    max-width: 500px;
+    min-width: 500px;
+    margin: 1.5rem 1.5rem;
+    .card-header{
+        background: transparent;
+        width: 90%;
+        display:flex;
+        justify-content: center;
+    }
+    .card-body{
+        background: transparent;
+        width: 90%;
+        display:flex;
+        justify-content: center;
+        flex-direction: column;
+    }
+    .card-footer{
+        background-color: transparent;
+        width: 100%;
+        border-top: 0px solid transparent;
+        display:flex;
+        justify-content: center;
+        .btnAuth{
+            background-color: purple;
+            color: textColor(purple, #000, #fff);
+            border-radius: 3.5rem;
+            transition: all .55s ease-in-out;
+            &:hover{
+                background-color: textColor(purple, #000, #fff);
+                color: textColor(textColor(purple, #000, #fff), #000, #fff);
+                transform: scale(1.25);
+                transition: all .25s ease-in-out;
+            }
+        }
+    }
+    .card-error{
+        position:relative;
+        background-color: red;
+        color: white;
+        border-radius: 3.5rem;
+        padding: .5rem 1rem;
+        animation: heartBeat; /* referring directly to the animation's @keyframe declaration */
+        animation-duration: 1s; /* don't forget to set a duration! */
+        transition: all .2 ease-in-out;
+        z-index:2;
+    }
+    .card-success{
+        position:relative;
+        background-color: green;
+        color: white;
+        border-radius: 3.5rem;
+        padding: .5rem 1rem;
+        animation: heartBeat; /* referring directly to the animation's @keyframe declaration */
+        animation-duration: 1s; /* don't forget to set a duration! */
+        transition: all .2 ease-in-out;
+        z-index:2;
+    }    
+}
