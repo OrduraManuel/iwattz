@@ -3,7 +3,7 @@ import toBack from '@/components/toBack.vue'
 </script>
 
 <template>
-    <section  id="services" >
+    <section  id="services">
         <div class="container-fluid">
             <toBack  where="/"/>
             <div class="row">
@@ -12,25 +12,23 @@ import toBack from '@/components/toBack.vue'
                         <span>02.</span> Mix & Mastering online
                     </h2>
                 </div>
-                <div class="inner-divider"></div>
-                <div class="col-12">
-                    <h3 class="section-header">
-                        Here's  how<span> our</span><br>
-                        <span>mixing</span> &amp; <span>mastering</span><br>
+                <div class="col-12 ">
+                    <h3 class="section-header mt-5">
+                        Here's  how<span> our</span>
+                        <span>mixing</span> & <span>mastering</span>
                         process <span>works!</span>
                     </h3>
                 </div>
-                <div class="col-4 col-services section-txt">
-                    <h6 class="services">
-                        <span class="awesome">01.</span> Purchase &amp; send your files
+                <div class="col-md-4 col-services section-txt">
+                    <h6 class="services  mt-5">
+                        <span class="awesome">01.</span> Purchase & send your files
                     </h6>
                     <p>Choose you files and send us with  <a class="link-underline" href="#">WeTransfer</a>,  <a class="link-underline"
                         href="#">Dropbox</a> or  <a class="link-underline"
-                        href="#">GDrive</a> with the dry &amp; wet stems of your song.
+                        href="#">GDrive</a> with the dry & wet stems of your song.
                     </p>
                 </div>
-                <div class="inner-divider-post visible-mobile-devices"></div>
-                <div class="col-4 col-services section-txt">
+                <div class="col-md-4 col-services section-txt">
                     <h6 class="services">
                         <span class="awesome">02.</span> We mix your song
                     </h6>
@@ -38,8 +36,7 @@ import toBack from '@/components/toBack.vue'
                        href="#">Turn around time is 5-10 business days</a>.
                     </p>
                 </div>
-                <div class="inner-divider-post visible-mobile-devices"></div>
-                <div class="col-4 col-services section-txt">
+                <div class="col-md-4 col-services section-txt">
                     <h6 class="services">
                         <span class="awesome">03.</span> Grow your brand
                     </h6>
@@ -51,11 +48,3 @@ import toBack from '@/components/toBack.vue'
         </div>
     </section>   
 </template>
-<style lang="scss" scoped>
-#services{
-  .row{
-    padding:4vw 4vh ;
-    margin-top: -3vh;
-  }
-}
-</style>

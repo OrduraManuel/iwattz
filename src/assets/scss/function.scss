@@ -8,7 +8,7 @@
   }
   
 
-  @function textColor($color, $dark: #363b48, $light: #e5e5db) {
+  @function textColor($color, $dark: var(--txtDark), $light: var(--txtLight)) {
     @if (lightness($color) >= 50) {
       @return $dark;
     } @else {

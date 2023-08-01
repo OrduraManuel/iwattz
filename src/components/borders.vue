@@ -10,14 +10,15 @@ onMounted(() => {
     bordersT.value = document.getElementsByClassName('border-top')
     for (let itemT of bordersT.value) {
         // seleziona unità con cui calcolare
-        let widthF = 80
+        let widthF = 40
        
         // seleziona LOGO e togli l'unità di misura
         let logo = document.getElementById('logo')
-        let widthLogo = logo.style.width.slice(0, -2)
+        let widthLogo = logo.style.width.slice(0,.2)
+        console.log(widthLogo,'questo è la var logoooooooo')
 
         // calcola la larghezza superiore togliendo quella del logo
-        let calculateTop = widthF - (widthLogo / 2)  ;
+        let calculateTop = widthF - widthLogo   ;
         console.log(widthF, 'questo è F', widthLogo,'questo è logo')
         console.log(calculateTop,'calculatetoppppppp')
         itemT.style.width = calculateTop + '%';
@@ -101,12 +102,12 @@ onMounted(() => {
 })
 </script>
 <template>
-    <div class="borders-introduction">
+    <div class="borders-introduction  d-none d-md-block">
         <div class="borders-introduction-wrapper">
             <div class="border-wrapper" >
                 <div class="border-inner">
-                    <div class="center-space-bottom">
-                        <span id="claim">Qui vorrei mettere un claim</span>
+                    <div class="center-space-bottom  d-none d-lg-block">
+                        <span id="claim">il suono della musica</span>
                     </div>
                     <div id="border-t">
                         <div id="t1" class="border-bg border-top border-top-1"></div>
@@ -124,9 +125,3 @@ onMounted(() => {
         </div>
     </div>
 </template>
-<style scoped>
-#logoContainer{
-    width: 100%;
-}
-
-</style>

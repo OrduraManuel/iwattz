@@ -1,8 +1,9 @@
 form {
     padding: 2% 5%;
     margin-top: 10px;
-    border-radius: 30px;
-    background-color: whitesmoke;
+    //border-radius: 30px;
+    border: var(--border);
+    background-color: transparent;
     display: flex;
     flex-direction: column;
     justify-content: center;

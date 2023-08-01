@@ -1,34 +1,21 @@
-
-@font-face {
-    font-family: "swistblnk_monthoersregular";
-    src: url("/assets/font/monthoers-webfont.woff2")
-        format("woff2"),
-      url("/assets/font/monthoers-webfont.woff")
-        format("woff");
-    font-weight: normal;
-    font-style: normal;
-  }
-
+@import "variables.scss";
+@import "reset.scss";
+@import "resize.scss";
 @import "function.scss";
 @import "animations.scss";
 @import "components/layout.scss";
-@import "reset.scss";
-
 
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  background-color: purple;
   position: relative;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   overflow: hidden;
   left: 0;
   top: 0;
   margin: 0;
 }
+
 #FlashMessage{
   //@include delay(slideInRight, 1, .5s);
   position: absolute;
@@ -43,22 +30,8 @@
   padding: 2rem 5rem;
   z-index:999999;
 }
-.hero-heading{
-  .heroAnimated{
-    @include delay(fadeInDown, 4, .6s);
-}
-}
-@media only screen and (max-width: 640px) {
-  .hero-heading {
-    font-size: 35px;
-    flex-direction: column;
-    .mobile{
-      @include delay(fadeInDown, 4, .7s);
-    }
-    
 
-  }
-}
+
 .table{
   td{
   @include delay(fadeInUp, 10, .4s); 

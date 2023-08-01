@@ -6,19 +6,25 @@
 //authSection
 @import "auth/firstLog.scss";
 @import "auth/cardAuth.scss";
+@import "auth/tableDashboard.scss";
 
 //pages
-@import "pages/home.scss";
+@import "pages/home.scss"; //fatt
+@import "pages/selections.scss"; //fatt
 
 //GlobalSection
-@import "global/Navigation.scss";
-@import "global/Masonry.scss";
+@import "global/borders.scss"; // fatt
+@import "global/Navigation.scss"; // fatt
+@import "global/toBack.scss"; // fatt
+@import "global/Masonry.scss"; // css to scss
 @import "global/carouselz.scss";
-@import "global/sections.scss";
-@import "global/heading.scss";
+@import "global/sections.scss"; //fatt
+@import "global/heading.scss"; //fatt
 @import "global/heroTitle.scss";
 @import "global/creditz.scss";
 @import "global/scrollbar.scss";
+@import "global/loader.scss"; // fatt
+
 
 
 

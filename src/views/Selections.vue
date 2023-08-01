@@ -4,9 +4,7 @@ import { onUnmounted, onMounted } from 'vue'
 
 const containerApp = document.getElementById('app')
 
-
 let widthB = 33
-       
        // seleziona LOGO e togli l'unità di misura
       let claim = document.getElementById('claim')
        claim.style.width = '33'
@@ -66,7 +64,7 @@ onUnmounted(() => {
 
 </script>
 <template>
-    <div id="Selections" class="container-fluid">
+    <div id="selections" class="container-fluid">
         <toBack  where="/"/>
         <div class="row" style="padding:10%">
             <div class="col-12">
@@ -137,14 +135,3 @@ onUnmounted(() => {
     </div>
 
 </template>
-<style lang="scss">
-#Selections{
-    display: flex;
-    justify-content: center;
-    align-content: start;
-    align-items: start;
-    .row{
-        padding: 0% 10%;
-    }
-}
-</style>

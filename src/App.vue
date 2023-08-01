@@ -4,7 +4,6 @@ import NewNav from '@/components/NewNav.vue';
 import borders from '@/components/borders.vue';
 //import Slider from '@/components/Slider.vue';
 import Swiping from '@/components/Swiping.vue';
-import home from '@/views/Home.vue'
 
 /* GSTORE DA RIPOSIZIONARE
 
@@ -42,31 +41,19 @@ async function flashMessageOut(){
     <NewNav />
     <borders />
     <router-view class="homethis animate__animated  animate__delay animate__fadeIn "/>
-
-
   </div>
 </template>
-
 <style lang="scss">
-//@import "@/assets/scss/style.scss";
-
 .homethis{
-    //background-color: rgba(0, 255, 255, 0.162); 
-    padding: 0%;
-    z-index:9;
-    margin: 8vh 6.5vw 8vh 6.5vw;
-    width: calc(100vw - 13vw);
-    height: calc(100vh - 16vh);
-    display: flex;
-    justify-content: center;
-    align-content: center;
-    align-items: center;
-    align-self: center;
-    // da cambiare quando è dashboard
-    /* 
-    margin: 0;//8vh 6.5vw 8vh 6.5vw;
-    width: 100vw;//calc(100vw - 13vw);
-    height: 100vh;//calc(100vh - 16vh);
-    */
+  padding: 0%;
+  z-index:9;
+  margin: var(--marginT) var(--marginR) var(--marginB) var(--marginL)!important;
+  width: calc(100vw - 13vw);
+  height: calc(100vh - 16vh);
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  align-self: center;
 }
 </style>

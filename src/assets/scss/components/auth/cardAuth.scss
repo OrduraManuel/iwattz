@@ -1,7 +1,13 @@
 .cardAuth{
-    max-width: 500px;
-    min-width: 500px;
+    max-width: 50rem;
+    min-width: 50rem;
     margin: 1.5rem 1.5rem;
+    
+    form{
+        background-color: transparent;
+        border: var(--border);
+    }
+    
     .card-header{
         background: transparent;
         width: 90%;
@@ -14,6 +20,9 @@
         display:flex;
         justify-content: center;
         flex-direction: column;
+        input{
+            border-radius: var(--radiusXl)
+        }
     }
     .card-footer{
         background-color: transparent;
@@ -22,15 +31,14 @@
         display:flex;
         justify-content: center;
         .btnAuth{
-            background-color: purple;
-            color: textColor(purple, #000, #fff);
+            background-color: var(--txtLight);
+            color: textColor(white,  var(--txtDark), var(--txtLight));
             border-radius: 3.5rem;
             transition: all .55s ease-in-out;
             &:hover{
-                background-color: textColor(purple, #000, #fff);
-                color: textColor(textColor(purple, #000, #fff), #000, #fff);
                 transform: scale(1.25);
-                transition: all .25s ease-in-out;
+                font-size: 1.2rem;
+                transition: all .30s ease-in-out;
             }
         }
     }

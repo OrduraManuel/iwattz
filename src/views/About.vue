@@ -30,11 +30,3 @@ import toBack from '@/components/toBack.vue'
             </div>
         </section>
 </template>
-<style lang="scss" scoped>
-#about{
-  .row{
-    padding:4vw 4vh ;
-    margin-top: -3vh;
-  }
-}
-</style>

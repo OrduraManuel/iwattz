@@ -1,56 +1,62 @@
-/* global variables
+// -- Variables CSS3
+
+:root{
+
+    //--logoWidth: 7rem;
 
     //basics
-    $white: #e5e5db;
-    $black: #363b48;
+    --white: #e5e5db;
+    --black: #363b48;
 
-    //text Colors
-    $textWhite: #e5e5db;
-    $textBlack: #363b48;
+    //text colors
+    --txtLight: #e5e5db;
+    --txtDark: #363b48;
 
     //light and dark
-    $light: #fff;
-    $dark: #000;
+    --light: #fff;
+    --dark: #000;
 
-
-    $brandPrimary: #ff264a;
-    $brandSecondary: purple;
-    $brandSpecial: green;
+    //branding
+    --brandPrimary: #ff264a;
+    --brandSecondary: purple;
+    --brandSpecial: green;
 
     //border
-    $borderSize: 2px;
-    $borderStyle: solid;
-    $borderColor: #b2b2b2;
-    $border: $borderSize $borderStyle $borderColor;
-
-    $themeHeader: #ff264a;
-    //$themeBody: purple;//darken(#ff264a), 10;
-    $themeFooter: lighten(#ff264a), 10;
-    $themeModal: #ff264a;
-
-    // breakpoints Bootstrap4 shortcut 
-
-    $minXl: "min-width: 1139px";
-    $maxXl: "max-width: 1141px";
-
-    $minLg: "min-width: 959px";
-    $maxLg: "max-width: 961px";
-
-    $minMd: "min-width: 719px";
-    $maxMd: "max-width: 721px";
-
-    $minSm: "min-width: 539px";
-    $maxSm: "max-width: 541px";
-
-    //btn
-    $btnPrimary: #2B2C5A;
-    $btnSecondary: yellow;
-    $btnSpecial: cyan;
+    --borderSize: 2px;
+    --borderStyle: solid;
+    --borderColor: #b2b2b2;
+    --border: var(--borderSize) var(--borderStyle) var(--borderColor);
 
 
-// variabili stile branded
+    // btn
+    --btnPrimary: var(--brandPrimary);
+    --btnSecondary: var(--brandSecondary);
+    --btnSpecial: var(--brandSpecial);
 
-$brLarge: 3.5rem;
-$brMiddle: 1.5rem;
-$brSmall: .7rem;
-*/
+    // margin
+    --marginT: 8vh;
+    --marginNT: -4vh;
+    --marginR: 6.5vw;
+    --marginNR: -3.25vh;
+    --marginB: 8vh;
+    --marginNB: -2vh;
+    --marginL: 6.5vw;
+    --marginNL: -3.25vh;
+
+    // Dashboard Zone
+    --dashboardBtnSize: 3.3rem;
+    --dashboardBtnPaddingY: .5rem;
+    --dashboardBtnPaddingX: 3rem;
+    --dashboardBtnPadding: var(--dashboardBtnPaddingY) var(--dashboardBtnPaddingX);
+    --dashboardBtnPositionL: 10rem;
+
+//          left: 10rem;
+// padding: .5rem 3rem;
+
+    //border radius
+    --radiusS: .5rem;
+    --radiusM: 1rem;
+    --radiusL: 2rem;
+    --radiusXl: 3rem;
+}
+

@@ -1,10 +1,9 @@
 <script setup>
-
-
 import { search, remove } from "@/api/crud";
-import { watchEffect, ref, onMounted } from "vue";
+import { watchEffect, ref } from "vue";
 
 import modalEdit from "@/components/auth/modalEdit.vue";
+import loader from "@/components/loader.vue";
 
 let sel = ref()
 let books = ref([])
@@ -14,12 +13,10 @@ watchEffect( () =>{
       books = ref(null)
       places = ref(null)
       sel.value = null
-
       if(books || places){
         searchHandler();
       }
   })
-// function
 
 async function selectedBook(book){
   sel.value = null
@@ -38,46 +35,47 @@ async function deleteHandler(id) {
 
 </script>
 <template>
-<table class="table table-border"    >
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Author</th>
-      <th scope="col">Title</th>
-      <th scope="col">isFav</th>
-      <th scope="col">Place</th>
+  <table class=" tableDashboard" v-if="books">
+    <thead>
+      <tr class="tableHead">
+        <th class="col colNumber">#</th>
+        <th class="col">Author</th>
+        <th class="col">Title</th>
+        <th class="col">isFav</th>
+        <th class="col">Place</th>
+        <th class="col">Action</th>
+        <th class="col"></th>
+        <th class="col"></th>
 
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="book in books" :key="book.id">
-      <td scope="row">{{book.number}}</td>
-      <td class="td">{{book.author}}</td>
-      <td class="td">{{book.title}}</td>
-      <td class="td">{{book.isFav}}</td>
-      <template v-for="place in places" :key="place.id">        
-        <td v-if="book.local == place.id">
-          <p class="td">
-            {{place.local}}
-          </p>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="book in books" :key="book.id">
+        <td class="td tdNumber">{{book.number}}</td>
+        <td class="td">{{book.author}}</td>
+        <td class="td">{{book.title}}</td>
+        <td class="td">{{book.isFav}}</td>
+        <td class="td">
+          <template v-for="place in places" :key="place.id">        
+            <div v-if="book.local == place.id">
+                {{place.local}}
+            </div>
+          </template>
         </td>
-      </template><!--:data-bs-target="'#modalEdit' + book.id" @click="selectedBook(book)-->
-      <td class="btn btn-success"><router-link :to="{ name:'TrackDetails', params: {id: book.id}}"> edit</router-link></td>
-      <td class="btn btn-success"  data-bs-toggle="modal" data-bs-target="#modalEdit" @click="selectedBook(book) ">edit in modal</td>
-      <td class="btn btn-danger" @click="deleteHandler(book.id)">delete</td>
-    </tr>
-  </tbody>
-  <modalEdit :thisBook="sel" v-if="sel"/>
-</table>    
-
+        <td class="td">
+          <router-link class="my-auto btn btn-success" :to="{ name:'TrackDetails', params: {id: book.id}}"> edit</router-link>
+        </td>
+        <td class="td">
+          <a href="#" class="my-auto btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEdit" @click="selectedBook(book)"> edit in modal</a>
+        </td>
+        <td class="td">
+          <a href="#" class="btn my-auto btn-danger" @click="deleteHandler(book.id)"> delete</a>
+        </td>
+      </tr>
+    </tbody>
+    <modalEdit :thisBook="sel" v-if="sel"/>
+  </table>    
+  <div v-else>
+      <loader />  
+  </div>
 </template>
-
-<style lang="scss" scoped>
-
-.table-border{
-    border: 2px solid white;
-    color: white;
-}
-
-
-</style>

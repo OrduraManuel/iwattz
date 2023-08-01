@@ -8,7 +8,7 @@
     <div id="dashboard">
         <div class="container-fluid">
             <toBack  where="/"/>
-            <div class="row" style="width: 100%;">
+            <div class="row">
                 <div class="col-12" >
                     <tableDashboard />
                     <router-link class="createBtn" to="create">

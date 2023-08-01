@@ -3,14 +3,14 @@
 h2.section-heading-all {
     position: relative;
     font-family: 'Montserrat', sans-serif;
-    font-size: 18px;
+    font-size: 1.8rem;
     font-style: normal;
     font-weight: 700;
     text-transform: uppercase;
     text-align: left;
-    letter-spacing: 0.05em;
-    color: #b2b2b2;
-    margin: -6px 0 -7px 0;
+    letter-spacing: 0.05rem;
+    color: var(--txtLight);
+    margin: -.6rem 0 -.7rem 0;
     padding: 0;
      -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -22,22 +22,22 @@ h2.section-heading-all {
     z-index: 2;
     }
     
-    @media only screen and (max-width: 1200px) {
+    @media only screen and (max-width: 1199px) {
       h2.section-heading-all {
-        font-size: 17px;
+        font-size: 1.7rem;
       }
     }
     
-    @media only screen and (max-width: 995px) {
+    @media only screen and (max-width: 960px) {
       h2.section-heading-all {
-        font-size: 16px;
+        font-size: 1.6rem;
       }
     }
     
-    @media only screen and (max-width: 640px) {
+    @media only screen and (--maxSm) {
       h2.section-heading-all {
-        font-size: 15px;
-        margin: -6px 0 -6px 0;
+        font-size: 1.5rem;
+        margin: -.6rem 0 -.6rem 0;
       }
     }
     

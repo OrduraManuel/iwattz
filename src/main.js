@@ -15,3 +15,4 @@ app.use(createPinia())
 app.use(router)
 //app.provide('GStore', GStore)
 app.mount('#app')
+

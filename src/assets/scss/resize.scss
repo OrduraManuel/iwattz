@@ -27,10 +27,10 @@
 }
 
 /* Smartphone piccole dimensioni  */
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 575px) {
   html,
   body {
-    font-size: 10px;
+    font-size: 12px;
     input,
     select {
       font-size: 100%;
@@ -39,10 +39,10 @@
 }
 
 /* Smartphone grandi dimensioni  */
-@media only screen and (min-width: 400px) and (max-width: 481px) {
+@media only screen and (var(--minSm)) and (--maxSm) {
   html,
   body {
-    font-size: 10.5px;
+    font-size: 12.5px;
     input,
     select {
       font-size: 100%;
@@ -51,7 +51,7 @@
 }
 
 /* Tablet  */
-@media only screen and (min-width: 481px) and (max-width: 992px) {
+@media only screen and (min-width: 768px) and (max-width: 960px) {
   html,
   body {
     font-size: 12px;
@@ -62,32 +62,28 @@
   }
 }
 /* Laptop */
-@media all and (min-width: 993px) {
+@media only screen and (min-width: 992px) and (max-width: 1199px) {
   html,
   body {
     font-size: 14px;
   }
 }
 /* Laptop grandi dimensioni */
-@media all and (min-width: 1400px) {
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
   html,
   body {
     font-size: 15px;
   }
-
-  /*  .cookie{
-          width: 50%;
-        } */ // LA PROVA CHE SI PUO MODIFICARE UNA CLASSE IN QUESTO METODO
 }
 /* Desktop */
-@media all and (min-width: 1690px) {
+@media only screen and (min-width: 1400px) and (max-width: 1920px) {
   html,
   body {
     font-size: 16px;
   }
 }
 /* Desktop grandi dimensioni */
-@media all and (min-width: 1900px) {
+@media only screen and (min-width: 1400px) {
   html,
   body {
     font-size: 17px;
