@@ -3,15 +3,18 @@ import toBack from '@/components/toBack.vue'
 
 import { watchEffect, ref, onMounted } from 'vue'
 
-import getUser from '@/auth/getUser'
-
 // firebase imports
-import { db } from '@/api/config'
+import { db, storage } from '@/api/config'
+import getCollection from '@/api/getCollection'
+import { search, create } from "@/api/crud";
+import getUser from '@/auth/getUser'
+import { ref as storageRef, uploadBytesResumable } from "firebase/storage";
 import { addDoc, collection} from 'firebase/firestore'
-import { search } from "@/api/crud";
 
+let uploader
 let books = ref([])
 let bookId = ref()
+const { documents: places } = getCollection('places')
 
 onMounted(()=>{
     watchEffect( () =>{
@@ -19,6 +22,56 @@ onMounted(()=>{
           searchHandler();
         })
 })
+const { user } = getUser()
+const number = ref('')
+const title = ref('')
+const author = ref('')
+const isFav = ref('')
+const isRead = ref('')
+const local = ref('')
+const cover = ref({
+  type: null,
+  imageData: null,
+  src: null,
+})
+const notes = ref('')
+
+
+
+
+function uploadStart(){
+  console.log(uploader,'this is UPLOADER ref, how can i click?')
+  uploader.click()
+  console.log(cover.value,'this is cover')
+}
+function previewImage(event){
+  let uploaded = ref({
+    type: null,
+    imageData: null,
+    src: null,
+  })
+  uploaded.type = 0;
+  uploaded.src = null;
+  uploaded.imageData = event.target.files[0];
+  onUploading(uploaded)
+}
+async function onUploading(el){
+  let almostLoad = ref('')
+  // Create the file metadata
+  const metadata = {
+    contentType: storageRef(el.imageData.type)
+  };
+  // Upload file and metadata to the object 'images/mountains.jpg'
+  const storageRefs = await storageRef(storage, 'images/' + el.imageData.name);
+  almostLoad = 'Hai selezionato' + el.imageData.name + 'come cover!'
+  console.log(cover.value,'questo è cover PRIMA')
+  cover.value.type = metadata,
+  cover.value.imageData = el.imageData,
+  cover.value.src = storageRefs,
+  console.log(storageRefs,'intero',  )
+  console.log(cover.value,'questo è cover DOPO')
+
+}
 
 // function
 async function  searchHandler() {
@@ -27,47 +80,32 @@ async function  searchHandler() {
     console.log(bookId.value, 'prima del ++')
     bookId.value++
     console.log(bookId.value, 'dopo del ++')
-
 }
 
-// ciclo for
-import getCollection from '@/api/getCollection'
-
-
-    const { user } = getUser()
-    const number = ref('')
-    const title = ref('')
-    const author = ref('')
-    const isFav = ref('')
-    const isRead = ref('')
-    const local = ref('')
-    const notes = ref('')
-
-    const { documents: places } = getCollection('places')
-
-    const handleSubmit = async () => {
-      const colRef = collection(db, 'books')
-      console.log(colRef,'colref')
-      await addDoc( colRef, {
-        number: bookId.value,
-        title: title.value,
-        author: author.value,
-        isFav: isFav.value,
-        isRead: isRead.value,
-        local: local.value,
-        notes: notes.value,
-        userUid: user.value.uid
-      })
-
-      // reset the form
-      number.value =''
-      title.value = ''
-      author.value = ''
-      local.value = ''
-      notes.value = ''
-      isFav.value = false
-      isRead.value = false
-    }
+const handleSubmit = async () => {
+  const colRef = collection(db, 'books')
+  const uploadTask = uploadBytesResumable(storageRefs, cover.imageData, metadata.contentType);
+  await addDoc( colRef, {
+    number: bookId.value,
+    title: title.value,
+    author: author.value,
+    isFav: isFav.value,
+    isRead: isRead.value,
+    local: local.value,
+    cover: cover.value,
+    notes: notes.value,
+    userUid: user.value.uid
+  })
+  // reset the form
+  number.value =''
+  title.value = ''
+  author.value = ''
+  local.value = ''
+  cover.value = ''
+  notes.value = ''
+  isFav.value = false
+  isRead.value = false
+}
 </script>
 <template>
     <div id="create">
@@ -103,11 +141,17 @@ import getCollection from '@/api/getCollection'
                     <textarea rows="" cols="40" name="notes" v-model="notes">
                     </textarea>
                   </div>
-                <div class="checkRead" :class="{cta: !isRead, ctaRead: isRead}">
-                  <span class="mb-2">Did you read this book?</span>
-                  <i :class="{icon: true, 'fa-eye': isRead, 'fa-eye-slash': !isRead }" class="far fa-2x my-auto" ></i>
-                  <input type="checkbox" id="checkRead" class=" mt-3" v-model="isRead" value="true"/>
-                  <label for="checkRead">checkRead</label>
+                <div class="coverImage">
+                  <span class="mb-2">Upload this cover</span>
+                  <button class="btn btn-primary" 
+                    @click="uploadStart">Choose your cover
+                  </button>
+                  <input style="display:none" 
+                  type="file" id="uploader" class="mt-3" 
+                  ref="uploader" @change="previewImage" accept="image/*"/>
+                  <div v-if="cover.imageData != null">
+                    <span class="almostLoad"  v-html="almostLoad"></span>
+                  </div>
                 </div>        
               </div>
               <button>Add Book</button>
@@ -117,3 +161,11 @@ import getCollection from '@/api/getCollection'
       </div>
     </div>
 </template>
+<style scoped>
+.almostLoad{
+  font-size: 20px;
+  padding: 20px;
+  color: white;
+  background: purple;
+}
+</style>

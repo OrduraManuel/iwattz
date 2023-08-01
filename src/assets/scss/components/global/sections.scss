@@ -18,11 +18,14 @@
     }
 
     @media  only screen and (max-width: 960px) {
-      #about, #services, #selections{
+      #about, #services, #selections, #dashboard{
       padding-top: calc(var(--dashboardBtnSize) * 3 );
       display: flex;
       justify-content: center;
       align-content: start;
       align-items: start;
+      }
+      #dashboard .row{
+        padding:0!important ;
       }
     } 

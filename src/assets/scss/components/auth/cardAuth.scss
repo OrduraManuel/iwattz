@@ -1,11 +1,13 @@
 .cardAuth{
-    max-width: 50rem;
-    min-width: 50rem;
+    max-width: 30rem;
+    min-width: 30rem;
     margin: 1.5rem 1.5rem;
     
     form{
-        background-color: transparent;
+        background-color: rgba(256,256,256,.1);
+        backdrop-filter: blur(40px);
         border: var(--border);
+        
     }
     
     .card-header{

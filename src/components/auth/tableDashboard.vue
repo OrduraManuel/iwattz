@@ -1,41 +1,43 @@
 <script setup>
-import { search, remove } from "@/api/crud";
-import { watchEffect, ref } from "vue";
+  import { search, remove } from "@/api/crud";
+  import { watchEffect, ref, nextTick } from "vue";
 
-import modalEdit from "@/components/auth/modalEdit.vue";
-import loader from "@/components/loader.vue";
+  import basicModal from "@/components/auth/basicModal.vue";
 
-let sel = ref()
-let books = ref([])
-let places = ref([])
-
-watchEffect( () =>{
-      books = ref(null)
-      places = ref(null)
-      sel.value = null
-      if(books || places){
-        searchHandler();
-      }
-  })
-
-async function selectedBook(book){
-  sel.value = null
-  sel.value = await book
-  console.log(sel.value, 'Questo è l oggetto iniettato')
-}
+  import loader from "@/components/loader.vue";
 
 async function  searchHandler() {
     books.value = await search("books");
     places.value = await search("places");
 }
 
-async function deleteHandler(id) {
-    remove("books", id);    
+  let sel = ref(null)
+  let books = ref([])
+  let places = ref([])
+
+
+function activeModal(thisBook){
+
+  sel.value = thisBook
+
 }
 
+watchEffect( () =>{
+      books = ref(null)
+      places = ref(null)
+      sel = ref(null)
+      if(books || places){
+        searchHandler();
+      }
+  })
+
+function deleteHandler(id) {
+    remove("books", id);    
+}
 </script>
 <template>
-  <table class=" tableDashboard" v-if="books">
+  <div class="table-responsive">
+    <table class="  tableDashboard" v-if="books">
     <thead>
       <tr class="tableHead">
         <th class="col colNumber">#</th>
@@ -51,11 +53,11 @@ async function deleteHandler(id) {
     </thead>
     <tbody>
       <tr v-for="book in books" :key="book.id">
-        <td class="td tdNumber">{{book.number}}</td>
-        <td class="td">{{book.author}}</td>
-        <td class="td">{{book.title}}</td>
-        <td class="td">{{book.isFav}}</td>
-        <td class="td">
+        <td class="td tdNumber text-truncate">{{book.number}}</td>
+        <td class="td text-truncate">{{book.author}}</td>
+        <td class="td text-truncate">{{book.title}}</td>
+        <td class="td text-truncate">{{book.isFav}}</td>
+        <td class="td text-truncate">
           <template v-for="place in places" :key="place.id">        
             <div v-if="book.local == place.id">
                 {{place.local}}
@@ -66,16 +68,26 @@ async function deleteHandler(id) {
           <router-link class="my-auto btn btn-success" :to="{ name:'TrackDetails', params: {id: book.id}}"> edit</router-link>
         </td>
         <td class="td">
-          <a href="#" class="my-auto btn btn-success" data-bs-toggle="modal" data-bs-target="#modalEdit" @click="selectedBook(book)"> edit in modal</a>
+          <a href="#" 
+          class="my-auto btn btn-success" 
+          data-bs-toggle="modal" 
+          data-bs-target="#exampleModal"
+          @click="activeModal(book)"> edit in modal</a>
         </td>
-        <td class="td">
-          <a href="#" class="btn my-auto btn-danger" @click="deleteHandler(book.id)"> delete</a>
-        </td>
+        <!--          data-bs-toggle="modal" 
+          data-bs-target="#exampleModal" -->
       </tr>
     </tbody>
-    <modalEdit :thisBook="sel" v-if="sel"/>
-  </table>    
-  <div v-else>
-      <loader />  
+    </table>    
+    <div v-else>
+        <loader />  
+    </div>
   </div>
+  <template>
+    <basicModal 
+    :thisBook="sel" 
+    /> <!-- !== null || sel !== undefined-->
+
+  </template>
+    <!--v-if=" sel !== null"-->
 </template>

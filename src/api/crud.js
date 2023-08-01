@@ -8,11 +8,21 @@ import {
     addDoc,
     deleteDoc,
     updateDoc,
+    limit,
+    query,
+    startAfter
   } from "firebase/firestore";
   // Follow this pattern to import other Firebase services
 
 //POST
-export const create = (collectionRef, obj) => {
+/**
+ * @author dd
+ * @description post
+ * @param {*} collectionRef 
+ * @param {string} obj 
+ * @returns array of string
+ */
+export const create = async (collectionRef, obj) => {
   return addDoc(collection(db, collectionRef), obj);
 };
 
@@ -47,3 +57,22 @@ export const search = async (collectionRef) => {
   });
   return arr;
 };
+
+//GET with LIMIT
+export const searchLimit = async (collectionRef, number) => {
+  let arr = [];
+  const first =  query(collection(db, collectionRef),limit(number));
+  const documentSnapshots = await getDocs(first)
+
+  documentSnapshots.docs.forEach((doc) => {
+    arr.push({ id: doc.id, ...doc.data() });
+  });
+
+  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
+  const next = query(
+      collection(db, collectionRef),
+      limit(number),
+      startAfter(lastVisible));
+  return arr;
+};
+
