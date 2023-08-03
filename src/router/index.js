@@ -1,91 +1,101 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
-import about from "@/views/About.vue";
-import services from "@/views/Services.vue";
-import contact from "@/views/Contact.vue";
-import selections from "@/views/Selections.vue";
+import About from "@/views/About.vue";
+import Services from "@/views/Services.vue";
+import Contact from "@/views/Contact.vue";
+import Selections from "@/views/Selections.vue";
 
 // auth
-import firstLog from "@/views/auth/firstLog.vue";
+import FirstLog from "@/views/auth/FirstLog.vue";
 import Dashboard from "@/views/auth/Dashboard.vue";
-import Create from "@/views/auth/createObj.vue";
-
+import CreateObj from "@/views/auth/CreateObj.vue";
 import TrackDetails from "@/views/tracks/TrackDetails.vue";
-
 import NotFound from "@/views/404.vue";
 
 // firebase imports
 import { auth } from '@/api/config'
 
-const requireAuth = (to, from, next) => {
-  let user = auth.currentUser
-  if(!user) {
-    next({ 
-      name: 'firstLog'
-    })
+const redirectToLogin = (next) => {
+  next({
+    name: 'firstLog',
+    query: { redirect: next.fullPath }
+  });
+};
+
+const requireAuth = async (to, from, next) => {
+  const user = auth.currentUser;
+
+  if (!user) {
+    redirectToLogin(next);
   } else {
-    next()
+    try {
+      next();
+    } catch (error) {
+      console.error('Error while checking user authentication:', error);
+      redirectToLogin(next);
+    }
   }
-}
+};
+
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home,
+  },
+  {
+    path: '/about',
+    name: 'About',
+    component: About,
+  },
+  {
+    path: '/services',
+    name: 'Services',
+    component: Services,
+  },
+  {
+    path: '/contact',
+    name: 'Contact',
+    component: Contact,
+  },
+  {
+    path: '/selections',
+    name: 'Selections',
+    component: Selections,
+  },
+  {
+    path: '/firstLog',
+    name: 'FirstLog',
+    component: FirstLog,
+  },
+  {
+    path: '/dashboard',
+    name: 'Dashboard',
+    component: Dashboard,
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/create',
+    name: 'Create',
+    component: CreateObj,
+    beforeEnter: requireAuth,
+  },
+  {
+    path: '/track/:id',
+    name: 'TrackDetails',
+    component: TrackDetails,
+    props: true,
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'Not Found',
+    component: NotFound,
+  },
+];
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
-  routes: [
-    {
-      path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: "/firstLog",
-      name: "firstLog",
-      component: firstLog,
-    },
-    {
-      path: "/Dashboard",
-      name: "Dashboard",
-      component: Dashboard,
-      beforeEnter: requireAuth,
-    },
-    {
-      path: "/Create",
-      name: "Create",
-      component: Create,
-      beforeEnter: requireAuth,
-    },
-    {
-      path: "/track/:id",
-      name: "TrackDetails",
-      component: TrackDetails,
-      props: true,
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: about,
-    },
-    {
-      path: "/services",
-      name: "services",
-      component: services,
-    },
-    {
-      path: "/contact",
-      name: "contact",
-      component: contact,
-    },
-    {
-      path: "/selections",
-      name: "selections",
-      component: selections,
-    },
-    {
-      path: "/:catchAll(.*)",
-      name: "NotFound",
-      component: NotFound,
-    },
-  ],
-})
-
+  routes,
+});
 
 export default router
