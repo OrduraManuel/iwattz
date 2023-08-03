@@ -48,7 +48,7 @@ async function flashMessageOut(){
   padding: 0%;
   z-index:9;
   margin: var(--marginT) var(--marginR) var(--marginB) var(--marginL)!important;
-  width: calc(100vw - 13vw);
+  width: calc(100vw - 12vw);
   height: calc(100vh - 16vh);
   display: flex;
   justify-content: center;
