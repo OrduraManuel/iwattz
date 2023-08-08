@@ -1,9 +1,9 @@
 <script setup>
-import toBack from '@/components/toBack.vue'
+import toBack from '@/components/toBack.vue';
 </script>
 
 <template>
-        <section id="about" >
+    <section id="about" >
             <div class="container-fluid">
                 <toBack  where="/"/>
                 <div class="row">

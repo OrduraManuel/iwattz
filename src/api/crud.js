@@ -1,5 +1,5 @@
 
-import { db } from '@/api/config'
+import { db } from '@/api/config';
 import {
     collection,
     getDocs,

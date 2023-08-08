@@ -1,65 +1,85 @@
 <script setup >
-import { search, remove } from "@/api/crud";
+import { update, remove, get } from "@/api/crud";
 import { watchEffect, ref, onMounted } from "vue";
+import toBack from '@/components/toBack.vue'
+import { useRouter } from 'vue-router'
 
+
+//props ID passata 
 const props = defineProps({
   id: { type: Object, required: true},
 })
 
-console.log(props.id,'questo è props.id', props.obj,'questo è props')
-const thisTrack = ref(props.id)
-
-let sel = ref()
-let books = ref([])
-let places = ref([])
-
+//On mounted faccio andare SearchHandler che popola thisTrack con l'id della Props
 onMounted(()=>{
-  places.value = null
-  books.value = null
-  sel.value = null
+  searchHandler()
 
 })
-watchEffect( () =>{
-      books = ref()
-      places = ref()
-      sel = ref()
 
-      if(books || places){
-        searchHandler();
-      }
-  })
-// function
+const thisTrack = ref();
+
+const router = useRouter()
+
+const editTrack = ref({
+    Number: thisTrack.Number,
+    Title: thisTrack.Title,
+    Author: thisTrack.Author,
+    //isFav: thisTrack.IsFav,
+    //Img: Img.value,
+    Src: thisTrack.Src,
+    //userUid: user.value.uid
+})
+
+// function get thisTrack
 async function  searchHandler() {
-    books.value = await search("books");
-    places.value = await search("places");
+    thisTrack.value = await get('Tracks', props.id);
+}
+// function delete thisTrack
+function deleteHandler(id) {
+	remove('Tracks', id);
+  router.push('/dashboard');
 }
 
-async function deleteHandler(id) {
-    remove("books", id);    
+async function updateHandler(colRef, id, updateTrack ) {
+    update(colRef, id, updateTrack);
+    searchHandler();
 }
+
 
 </script>
 <template>
-    <div id="trackDetails">
+    <div id="trackDetails" v-if="thisTrack">
         <div class="container-fluid">
+            <toBack  where="/dashboard"/>
             <div class="row">
                 <div class="col-12">
-                    sono l ' id del libro appena cliccato<span style="font-size: 10px">{{props.id}} </span>
-<!--
-                    <template v-for="book in books" :key="book.id">        
-                        <div v-if="book.id == props.id">
-                            <h3 class="title">{{book.title}}</h3>
-                            <h6 class="subtitle">{{book.author}}</h6>
-                            <p class="id">{{book.id}}</p>
-                        </div>
-                    </template>-->
-                    {{props.obj}}
+                    <h2>Stai modificando: {{props.id}} </h2>
                 </div>
+            </div>
+            <div class="row">
+                <div class="col-6 d-flex" style="flex-direction: column;">
+                            <label for="title">Track ID:</label>
+                            <input type="number" name="number" v-model="editTrack.Number" :placeholder="thisTrack.Number" required> <!-- v-model="newNumber" :placeholder="props.thisTrack.Number" -->
+                            <label for="title py-3">Track author:</label>
+                            <input type="text" name="author" v-model="editTrack.Author"  :placeholder="thisTrack.Author"  required> <!--v-model="newAuthor" :placeholder="props.thisTrack.Author" -->
 
+                            <label for="title">Get Link?</label>
+                            <input type="text" v-model="editTrack.Src"  name="src" :placeholder="thisTrack.Src" required>
+
+                </div>
+                <div class="col-6 d-flex" style="flex-direction: column;">
+                    <label for="title">Track title:</label>
+                    <input type="text" name="title" v-model="editTrack.Title"  :placeholder="thisTrack.Title" required> <!-- v-model="newTitle"  :placeholder="props.thisTrack.Title" -->
+                    <label for="title">It image?</label>
+                </div>
+                <div class="col-12 my-5">
+                    <div class="btnContainer d-flex justify-content-center">
+                        <button type="button" class="btn btn-danger mx-5 "  @click="deleteHandler(props.id)" >Delete</button>
+                        <button type="button" class="btn btn-primary mx-5 " @click="updateHandler('Tracks', props.id, editTrack )">Save changes</button> <!-- @click="handleEdit" -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-
-    
-    </template>
+</template>
     

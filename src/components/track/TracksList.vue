@@ -2,13 +2,14 @@
   
 import { search, remove, update } from "@/api/crud";
 import { watchEffect } from "vue";
+import toBack from '@/components/toBack.vue'
 
 // firebase imports
 
 export default {
     data() {
         return {
-          books: [],
+          Tracks: [],
           };
     },
     computed:{
@@ -16,7 +17,7 @@ export default {
     },
     methods:{
       async searchHandler() {
-        this.books = await search("books");
+        this.Tracks = await search("Tracks");
       },
 
       async updateHandler(col, id, arg, value){
@@ -31,13 +32,13 @@ export default {
         }
       },
       async deleteHandler(id) {
-        remove("books", id);
+        remove("Tracks", id);
         this.searchHandler();
       },
     },  
     created(){
       watchEffect( () =>{
-          this.books = null
+          this.Tracks = null;
           this.searchHandler();
         })
     }
@@ -46,36 +47,30 @@ export default {
 
 
 <template>
-    <transition-group tag="ul" name="slideInUp" class="listBook" appear>
-        <li  v-for="book in books" :key="book.id"  >
+  <div class="container-fluid">
+    <toBack  where="/"/>
+    <div class="row">
+      <transition-group tag="ul" name="slideInUp" class="listTrack" appear>
+        <li  v-for="Track in Tracks" :key="Track.id"  >
           <div class="forContent" >
-            <router-link :to="{ name:'TrackDetails', params: {id: book.id}}">
+            <router-link :to="{ name:'TrackDetails', params: {id: Track.id}}">
               testone
             </router-link>
             <div class="details">
-              <h3 @click="deleteHandler(book.id)">{{ book.title }}</h3>
-              <p>By {{ book.author }} </p>
-            </div>
-            <div v-for="place in places" :key="place.id" class=" mx-2">
-              <div v-if="book.local == place.id">
-                {{place.local}}
-              </div>
+              <h3 @click="deleteHandler(Track.id)">{{ Track.title }}</h3>
+              <p>By {{ Track.author }} </p>
             </div>
             <div class="toggling">
                 <i :class="{icon: true, 
-                  'fas': book.isFav, 'far': !book.isFav }" 
-                  class="fa-heart my-auto" @click="updateHandler('books', book.id, 'isFav', !book.isFav)" ></i>
-              <i :class="{icon: true, 
-              'fa-eye': book.isRead, 'fa-eye-slash': !book.isRead }" 
-                                                  
-              class="far my-auto" @click="updateHandler('books',book.id, 'isRead', !book.isRead)"></i>
+                  'fas': Track.isFav, 'far': !Track.isFav }" 
+                  class="fa-heart my-auto" @click="updateHandler('Tracks', Track.id, 'isFav', !Track.isFav)" ></i>
             </div>
           </div>
-          <div class="notes p-2" v-if="book.notes">
-            <span > {{ book.notes }} </span>
-          </div> 
         </li>   
     </transition-group> 
+    </div>
+  </div>
+
   </template>
   
 

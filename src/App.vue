@@ -44,7 +44,7 @@ import Swiping from "@/components/Swiping.vue";
   padding: 0%;
   z-index: 9;
   margin: var(--marginT) var(--marginR) var(--marginB) var(--marginL) !important;
-  width: calc(100vw - 13vw);
+  width: calc(100vw - 15vw);
   height: calc(100vh - 16vh);
   display: flex;
   justify-content: center;

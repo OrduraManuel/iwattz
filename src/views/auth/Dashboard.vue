@@ -1,6 +1,6 @@
 <script setup>
-import tableDashboard from "@/components/auth/tableDashboard.vue";
-import toBack from "@/components/toBack.vue";
+  import tableDashboard from "@/components/auth/tableDashboard.vue";
+  import toBack from "@/components/toBack.vue";
 </script>
 <template>
   <div id="dashboard">
