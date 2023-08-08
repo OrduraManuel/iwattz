@@ -1,6 +1,5 @@
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-
 import App from './App.vue'
 import router from './router'
 
@@ -8,11 +7,11 @@ import router from './router'
 
 // firebase import auth:
 // import { auth } from '@/api/config'
-// import { onAuthStateChanged } from 'firebase/auth' 
+// import { onAuthStateChanged } from 'firebase/auth'
 
 const app = createApp(App)
-app.use(createPinia())
+const pinia = createPinia()
+app.use(pinia)
 app.use(router)
 //app.provide('GStore', GStore)
 app.mount('#app')
-
