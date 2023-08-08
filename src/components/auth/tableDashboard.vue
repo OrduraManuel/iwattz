@@ -1,93 +1,85 @@
 <script setup>
-  import { search, remove } from "@/api/crud";
-  import { watchEffect, ref, nextTick } from "vue";
+import { search, remove } from '@/api/crud';
+import { watchEffect, ref } from 'vue';
 
-  import basicModal from "@/components/auth/basicModal.vue";
+import basicModal from '@/components/auth/basicModal.vue';
 
-  import loader from "@/components/loader.vue";
+import loader from '@/components/loader.vue';
 
 async function  searchHandler() {
-    books.value = await search("books");
-    places.value = await search("places");
+	Tracks.value = await search('Tracks');
 }
 
-  let sel = ref(null)
-  let books = ref([])
-  let places = ref([])
+let sel = ref(null);
+let Tracks = ref([]);
 
 
-function activeModal(thisBook){
-
-  sel.value = thisBook
-
+function activeModal(thisTrack){
+	sel.value = thisTrack;
 }
 
 watchEffect( () =>{
-      books = ref(null)
-      places = ref(null)
-      sel = ref(null)
-      if(books || places){
-        searchHandler();
-      }
-  })
+	Tracks = ref(null);
+	sel = ref(null);
+	if(Tracks){
+		searchHandler();
+	}
+});
 
-function deleteHandler(id) {
-    remove("books", id);    
-}
+
 </script>
 <template>
-  <div class="table-responsive">
-    <table class="  tableDashboard" v-if="books">
+  <div class='table-responsive'>
+    <table class='tableDashboard' v-if='Tracks'>
     <thead>
-      <tr class="tableHead">
-        <th class="col colNumber">#</th>
-        <th class="col">Author</th>
-        <th class="col">Title</th>
-        <th class="col">isFav</th>
-        <th class="col">Place</th>
-        <th class="col">Action</th>
-        <th class="col"></th>
-        <th class="col"></th>
+      <tr class='tableHead'>
+        <th class='col colNumber'>#</th>
+        <th class='col'>Author</th>
+        <th class='col'>Title</th>
+        <th class='col'>isFav</th>
+        <th class='col'>Image</th>
+        <th class='col'>Url</th>
+        <th class='col'>Action</th>
+        <th class='col'></th>
 
       </tr>
     </thead>
     <tbody>
-      <tr v-for="book in books" :key="book.id">
-        <td class="td tdNumber text-truncate">{{book.number}}</td>
-        <td class="td text-truncate">{{book.author}}</td>
-        <td class="td text-truncate">{{book.title}}</td>
-        <td class="td text-truncate">{{book.isFav}}</td>
-        <td class="td text-truncate">
-          <template v-for="place in places" :key="place.id">        
-            <div v-if="book.local == place.id">
-                {{place.local}}
-            </div>
-          </template>
+      <tr v-for='Track in Tracks' :key='Track.id'>
+        <td class='td tdNumber text-truncate'>{{Track.Number}}</td>
+        <td class='td text-truncate'>{{Track.Author}}</td>
+        <td class='td text-truncate'>{{Track.Title}}</td>
+        <td class='td text-truncate'>{{Track.isFav}}</td>
+        <td class='td text-truncate'>
+            <img :src="Track.Image" style="width: 80px"/>
         </td>
-        <td class="td">
-          <router-link class="my-auto btn btn-success" :to="{ name:'TrackDetails', params: {id: book.id}}"> edit</router-link>
+        <td class='td text-truncate'><a :href="Track.Src" target="_blank">Spotify</a></td>
+
+        <td class='td'>
+          <router-link class='my-auto btn btn-success' :to='{ name:"TrackDetails", params: {id: Track.id}}'> edit</router-link>
         </td>
-        <td class="td">
-          <a href="#" 
-          class="my-auto btn btn-success" 
+        <!--
+        <td class='td'>
+          <button
+          class='my-auto btn btn-success' 
           data-bs-toggle="modal" 
           data-bs-target="#exampleModal"
-          @click="activeModal(book)"> edit in modal</a>
+          @click='activeModal(Track)'> edit in modal</button>
         </td>
-        <!--          data-bs-toggle="modal" 
-          data-bs-target="#exampleModal" -->
+                  data-bs-toggle='modal' 
+          data-bs-target='#exampleModal' -->
       </tr>
     </tbody>
     </table>    
-    <div v-else>
+    <table v-if="!Tracks">
         <loader />  
-    </div>
+    </table>
   </div>
   <template>
     <basicModal 
-    :thisBook="sel" 
+    :thisTrack='sel' 
     /> <!-- !== null || sel !== undefined-->
 
   </template>
-    <!--v-if=" sel !== null"-->
+    <!--v-if=' sel !== null'-->
 </template>
