@@ -5,39 +5,59 @@ import { watchEffect, ref, onMounted } from 'vue';
 
 // firebase imports
 import { storage } from '@/api/config';
-//import getCollection from '@/api/getCollection';
-import { search, create } from '@/api/crud';
-import getUser from '@/auth/getUser';
 import { ref as storageRef, uploadBytesResumable } from 'firebase/storage';
-//import { addDoc, collection} from 'firebase/firestore';
 
+import { useTrackStore } from '@/store'
+import { storeToRefs } from 'pinia';
 
+import getUser from '@/auth/getUser';
+
+import { useRouter } from "vue-router";
+
+const router = useRouter();
+const currentUser = getUser;
+
+const TrackStore = useTrackStore()
+const { Tracks } = storeToRefs(TrackStore)
+//const { Track } = storeToRefs(TrackStore)
+//const newTrack = computed(() => Track.value);
+
+const Track = ref({
+      Number: '',
+      Organizer: {
+        id: '666',
+      },
+      Author: '',
+      Title: '',
+      isFav: '',
+      Src: '',
+      Img: {
+        imageData: null,
+        src: null,
+      },
+    })
 
 onMounted(()=>{
 	watchEffect( () =>{
-		Tracks.value = null;
+		TracksNumber.value = null;
 		searchHandler();
 	});
 });
 
+let TracksNumber = ref();
+
+
+// function search
+async function  searchHandler() {
+	TracksNumber.value = await TrackStore.numberOfTracks();
+	TracksNumber.value++;
+  Track.value.Number = TracksNumber.value
+}
 
 let uploader;
-let Tracks = ref([]);
-let TrackNumber = ref();
 
-const { user } = getUser();
-const Number = ref('');
-const Title = ref('');
-const Author = ref('');
-const isFav = ref('');
-const Src = ref('');
-const Img = ref({
-	imageData: null,
-	src: null,
-});
 
 const storageRefs = ref();
-
 
 // function pick your file
 function uploadStart(){
@@ -55,13 +75,10 @@ function previewImage(event){
   }else{
     console.log('uploaded è null')
   }
-
 }
-
 
 // function after choose file
 async function onUploading(el){
-
 	// Upload file and metadata to the object 'images/mountains.jpg'
 	storageRefs.value = await storageRef(storage, 'images/' + el.imageData.name);
 
@@ -76,37 +93,42 @@ async function onUploading(el){
 	Img.src = storageRefs.value.fullPath
 }
 
-// function search
-async function  searchHandler() {
-	Tracks.value = await search('Tracks');
-	TrackNumber.value = await Tracks.value.length;
-	TrackNumber.value++;
-}
+
 
 // function create
 const handleSubmit = async () => {
 	/*uploadBytesResumable(storageRefs, Img.value.imageData, metadata.value.contentType);*/
-
-	await create('Tracks', {
-    Number: TrackNumber.value,
-    Title: Title.value,
-    Author: Author.value,
-    isFav: isFav.value,
-    Img: Img.value,
-    Src: Src.value,
-    userUid: user.value.uid
-  });
-	// reset the form
-	Number.value ='';
-	Title.value = '';
-	Author.value = '';
-	Img.value = '';
-  Src.value = '';
-	isFav.value = false;
-}
+  console.log(Track.value,'This is track already yet to be push')
+  //await create('Tracks', Track.value)
+  await TrackStore.createTrack(Track.value)
+      .then(() => {
+        //const GstoreMsg = Track.value
+        //GStore.flashMessage = 'Tracks: '+ GstoreMsg.title + ' was been create!'
+        //  setTimeout(() =>{
+        //    GStore.flashMessage = ''
+        //  }, 4000)
+          	// reset the form
+            console.log('moccassoreta')
+          Track.value.Number ='';
+          Track.value.Title = '';
+          Track.value.Author = '';
+          Track.value.Img = '';
+          Track.value.Src = '';
+          Track.value.isFav = false;
+          //windows.alert("pushato!");
+          router.push({ name: 'Dashboard'})
+        })
+        .catch(error => {
+          console.log(Track.value,'This is track isnt being to push')
+          router.push({
+            name: '404Resource',
+            params: { resource: error }
+          })
+        })
+    }
 </script>
 <template>
-    <div id="create">
+    <div id="create" v-if="Track">
       <div class="container-fluid">
         <toBack where="/Dashboard"/>
         <div class="row">
@@ -115,21 +137,21 @@ const handleSubmit = async () => {
               <div class="containerFirst">
                 <div class="label">
                   <label for="title">Track title:</label>
-                  <input type="text" name="title" v-model="Title"  placeholder="Inserisci il titolo del libro"  required>
+                  <input type="text" name="title" v-model="Track.Title"  placeholder="Inserisci il titolo del libro"  required>
                   <label for="title py-3">Track author:</label>
-                  <input type="text" name="author" v-model="Author" placeholder="Inserisci l'autore del libro"  required>
+                  <input type="text" name="author" v-model="Track.Author" placeholder="Inserisci l'autore del libro"  required>
                 </div>
                 <div class="checkLove" :class="{cta: !isFav, ctaLove: isFav}">
                   <span class="mb-2">Did you love this Track?</span>
                   <i :class="{icon: true, fas: isFav, far: !isFav }" class="fa-heart fa-2x my-auto" ></i>
-                  <input type="checkbox" id="checkLove" class=" mt-3" v-model="isFav" value="true"/>
+                  <input type="checkbox" id="checkLove" class=" mt-3" v-model="Track.isFav" value="true"/>
                   <label for="checkLove">checkLove</label>
                 </div>
               </div>
               <div class="containerSecond my-4">
                   <div class="label">
                     <label for="title">Get Src?</label>
-                    <textarea rows="" cols="40" name="notes" v-model="Src" >
+                    <textarea rows="" cols="40" name="notes" v-model="Track.Src" >
                     </textarea>
                   </div>
                 <div class="ImgImage">

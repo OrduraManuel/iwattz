@@ -1,9 +1,11 @@
 <script setup >
-import { update, remove, get } from "@/api/crud";
+import { update, get } from "@/api/crud";
 import { watchEffect, ref, onMounted } from "vue";
 import toBack from '@/components/toBack.vue'
 import { useRouter } from 'vue-router'
 
+import { useTrackStore } from '@/store'
+const TrackStore = useTrackStore()
 
 //props ID passata 
 const props = defineProps({
@@ -12,36 +14,37 @@ const props = defineProps({
 
 //On mounted faccio andare SearchHandler che popola thisTrack con l'id della Props
 onMounted(()=>{
+    thisTrack.value = null
   searchHandler()
-
 })
 
-const thisTrack = ref();
+const thisTrack = ref({});
 
 const router = useRouter()
 
-const editTrack = ref({
-    Number: thisTrack.Number,
-    Title: thisTrack.Title,
-    Author: thisTrack.Author,
-    //isFav: thisTrack.IsFav,
-    //Img: Img.value,
-    Src: thisTrack.Src,
-    //userUid: user.value.uid
-})
-
 // function get thisTrack
 async function  searchHandler() {
-    thisTrack.value = await get('Tracks', props.id);
+    thisTrack.value = await TrackStore.getTrack(props.id)//get('Tracks', props.id);
 }
 // function delete thisTrack
 function deleteHandler(id) {
-	remove('Tracks', id);
-  router.push('/dashboard');
+    TrackStore.deleteTrack(id)
+    router.push('/dashboard');
 }
 
-async function updateHandler(colRef, id, updateTrack ) {
-    update(colRef, id, updateTrack);
+async function updateHandler(id, updateTrack) {
+    //update(colRef, id, updateTrack);
+    await TrackStore.updateTrack(id, updateTrack)
+    .then(() =>{
+        console.log('updateTrack in vue in success')
+    })
+    .catch(error => {
+          console.log(updateTrack,'This is track isnt being to push')
+          router.push({
+            name: '404Resource',
+            params: { resource: error }
+          })
+        })
     searchHandler();
 }
 
@@ -59,23 +62,23 @@ async function updateHandler(colRef, id, updateTrack ) {
             <div class="row">
                 <div class="col-6 d-flex" style="flex-direction: column;">
                             <label for="title">Track ID:</label>
-                            <input type="number" name="number" v-model="editTrack.Number" :placeholder="thisTrack.Number" required> <!-- v-model="newNumber" :placeholder="props.thisTrack.Number" -->
+                            <input type="number" name="number" v-model="thisTrack.Number" :placeholder="thisTrack.Number" required> <!-- v-model="newNumber" :placeholder="props.thisTrack.Number" -->
                             <label for="title py-3">Track author:</label>
-                            <input type="text" name="author" v-model="editTrack.Author"  :placeholder="thisTrack.Author"  required> <!--v-model="newAuthor" :placeholder="props.thisTrack.Author" -->
+                            <input type="text" name="author" v-model="thisTrack.Author"  :placeholder="thisTrack.Author"  required> <!--v-model="newAuthor" :placeholder="props.thisTrack.Author" -->
 
                             <label for="title">Get Link?</label>
-                            <input type="text" v-model="editTrack.Src"  name="src" :placeholder="thisTrack.Src" required>
+                            <input type="text" v-model="thisTrack.Src"  name="src" :placeholder="thisTrack.Src" required>
 
                 </div>
                 <div class="col-6 d-flex" style="flex-direction: column;">
                     <label for="title">Track title:</label>
-                    <input type="text" name="title" v-model="editTrack.Title"  :placeholder="thisTrack.Title" required> <!-- v-model="newTitle"  :placeholder="props.thisTrack.Title" -->
+                    <input type="text" name="title" v-model="thisTrack.Title"  :placeholder="thisTrack.Title" required> <!-- v-model="newTitle"  :placeholder="props.thisTrack.Title" -->
                     <label for="title">It image?</label>
                 </div>
                 <div class="col-12 my-5">
                     <div class="btnContainer d-flex justify-content-center">
                         <button type="button" class="btn btn-danger mx-5 "  @click="deleteHandler(props.id)" >Delete</button>
-                        <button type="button" class="btn btn-primary mx-5 " @click="updateHandler('Tracks', props.id, editTrack )">Save changes</button> <!-- @click="handleEdit" -->
+                        <button type="button" class="btn btn-primary mx-5 " @click="updateHandler(props.id, thisTrack )">Save changes</button> <!-- @click="handleEdit" -->
                     </div>
                 </div>
             </div>

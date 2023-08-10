@@ -10,7 +10,9 @@ import FirstLog from "@/views/auth/FirstLog.vue";
 import Dashboard from "@/views/auth/Dashboard.vue";
 import CreateObj from "@/views/auth/CreateObj.vue";
 import TrackDetails from "@/views/tracks/TrackDetails.vue";
+
 import NotFound from "@/views/404.vue";
+import networkError from '@/views/networkError.vue'
 
 // firebase imports
 import { auth } from '@/api/config'
@@ -88,9 +90,20 @@ const routes = [
   },
   {
     path: '/:catchAll(.*)',
-    name: 'Not Found',
+    name: 'NotFound',
     component: NotFound,
   },
+  {
+    path: '/404/:resource',
+    name: '404Resource',
+    component: NotFound,
+    props: true
+  },
+  {
+    path: '/networkError',
+    name: 'networkError',
+    component: networkError,
+  }
 ];
 
 const router = createRouter({

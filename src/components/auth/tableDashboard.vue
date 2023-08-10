@@ -1,29 +1,40 @@
 <script setup>
-import { search, remove } from '@/api/crud';
+import { useTrackStore } from '@/store'
+import { storeToRefs } from 'pinia';
+
 import { watchEffect, ref } from 'vue';
 
 import basicModal from '@/components/auth/basicModal.vue';
-
 import loader from '@/components/loader.vue';
 
 async function  searchHandler() {
-	Tracks.value = await search('Tracks');
+	await TrackStore.getAllTracks();
+}
+async function  limitHandler() {
+  console.log(' i am in limitHandler');
+
+  LimitTracks.value = await getLimited('Tracks', 3, 'Number');
+  console.log(LimitTracks.value,'limitTracks value');
 }
 
-let sel = ref(null);
-let Tracks = ref([]);
+const TrackStore = useTrackStore()
+const { Tracks } = storeToRefs(TrackStore)
+const { Track } = storeToRefs(TrackStore) // for manage the modal's opening
+
+//let sel = ref(null);
+let LimitTracks = ref();
 
 
 function activeModal(thisTrack){
-	sel.value = thisTrack;
+	Track = thisTrack;
+  console.log(Track,'track in activeModal')
 }
 
 watchEffect( () =>{
-	Tracks = ref(null);
-	sel = ref(null);
-	if(Tracks){
+	Tracks.value = null;
+  LimitTracks.value = null;
+	Track.value = null;
 		searchHandler();
-	}
 });
 
 
@@ -77,7 +88,7 @@ watchEffect( () =>{
   </div>
   <template>
     <basicModal 
-    :thisTrack='sel' 
+    :thisTrack='Track' 
     /> <!-- !== null || sel !== undefined-->
 
   </template>
