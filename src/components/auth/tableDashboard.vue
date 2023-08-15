@@ -23,7 +23,8 @@ let LimitTracks = ref();
 
 
 function activeModal(thisTrack){
-	Track = thisTrack;
+  //! Non si può aggiorare la const Track
+	// Track = thisTrack;
 }
 
 watchEffect( () =>{

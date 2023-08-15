@@ -1,22 +1,21 @@
 
 import { storage } from '@/api/config'
 import {
-    getStorage, 
-    ref, 
-    uploadBytesResumable, 
-    getDownloadURL
-  } from "firebase/storage";
+  // getStorage,
+  ref,
+  uploadBytesResumable,
+  getDownloadURL
+} from "firebase/storage";
 
-const storage = getStorage();
+
 const storageRef = ref(storage, 'images/rivers.jpg');
-
 const uploadTask = uploadBytesResumable(storageRef, file);
 
 // Register three observers:
 // 1. 'state_changed' observer, called any time the state changes
 // 2. Error observer, called on failure
 // 3. Completion observer, called on successful completion
-uploadTask.on('state_changed', 
+uploadTask.on('state_changed',
   (snapshot) => {
     // Observe state change events such as progress, pause, and resume
     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
@@ -30,10 +29,10 @@ uploadTask.on('state_changed',
         console.log('Upload is running');
         break;
     }
-  }, 
+  },
   (error) => {
     // Handle unsuccessful uploads
-  }, 
+  },
   () => {
     // Handle successful uploads on complete
     // For instance, get the download URL: https://firebasestorage.googleapis.com/...
