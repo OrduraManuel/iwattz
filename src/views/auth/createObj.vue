@@ -95,12 +95,14 @@ function uploadFile(file) {
       },
       (error) => {
         console.log('questo è l errore: ', error)
+        reject(error);
       },
       async () => {
         console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref)
         await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           console.log('questo è url: ', downloadURL)
           Track.value.Img.Path = downloadURL
+          resolve(downloadURL);
         })
       }
     )
