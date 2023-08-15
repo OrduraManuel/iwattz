@@ -5,7 +5,7 @@ import { watchEffect, ref, onMounted } from 'vue';
 
 // firebase imports
 import { storage } from '@/api/config';
-import { ref as storageRef, uploadBytesResumable } from 'firebase/storage';
+import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
 import { useTrackStore } from '@/store'
 import { storeToRefs } from 'pinia';
@@ -32,8 +32,8 @@ const Track = ref({
       isFav: '',
       Src: '',
       Img: {
-        imageData: null,
-        src: null,
+        Name: '',
+        Path: null
       },
     })
 
@@ -55,50 +55,63 @@ async function  searchHandler() {
 }
 
 let uploader;
+let uploaded = ref()
+//const uploadTask = ref()
 
-
-const storageRefs = ref();
 
 // function pick your file
 function uploadStart(){
 	uploader.click();
 }
 function previewImage(event){
-	let uploaded = ref({
-		imageData: null,
-		src: null,
-	});
-	uploaded.src = null;
-	uploaded.imageData = event.target.files[0];
+	uploaded.value = event.target.files[0];
+  console.log(uploaded.value,'in previewImage')
   if(uploaded != null){
-    onUploading(uploaded);
+    let almostLoad = ref('');
+    almostLoad.value = 'Hai selezionato' + uploaded.value.name + 'come Img!';
+    let loaded = document.getElementById('almostLoad');
+    loaded.classList.remove('d-none');
+    loaded.innerHTML = almostLoad.value;
   }else{
     console.log('uploaded è null')
   }
 }
 
-// function after choose file
-async function onUploading(el){
-	// Upload file and metadata to the object 'images/mountains.jpg'
-	storageRefs.value = await storageRef(storage, 'images/' + el.imageData.name);
+function uploadFile(){
+  console.log(uploaded.name,'this is el in uploadFile')
+  Track.value.Img.Name = uploaded.value.name
+  const storageRefs = storageRef(storage,'images/'+JSON.stringify(uploaded.value.name));
+  const metadata = {
+    contentType: uploaded.value.type
+  };
+  const uploadTask = uploadBytesResumable(storageRefs, uploaded.value);
 
-  //manage show-up UI after upload
-	let almostLoad = ref('');
-	almostLoad.value = 'Hai selezionato' + storageRefs.value.name + 'come Img!';
-	let loaded = document.getElementById('almostLoad');
-	loaded.classList.remove('d-none');
-	loaded.innerHTML = almostLoad.value;
+    uploadTask.on(
+    'state_changed',
+    (snapshot) =>{
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+      console.log('Upload is ' + progress + '% done')
+    },
+    (error) =>{
+      console.log( 'questo è l errore: ',error )
+    },
+    () =>{
+      console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref)
+      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>{
+        console.log('questo è url: ', downloadURL)
+      })
 
-	Img.imageData = el.imageData,
-	Img.src = storageRefs.value.fullPath
+    }
+  )
+
 }
-
 
 
 // function create
 const handleSubmit = async () => {
-	/*uploadBytesResumable(storageRefs, Img.value.imageData, metadata.value.contentType);*/
-  await TrackStore.createTrack(Track.value)
+   uploadFile(uploaded.value)
+  if(Track.value.Img.Path){
+    await TrackStore.createTrack(Track.value)
       .then(() => {
         //const GstoreMsg = Track.value
         //GStore.flashMessage = 'Tracks: '+ GstoreMsg.title + ' was been create!'
@@ -120,6 +133,8 @@ const handleSubmit = async () => {
             params: { resource: error }
           })
         })
+  }
+
     }
 </script>
 <template>
