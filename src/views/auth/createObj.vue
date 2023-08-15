@@ -80,7 +80,7 @@ function previewImage(event){
 function uploadFile(){
   console.log(uploaded.name,'this is el in uploadFile')
   Track.value.Img.Name = uploaded.value.name
-  const storageRefs = storageRef(storage,'images/'+JSON.stringify(uploaded.value.name));
+  const storageRefs = storageRef(storage,'images/'+uploaded.value.name);
   const metadata = {
     contentType: uploaded.value.type
   };
