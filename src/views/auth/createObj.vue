@@ -56,8 +56,6 @@ async function  searchHandler() {
 
 let uploader;
 let uploaded = ref()
-//const uploadTask = ref()
-
 
 // function pick your file
 function uploadStart(){
@@ -68,7 +66,7 @@ function previewImage(event){
   console.log(uploaded.value,'in previewImage')
   if(uploaded != null){
     let almostLoad = ref('');
-    almostLoad.value = 'Hai selezionato' + uploaded.value.name + 'come Img!';
+    almostLoad.value = 'Hai selezionato: ' + uploaded.value.name + ' come Img!';
     let loaded = document.getElementById('almostLoad');
     loaded.classList.remove('d-none');
     loaded.innerHTML = almostLoad.value;
@@ -77,14 +75,15 @@ function previewImage(event){
   }
 }
 
-function uploadFile(){
-  console.log(uploaded.name,'this is el in uploadFile')
-  Track.value.Img.Name = uploaded.value.name
-  const storageRefs = storageRef(storage,'images/'+uploaded.value.name);
+function uploadFile(file){
+  console.log('uploadFile here')
+  console.log(file,'zzzzzzzzthis is el in uploadFile')
+  Track.value.Img.Name = file.name
+  const storageRefs = storageRef(storage,'images/'+file.name);
   const metadata = {
-    contentType: uploaded.value.type
+    contentType: file.type
   };
-  const uploadTask = uploadBytesResumable(storageRefs, uploaded.value);
+  const uploadTask = uploadBytesResumable(storageRefs, file);
 
     uploadTask.on(
     'state_changed',
@@ -95,46 +94,35 @@ function uploadFile(){
     (error) =>{
       console.log( 'questo è l errore: ',error )
     },
-    () =>{
+    async () =>{
       console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref)
-      getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>{
+      await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) =>{
         console.log('questo è url: ', downloadURL)
       })
-
-    }
+    }  
   )
-
 }
 
 
 // function create
 const handleSubmit = async () => {
-   uploadFile(uploaded.value)
-  if(Track.value.Img.Path){
-    await TrackStore.createTrack(Track.value)
-      .then(() => {
-        //const GstoreMsg = Track.value
-        //GStore.flashMessage = 'Tracks: '+ GstoreMsg.title + ' was been create!'
-        //  setTimeout(() =>{
-        //    GStore.flashMessage = ''
-        //  }, 4000)
-          	// reset the form
+    await uploadFile(uploaded.value)
+    TrackStore.createTrack(Track.value)
+      .then(()=>{
           Track.value.Number ='';
           Track.value.Title = '';
           Track.value.Author = '';
           Track.value.Img = '';
           Track.value.Src = '';
           Track.value.isFav = false;
-          router.push('/dashboard');
-        })
-        .catch(error => {
+          router.push('/dashboard');  
+      })
+      .catch(error => {
           router.push({
             name: '404Resource',
             params: { resource: error }
           })
         })
-  }
-
     }
 </script>
 <template>
