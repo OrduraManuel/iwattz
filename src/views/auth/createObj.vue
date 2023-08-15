@@ -4,6 +4,7 @@ import toBack from '@/components/toBack.vue';
 import { watchEffect, ref, onMounted } from 'vue';
 
 // firebase imports
+
 import { storage } from '@/api/config';
 import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
@@ -83,7 +84,7 @@ function uploadFile(file) {
   const metadata = {
     contentType: file.type
   };
-  const uploadTask = uploadBytesResumable(storageRefs, file);
+  const uploadTask = uploadBytesResumable(storageRefs, file, metadata);
 
   uploadTask.on(
     'state_changed',
@@ -98,6 +99,7 @@ function uploadFile(file) {
       console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref)
       await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         console.log('questo è url: ', downloadURL)
+        Track.value.Img.Path = downloadURL
       })
     }
   )
@@ -107,6 +109,7 @@ function uploadFile(file) {
 // function create
 const handleSubmit = async () => {
   await uploadFile(uploaded.value)
+  if(Track.value.Img.Path != null){
   TrackStore.createTrack(Track.value)
     .then(() => {
       Track.value.Number = '';
@@ -123,6 +126,7 @@ const handleSubmit = async () => {
         params: { resource: error }
       })
     })
+  }
 }
 </script>
 <template>
@@ -131,7 +135,7 @@ const handleSubmit = async () => {
       <toBack where="/Dashboard" />
       <div class="row">
         <div class="col-12">
-          <form @submit.prevent="handleSubmit" class="createTrackForm">
+          <form  action="#" @submit.prevent class="createTrackForm">
             <div class="containerFirst">
               <div class="label">
                 <label for="title">Track title:</label>
@@ -163,7 +167,7 @@ const handleSubmit = async () => {
                 <div id="almostLoad" class="d-none">burp</div>
               </div>
             </div>
-            <button>Add Track</button>
+            <button @click="handleSubmit">Add Track</button>
           </form>
         </div>
       </div>

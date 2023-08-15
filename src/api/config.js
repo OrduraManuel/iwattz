@@ -20,6 +20,6 @@ var db = getFirestore();
 // init storage
 const storage = getStorage(app);
 // init auth
-const auth = getAuth();
+const auth = getAuth(app);
 
 export { db, auth, storage };
