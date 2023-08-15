@@ -111,27 +111,37 @@ function uploadFile(file) {
 
 // function create
 const handleSubmit = async () => {
-  const downloadURL = await uploadFile(uploaded.value)
-  if(downloadURL){
-    Track.value.Img.Path = downloadURL
-    TrackStore.createTrack(Track.value)
-      .then(() => {
-        Track.value.Number = '';
-        Track.value.Title = '';
-        Track.value.Author = '';
-        Track.value.Img = '';
-        Track.value.Src = '';
-        Track.value.isFav = false;
-        router.push('/dashboard');
-      })
-      .catch(error => {
-        router.push({
-          name: '404Resource',
-          params: { resource: error }
-        })
-      })
+  try {
+    const downloadURL = await uploadFile(uploaded.value);
+    if (downloadURL) {
+      await createTrack(downloadURL);
+      resetTrack();
+      router.push('/dashboard');
+    }
+  } catch (error) {
+    router.push({
+      name: '404Resource',
+      params: { resource: error }
+    });
   }
-}
+};
+
+const createTrack = async (downloadURL) => {
+  Track.value.Img.Path = downloadURL;
+  await TrackStore.createTrack(Track.value);
+};
+
+const resetTrack = () => {
+  Track.value = {
+    Number: '',
+    Title: '',
+    Author: '',
+    Img: '',
+    Src: '',
+    isFav: false
+  };
+};
+
 
 </script>
 <template>
