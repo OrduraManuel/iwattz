@@ -76,34 +76,34 @@ function previewImage(event) {
   }
 }
 
-function uploadFile(file) {
-  return new Promise((resolve, reject) => {
-    console.log('uploadFile here')
-    console.log(file, 'zzzzzzzzthis is el in uploadFile')
-    Track.value.Img.Name = file.name
-    const storageRefs = storageRef(storage, 'images/' + file.name);
-    const metadata = {
-      contentType: file.type
-    };
-    const uploadTask = uploadBytesResumable(storageRefs, file, metadata);
+async function uploadFile(file) {
+  console.log('uploadFile here');
+  console.log(file, 'zzzzzzzzthis is el in uploadFile');
 
+  Track.value.Img.Name = file.name;
+  const storagePath = `images/${file.name}`;
+  const storageRefs = storageRef(storage, storagePath);
+  const metadata = {
+    contentType: file.type
+  };
+  const uploadTask = uploadBytesResumable(storageRefs, file, metadata);
+
+  return await new Promise((resolve, reject) => {
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        console.log('Upload is ' + progress + '% done')
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log('Upload is ' + progress + '% done');
       },
       (error) => {
-        console.log('questo è l errore: ', error)
+        console.log('questo è l errore: ', error);
         reject(error);
       },
       async () => {
-        console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref)
-        await getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          console.log('questo è url: ', downloadURL)
-          Track.value.Img.Path = downloadURL
-          resolve(downloadURL);
-        })
+        console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref);
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        Track.value.Img.Path = downloadURL;
+        resolve(downloadURL);
       }
     )
   });
