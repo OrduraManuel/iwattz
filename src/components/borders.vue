@@ -15,12 +15,9 @@ onMounted(() => {
         // seleziona LOGO e togli l'unità di misura
         let logo = document.getElementById('logo')
         let widthLogo = logo.style.width.slice(0,.2)
-        console.log(widthLogo,'questo è la var logoooooooo')
 
         // calcola la larghezza superiore togliendo quella del logo
         let calculateTop = widthF - widthLogo   ;
-        console.log(widthF, 'questo è F', widthLogo,'questo è logo')
-        console.log(calculateTop,'calculatetoppppppp')
         itemT.style.width = calculateTop + '%';
             // setta HEIGHT a 2px
         itemT.style.height = '2px'

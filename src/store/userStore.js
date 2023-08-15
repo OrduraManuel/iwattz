@@ -12,7 +12,6 @@ export const useUserStore = defineStore('userStore', () =>{
     return getUser()
     .then((response) =>{
       item = response.data;
-      console.log('item che stai pushando', item);
       this.User.push(item);
     })
     .catch(error =>{

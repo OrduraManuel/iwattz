@@ -30,7 +30,7 @@
 @media only screen and (max-width: 575px) {
   html,
   body {
-    font-size: 12px;
+    font-size: 13px;
     input,
     select {
       font-size: 100%;
@@ -39,10 +39,11 @@
 }
 
 /* Smartphone grandi dimensioni  */
-@media only screen and (var(--minSm)) and (--maxSm) {
+@media only screen and (min-width: 576px) and (max-width: 767px) {
   html,
   body {
-    font-size: 12.5px;
+    font-size: 13px;
+    background-color: purple;
     input,
     select {
       font-size: 100%;

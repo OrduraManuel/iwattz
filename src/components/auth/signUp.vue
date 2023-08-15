@@ -7,8 +7,6 @@ let password = ''
 
 const GStore = ref()
 
-console.log( GStore)
-
     async function handleSubmit(){
       const { signup, error } = useSignup()
       await signup(this.email, this.password)

@@ -98,8 +98,6 @@ async function onUploading(el){
 // function create
 const handleSubmit = async () => {
 	/*uploadBytesResumable(storageRefs, Img.value.imageData, metadata.value.contentType);*/
-  console.log(Track.value,'This is track already yet to be push')
-  //await create('Tracks', Track.value)
   await TrackStore.createTrack(Track.value)
       .then(() => {
         //const GstoreMsg = Track.value
@@ -108,18 +106,15 @@ const handleSubmit = async () => {
         //    GStore.flashMessage = ''
         //  }, 4000)
           	// reset the form
-            console.log('moccassoreta')
           Track.value.Number ='';
           Track.value.Title = '';
           Track.value.Author = '';
           Track.value.Img = '';
           Track.value.Src = '';
           Track.value.isFav = false;
-          //windows.alert("pushato!");
-          router.push({ name: 'Dashboard'})
+          router.push('/dashboard');
         })
         .catch(error => {
-          console.log(Track.value,'This is track isnt being to push')
           router.push({
             name: '404Resource',
             params: { resource: error }

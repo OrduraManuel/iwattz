@@ -11,10 +11,7 @@ async function  searchHandler() {
 	await TrackStore.getAllTracks();
 }
 async function  limitHandler() {
-  console.log(' i am in limitHandler');
-
   LimitTracks.value = await getLimited('Tracks', 3, 'Number');
-  console.log(LimitTracks.value,'limitTracks value');
 }
 
 const TrackStore = useTrackStore()
@@ -27,7 +24,6 @@ let LimitTracks = ref();
 
 function activeModal(thisTrack){
 	Track = thisTrack;
-  console.log(Track,'track in activeModal')
 }
 
 watchEffect( () =>{

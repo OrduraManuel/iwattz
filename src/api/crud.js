@@ -23,6 +23,7 @@ import {
  * @param {string} obj 
  * @returns array of string
  */
+//CREATE
 export const create = async (collectionRef, obj) => {
   return  addDoc(collection(db, collectionRef), obj);
 };

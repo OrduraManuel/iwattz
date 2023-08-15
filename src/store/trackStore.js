@@ -1,10 +1,15 @@
 import { defineStore } from 'pinia';
 //import axios from 'axios';
 import { ref, watch } from 'vue';
+import { useRouter } from "vue-router";
 
 import { create, search, remove, update, get } from "@/api/crud";
 
+
 export const useTrackStore = defineStore('trackStore', () => {
+
+
+    const router = useRouter();
 
     const Tracks = ref([]);
     const Track = ref({test: 'assorreta'});
@@ -17,6 +22,8 @@ export const useTrackStore = defineStore('trackStore', () => {
       return await create('Tracks', newTrack)
       .then(() =>{
         Tracks.value.push(newTrack);
+        alert('Well done! You have create this Track!')
+        router.push('/dashboard');
       })
       .catch(error =>{
         throw error;
@@ -24,11 +31,15 @@ export const useTrackStore = defineStore('trackStore', () => {
     }
     const deleteTrack = async (thisTrack) =>{
       return await remove('Tracks', thisTrack)
-      .then(() =>{
-        const updateTracks = Tracks.value.filter((x) => {
+      .then(async () =>{
+        console.log(Tracks.value,'this is tracks value PRIMA FILTER')
+        const updateTracks = await Tracks.value.filter((x) => {
+          console.log(Tracks.value,'this is tracks value DURANTE FILTER')
           return x.thisTrack !== thisTrack
         })
+        console.log(updateTracks,'this is updateTracks')
         Tracks.value = updateTracks
+        alert('Well done! You have delete this Track!')
       })
       .catch(error =>{
         throw error;
@@ -39,10 +50,9 @@ export const useTrackStore = defineStore('trackStore', () => {
       return await update('Tracks', id, editTrack)
       .then(response => {
         console.log('questo è editTrack: ',editTrack)
-        console.log('lintero tracks: ',Tracks.value)
+        alert('Well done! You have edit this Track!')
       })
       .catch((error) => {
-        console.log(error,'errror in UpdateTracks')
         throw error;
       })
     }
@@ -51,16 +61,15 @@ export const useTrackStore = defineStore('trackStore', () => {
         return x.id === id 
       })
       let item = JSON.parse(JSON.stringify(getId))
-      console.log(item[0],'this is stringiuahsda')
       return item[0]
     }
     const getAllTracks = async () =>{
       return await search("Tracks") 
       .then(response => {
+        console.log(response,'questa è response di GETTALLTRACKS')
         Tracks.value = response     
       })
       .catch((error) => {
-        console.log(error,'errror in getAllTracks')
         throw error;
       })
     }

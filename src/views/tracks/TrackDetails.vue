@@ -1,6 +1,6 @@
 <script setup >
-import { update, get } from "@/api/crud";
-import { watchEffect, ref, onMounted } from "vue";
+//import { update, get } from "@/api/crud";
+import { watchEffect, ref, reactive, onMounted, inject } from "vue";
 import toBack from '@/components/toBack.vue'
 import { useRouter } from 'vue-router'
 
@@ -11,6 +11,8 @@ const TrackStore = useTrackStore()
 const props = defineProps({
   id: { type: Object, required: true},
 })
+
+
 
 //On mounted faccio andare SearchHandler che popola thisTrack con l'id della Props
 onMounted(()=>{
@@ -36,10 +38,9 @@ async function updateHandler(id, updateTrack) {
     //update(colRef, id, updateTrack);
     await TrackStore.updateTrack(id, updateTrack)
     .then(() =>{
-        console.log('updateTrack in vue in success')
+        router.push('/dashboard');
     })
     .catch(error => {
-          console.log(updateTrack,'This is track isnt being to push')
           router.push({
             name: '404Resource',
             params: { resource: error }

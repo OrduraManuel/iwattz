@@ -1,9 +1,9 @@
-import { createApp } from 'vue'
+import { createApp, reactive, provide } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './router'
 
-//const GStore = ref({FlashMessage: 'prot'})
+const GStore = reactive({FlashMessage: 'prot'})
 
 // firebase import auth:
 // import { auth } from '@/api/config'
@@ -13,5 +13,5 @@ const app = createApp(App)
 const pinia = createPinia()
 app.use(pinia)
 app.use(router)
-//app.provide('GStore', GStore)
+app.provide('GStore', GStore)
 app.mount('#app')

@@ -39,7 +39,6 @@ const emit = defineEmits(['editTrack']);
 
 const handleEdit = () => {
 	emit('editTrack');
-	console.log( emit('editTrack'),'handleEdit');
 };
 function closeModal(){
 	const myModal = document.getElementById('exampleModal');

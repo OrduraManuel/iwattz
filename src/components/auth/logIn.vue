@@ -20,7 +20,6 @@ import { useRouter } from 'vue-router'
         setTimeout(()=>{
             //this.GStore.FlashMessage = ''
         },3000)
-        //console.log(this.GStore.FlashMessage, 'questo è msg dopo')
         router.push('/')
       }else{
         error

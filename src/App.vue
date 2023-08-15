@@ -1,5 +1,6 @@
 <template>
   <div class="container-fluid">
+    <div id="FlashMessage" v-if="GStore.flashMessage"> {{ GStore.flashMessage }}</div>
     <Swiping />
     <NewNav />
     <Borders />
@@ -7,6 +8,7 @@
   </div>
 </template>
 <script setup>
+import { inject, ref, watchEffect } from 'vue'
 import NewNav from "@/components/NewNav.vue";
 import Borders from "@/components/Borders.vue";
 //import Slider from '@/components/Slider.vue';
@@ -14,29 +16,24 @@ import Swiping from "@/components/Swiping.vue";
 
 // GSTORE DA RIPOSIZIONARE
 
-// //const GStore  = inject('GStore')
-// //let flashDiv
-// //const flashMsg = ref(GStore.value.FlashMessage)
+const GStore = inject('GStore')
+let flashDiv
 
-// watchEffect(() => {
-//   console.log('sono dentro il watchEffect VALUE', GStore.value.FlashMessage)
-//   if(GStore){
-//     flashMessageOut()
-//   }
-// })
+ watchEffect(() => {
+   if(GStore){
+     flashMessageOut()
+   }
+ })
 
-// async function flashMessageOut(){
-//   console.log(flashDiv,'consolloneprima')
-//   flashDiv = await document.getElementById('FlashMessage');
-//   console.log(flashDiv,'consollone')
-//   if(flashDiv){
-//     setTimeout(()=>{
-//       flashDiv.classList.remove('animate__fadeInRight')
-//       flashDiv.classList.add('animate__fadeOut')
-//       console.log(flashDiv,'consollone')
-//     },1500)
-//   }
-// }
+ async function flashMessageOut(){
+   flashDiv = await document.getElementById('FlashMessage');
+   if(flashDiv){
+     setTimeout(()=>{
+       flashDiv.classList.remove('animate__fadeInRight')
+       flashDiv.classList.add('animate__fadeOut')
+     },1500)
+   }
+ }
 
 </script>
 <style lang="scss">
