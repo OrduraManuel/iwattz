@@ -1,6 +1,24 @@
 <script setup>
+import { onUnmounted, onMounted,watchEffect, ref  } from 'vue'
+
 import toBack from '@/components/toBack.vue'
-import { onUnmounted, onMounted } from 'vue'
+import TrackCard from '@/components/track/TrackCard.vue'
+
+import { useTrackStore } from '@/store'
+import { storeToRefs } from 'pinia';
+
+const TrackStore = useTrackStore()
+const { Tracks } = storeToRefs(TrackStore)
+
+
+async function  searchHandler() {
+	await TrackStore.getAllTracks('Number');
+}
+
+watchEffect( () =>{
+	Tracks.value = null;
+	searchHandler();
+});
 
 const containerApp = document.getElementById('app')
 
@@ -75,61 +93,8 @@ onUnmounted(() => {
             <div class="inner-divider"></div><!-- divider end -->
             <div class="col-12">
                 <div class="gallery">
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/1.jpeg"/> 
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/2.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/3.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/4.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/5.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/6.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/7.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/8.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/6.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/7.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>
-                    <div class="galleryImg">
-                        <a class="photoDownload" href="#" >Spotify</a>
-                        <img class="imageMasonry" src="@/assets/img/tracks/8.jpeg"/>
-                        <p class="photoArtist">Nome Gruppo/Autore</p>
-                    </div>                </div> 
+                    <TrackCard v-for='Track in Tracks'  :key="Track.id" :thisTrack='Track'/>
+                </div> 
             </div>
         </div>
     </div>

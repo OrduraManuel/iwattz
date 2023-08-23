@@ -4,7 +4,8 @@
     <Swiping />
     <NewNav />
     <Borders />
-    <router-view class="homethis animate__animated animate__delay animate__fadeIn" />
+    <router-view class="homethis animate__animated animate__delay animate__fadeIn" >
+  </router-view>
   </div>
 </template>
 <script setup>
