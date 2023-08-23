@@ -11,7 +11,8 @@ import {
     limit,
     query,
     orderBy,
-    startAfter
+    startAfter,
+    endBefore
   } from "firebase/firestore";
   // Follow this pattern to import other Firebase services
 
@@ -52,9 +53,10 @@ export const remove = (collectionRef, id) => {
 };
 
 //GET
-export const search = async (collectionRef) => {
+export const search = async (collectionRef,order) => {
   let arr = [];
-  const querySnapshot = await getDocs(collection(db, collectionRef));
+  const thisRef = query(collection(db, collectionRef), orderBy(order))
+  const querySnapshot = await getDocs(thisRef);
   querySnapshot.docs.forEach((doc) => {
     arr.push({ id: doc.id, ...doc.data() });
   });
@@ -63,47 +65,49 @@ export const search = async (collectionRef) => {
 };
 
 //GET with order and limit for dashboard
-export const getLimited = async (collectionRef, number, order) =>{
+export const getLimited = async (collectionRef, page, order) =>{
   const arrLimited = [];
-  const querySnapshot = await collection(db, collectionRef);
-  console.log(querySnapshot,'this is querySnapshot before foreach')
-
-  const q = await query(querySnapshot, limit(number), orderBy(order))
-
-  console.log(q,'this is Q before foreach')
-
-
-    arrLimited.push({ q });
-
-
-  return arrLimited
- };
-
- //GET with order and limit for dashboard
-export const getLimitedDOCS = async (collectionRef, number) =>{
-  //const arrLimited = [];
-  const q = await query(collectionRef, limit(number));
-  console.log(q,'this is q');
-  return q
- };
-
-//GET with LIMIT
-export const searchLimit = async (collectionRef, number) => {
-  let arr = [];
-  const first =  query(collection(db, collectionRef),limit(number));
-  const documentSnapshots = await getDocs(first);
-
-  documentSnapshots.docs.forEach((doc) => {
-    arr.push({ id: doc.id, ...doc.data() });
+  // Query the first page of docs
+  const querySnapshot = query(collection(db, collectionRef),limit(page),orderBy(order));
+  const docSnapshots =  await getDocs(querySnapshot)
+  docSnapshots.docs.forEach((doc) => {
+    arrLimited.push({ id: doc.id, ...doc.data() });
   });
+  // test last item
+  const lastVisible = docSnapshots.docs[docSnapshots.docs.length-1];
+  const firstVisible = docSnapshots.docs[0];
+  console.log('this is first: GET ', firstVisible)
+  return {arrLimited, firstVisible, lastVisible}
+ };
+//GET with order and limit for dashboard
+export const getNext = async (collectionRef, page, order, last) =>{
+  const arrLimited = [];
+  const next = query(collection(db, collectionRef),
+  orderBy(order),startAfter(last),limit(page));
+  const docSnapshots =  await getDocs(next)
+  docSnapshots.docs.forEach((doc) => {
+    arrLimited.push({ id: doc.id, ...doc.data() });
+  });
+  const lastVisible = docSnapshots.docs[docSnapshots.docs.length-1];
+  const firstVisible = docSnapshots.docs[0];
+  console.log('this is first NEXT: ', firstVisible)
+  return {arrLimited, firstVisible, lastVisible}
+ };
+ //GET with order and limit for dashboard
+export const getPrev = async (collectionRef, page, order, first) =>{
+  const arrLimited = [];
+  const prev = query(collection(db, collectionRef),
+  orderBy(order),endBefore(first),limit(page));
+  const docSnapshots =  await getDocs(prev)
+  docSnapshots.docs.forEach((doc) => {
+    arrLimited.push({ id: doc.id, ...doc.data() });
+  });
+  const lastVisible = docSnapshots.docs[docSnapshots.docs.length-1];
+  const firstVisible = docSnapshots.docs[0];
+  console.log('this is first PREV: ', firstVisible)
 
-  const lastVisible = documentSnapshots.docs[documentSnapshots.docs.length-1];
-  const next = query(
-      collection(db, collectionRef),
-      limit(number),
-      startAfter(lastVisible));
-  return arr;
-};
+  return {arrLimited, firstVisible, lastVisible}
+ };
 
 
 

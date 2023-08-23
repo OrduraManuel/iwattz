@@ -23,6 +23,10 @@ const { Tracks } = storeToRefs(TrackStore)
 //const { Track } = storeToRefs(TrackStore)
 //const newTrack = computed(() => Track.value);
 
+const SrcOptions = [
+  'spotify','tidal','youtube'
+]
+
 const Track = ref({
   Number: '',
   Organizer: {
@@ -31,7 +35,10 @@ const Track = ref({
   Author: '',
   Title: '',
   isFav: '',
-  Src: '',
+  Src: {
+    Href: '',
+    Option: '',
+  },
   Img: {
     Name: '',
     Path: null
@@ -170,7 +177,23 @@ const resetTrack = () => {
             <div class="containerSecond my-4">
               <div class="label">
                 <label for="title">Get Src?</label>
-                <textarea rows="" cols="40" name="notes" v-model="Track.Src">
+                <label for="srcSelection">Select website</label>
+
+                <div class="gridWrapper">
+                  <label :for="SrcOption" class="radioCard" v-for="SrcOption in SrcOptions" :key="SrcOption">
+                    <input type="radio" v-model="Track.Src.Option" :id="SrcOption" :value="SrcOption"/>
+                    <div class="cardContentWrapper">
+                      <span class="checkIcon">
+                        <!--<i class="fa-brands" :class="'fa-'+SrcOption"></i>-->
+                      </span>
+                      <div class="cardContent">
+                        <h4>{{ SrcOption }}</h4>
+                      </div>
+                    </div>
+                    
+                  </label>
+                </div>
+                <textarea rows="" cols="40" name="notes" v-model="Track.Src.Href">
                     </textarea>
               </div>
               <div class="ImgImage">
@@ -189,11 +212,13 @@ const resetTrack = () => {
     </div>
   </div>
 </template>
-<style scoped>
+<style scoped lang="scss">
 #almostLoad {
   font-size: 20px;
   padding: 20px;
   color: white;
   background: purple;
 }
+
+
 </style>

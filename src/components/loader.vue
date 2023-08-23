@@ -1,9 +1,9 @@
 <template>
-<div class="container-fluid">
+<div class="container-fluid loader">
     <div class="row">
-      <div class="loader">
-        <i class="fa fa-spinner" aria-hidden="true"></i>
-      </div>
+        <v-slot>
+
+        </v-slot>
     </div>
 </div>
 </template>

@@ -3,17 +3,16 @@ import { defineStore } from 'pinia';
 import { ref, watch } from 'vue';
 import { useRouter } from "vue-router";
 
-import { create, search, remove, update, get } from "@/api/crud";
+import { create, search, remove, update, get, getLimited, getNext, getPrev } from "@/api/crud";
 
 
 export const useTrackStore = defineStore('trackStore', () => {
-
-
     const router = useRouter();
-
+    const Track = ref({});
     const Tracks = ref([]);
-    const Track = ref({test: 'assorreta'});
-    const Pagination = ref(); // we'll use for create a call with pagination in dashboard: Number element in page / Tracks.length = Number of page to scroll
+    const TracksLimit = ref(); // we'll use for create a call with pagination in dashboard: Number element in page / Tracks.length = Number of page to scroll
+    const nextTracks = ref();
+    const prevTracks = ref();
 
     const numberOfTracks = () =>{ 
       return Tracks.value.length
@@ -63,11 +62,44 @@ export const useTrackStore = defineStore('trackStore', () => {
       let item = JSON.parse(JSON.stringify(getId))
       return item[0]
     }
-    const getAllTracks = async () =>{
-      return await search("Tracks") 
+    const getAllTracks = async (attr) =>{
+      return await search("Tracks", attr) 
       .then(response => {
-        console.log(response,'questa è response di GETTALLTRACKS')
-        Tracks.value = response     
+        Tracks.value = response
+      })
+      .catch((error) => {
+        throw error;
+      })
+    }
+    const getLimitedTracks = async (perPage, attr) =>{
+      return await getLimited('Tracks',perPage, attr) 
+      .then(response => {
+        nextTracks.value = response.lastVisible
+        prevTracks.value = response.firstVisible
+        TracksLimit.value = response.arrLimited
+      })
+      .catch((error) => {
+        throw error;
+      })
+    }
+    const getNextTracks = async (perPage,attr,lastTrack) =>{
+      return await getNext('Tracks',perPage,attr,lastTrack)
+      .then(response => {
+        nextTracks.value = response.lastVisible
+        console.log('questo è next PINIA: ',nextTracks.value)
+        prevTracks.value = response.firstVisible
+        TracksLimit.value = response.arrLimited
+      })
+      .catch((error) => {
+        throw error;
+      })
+    }
+    const getPrevTracks = async (perPage,attr,prevTrack) =>{
+      return await getPrev('Tracks',perPage,attr,prevTrack)
+      .then(response => {
+        nextTracks.value = response.lastVisible
+        prevTracks.value = response.firstVisible
+        TracksLimit.value = response.arrLimited
       })
       .catch((error) => {
         throw error;
@@ -76,12 +108,19 @@ export const useTrackStore = defineStore('trackStore', () => {
   return {
     Tracks,
     Track,
+    TracksLimit,
+    nextTracks,
+    prevTracks,
     numberOfTracks,
     createTrack,
     deleteTrack,
     updateTrack,
     getTrack,
-    getAllTracks
+    getAllTracks,
+    getLimitedTracks,
+    getNextTracks,
+    getPrevTracks,
+    
   }
 });
 
