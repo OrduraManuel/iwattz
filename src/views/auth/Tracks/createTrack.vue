@@ -82,6 +82,19 @@ function previewImage(event) {
     console.log('uploaded è null')
   }
 }
+function previewMp3(event) {
+  uploaded.value = event.target.files[0];
+  console.log(uploaded.value, 'in previewImage')
+  if (uploaded != null) {
+    let almostLoad = ref('');
+    almostLoad.value = 'Hai selezionato: ' + uploaded.value.name + ' come Img!';
+    let loaded = document.getElementById('almostLoad');
+    loaded.classList.remove('d-none');
+    loaded.innerHTML = almostLoad.value;
+  } else {
+    console.log('uploaded è null')
+  }
+}
 
 async function uploadFile(file) {
   console.log('uploadFile here');
@@ -202,6 +215,14 @@ const resetTrack = () => {
                 </button>
                 <input style="display:none" type="file" id="uploader" class="mt-3" ref="uploader" @change="previewImage"
                   accept="image/*" />
+                <div id="almostLoad" class="d-none">burp</div>
+              </div>
+              <div class="Mp3">
+                <span class="mb-2">Upload this Mp3</span>
+                <button class="btn btn-primary" @click="uploadStart">Choose your Mp3
+                </button>
+                <input style="display:none" type="file" id="uploader" class="mt-3" ref="uploader" @change="previewMp3"
+                  accept=".mp3,audio/*" />
                 <div id="almostLoad" class="d-none">burp</div>
               </div>
             </div>

@@ -1,69 +1,69 @@
 <script setup>
-import { useTrackStore } from '@/store'
+import { useAuthorStore } from '@/store'
 import { storeToRefs } from 'pinia';
 
 import { watchEffect, onMounted, ref } from 'vue';
 
 import basicModal from '@/components/auth/basicModal.vue';
-import tableItem from '@/components/auth/tableItem.vue';
+import tableItem from '@/components/auth/Authors/tableItem.vue';
 
 import loader from '@/components/loader.vue';
 
 
-const TrackStore = useTrackStore()
-const { Tracks } = storeToRefs(TrackStore)
-const { TracksLimit } = storeToRefs(TrackStore)
-const { nextTracks } = storeToRefs(TrackStore)
-const { prevTracks } = storeToRefs(TrackStore)
-const { Track } = storeToRefs(TrackStore) // for manage the modal's opening
+const AuthorStore = useAuthorStore()
+const { Authors } = storeToRefs(AuthorStore)
+const { AuthorsLimit } = storeToRefs(AuthorStore)
+const { nextAuthors } = storeToRefs(AuthorStore)
+const { prevAuthors } = storeToRefs(AuthorStore)
+const { Author } = storeToRefs(AuthorStore) // for manage the modal's opening
 
 async function  searchHandler() {
-	await TrackStore.getAllTracks('Number')
+	await AuthorStore.getAllAuthors('Number')
   .then(()=>{
 console.log('dont do nothing please')
   })
 }
 async function  limitHandler() {
-  await TrackStore.getLimitedTracks( perPage.value, 'Number')
+  await AuthorStore.getLimitedAuthors( perPage.value, 'Number')
   .then(()=>{
-    console.log('questo è tracklimit: ',TracksLimit.value)
+    console.log('questo è Authorlimit: ',AuthorsLimit.value)
     prevBtn.value.classList.add('disabled')
     nextBtn.value.classList.remove('disabled')
   })
 }
 async function  nextHandler() {
-  await TrackStore.getNextTracks( perPage.value, 'Number',nextTracks.value)
+  await AuthorStore.getNextAuthors( perPage.value, 'Number',nextAuthors.value)
   .then(async ()=>{
     prevBtn.value.classList.remove('disabled')
-    let firstTracks = Tracks.value[0]
-    let lastTracks = Tracks.value[Tracks.value.length - 1]
-    let nextTracksId = await Reflect.get(nextTracks.value,'id')
-    console.log('questo è reflect NEXT: ', nextTracksId,'lastTracks: ', lastTracks.id )
+    let firstAuthors = Authors.value[0]
+    let lastAuthors = Authors.value[Authors.value.length - 1]
+    let nextAuthorsId = await Reflect.get(nextAuthors.value,'id')
+    console.log('questo è reflect NEXT: ', nextAuthorsId,'lastAuthors: ', lastAuthors.id )
 
-    if( lastTracks.id == nextTracksId){
+    if( lastAuthors.id == nextAuthorsId){
       console.log('siamo uguali disabilitiamo il NEXT')
       nextBtn.value.classList.add('disabled')
     }
-    let prevTracksId = await Reflect.get(prevTracks.value,'id')
-    console.log('questo è reflect PREV: ', prevTracksId,'firstTracks: ', firstTracks )
-    if( firstTracks.id != prevTracksId){
+    let prevAuthorsId = await Reflect.get(prevAuthors.value,'id')
+    console.log('questo è reflect PREV: ', prevAuthorsId,'firstAuthors: ', firstAuthors )
+    if( firstAuthors.id != prevAuthorsId){
       console.log('siamo uguali disabilitiamo il PREV')
       prevBtn.value.classList.remove('disabled')
     }
   })
 }
 async function  prevHandler() {
-  await TrackStore.getPrevTracks( perPage.value, 'Number',prevTracks.value)
+  await AuthorStore.getPrevAuthors( perPage.value, 'Number',prevAuthors.value)
   .then(()=>{
-    let firstTracks = Tracks.value[0]
-    let lastTracks = Tracks.value[Tracks.value.length - 1]
-    let nextTracksId = Reflect.get(nextTracks.value,'id')
-    if( lastTracks.id != nextTracksId){
+    let firstAuthors = Authors.value[0]
+    let lastAuthors = Authors.value[Authors.value.length - 1]
+    let nextAuthorsId = Reflect.get(nextAuthors.value,'id')
+    if( lastAuthors.id != nextAuthorsId){
       console.log('siamo uguali disabilitiamo il btnNext')
       nextBtn.value.classList.remove('disabled')
     }
-    let prevTracksId = Reflect.get(prevTracks.value,'id')
-    if( firstTracks.id == prevTracksId){
+    let prevAuthorsId = Reflect.get(prevAuthors.value,'id')
+    if( firstAuthors.id == prevAuthorsId){
       console.log('siamo uguali disabilitiamo il btnNext')
       prevBtn.value.classList.add('disabled')
     }
@@ -73,19 +73,19 @@ const prevBtn = ref()
 const nextBtn = ref()
 
 //let sel = ref(null);
-let LimitTracks = [3,4,5,10];
+let LimitAuthors = [3,4,5];
 let perPage = ref(3);
 
 
-function activeModal(thisTrack){
-  //! Non si può aggiorare la const Track
-	// Track = thisTrack;
+function activeModal(thisAuthor){
+  //! Non si può aggiorare la const Author
+	// Author = thisAuthor;
 }
 
 watchEffect( () =>{
-	Tracks.value = null;
+	Authors.value = null;
   //perPage.value = 1;
-	Track.value = null;
+	Author.value = null;
 		searchHandler();
     limitHandler();
 });
@@ -95,7 +95,7 @@ watchEffect( () =>{
 <template>
   <div class='table-responsive'>
 
-    <table class='tableDashboard' v-if='TracksLimit'>
+    <table class='tableDashboard' v-if='AuthorsLimit'>
     <thead>
       <tr class='tableHead'>
         <th class='col colNumber'>#</th>
@@ -111,15 +111,15 @@ watchEffect( () =>{
       
     </thead>
     <tbody>
-      <tr v-for='TrackLimit in TracksLimit' :key='TrackLimit.id'>
-        <tableItem :thisTrack='TrackLimit'/>
+      <tr v-for='AuthorLimit in AuthorsLimit' :key='AuthorLimit.id'>
+        <tableItem :thisAuthor='AuthorLimit'/>
         <!--
         <td class='td'>
           <button
           class='my-auto btn btn-success' 
           data-bs-toggle="modal" 
           data-bs-target="#exampleModal"
-          @click='activeModal(Track)'> edit in modal</button>
+          @click='activeModal(Author)'> edit in modal</button>
         </td>
                   data-bs-toggle='modal' 
           data-bs-target='#exampleModal' -->
@@ -136,8 +136,8 @@ watchEffect( () =>{
       <ul class="pagination pagination-lg justify-content-center" >
         <li class="page-item">
           <select v-model="perPage" value="3" class="page-link">
-            <option v-for="LimitTrack in LimitTracks" :value="LimitTrack" :key="LimitTrack.id">
-              {{ LimitTrack }}
+            <option v-for="LimitAuthor in LimitAuthors" :value="LimitAuthor" :key="LimitAuthor.id">
+              {{ LimitAuthor }}
             </option>
           </select>
         </li>
@@ -156,7 +156,7 @@ watchEffect( () =>{
  
   <template>
     <basicModal 
-    :thisTrack='TrackLimit' 
+    :thisAuthor='AuthorLimit' 
     /> <!-- !== null || sel !== undefined-->
 
   </template>

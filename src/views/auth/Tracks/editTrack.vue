@@ -4,6 +4,9 @@ import { watchEffect, ref, reactive, onMounted, inject } from "vue";
 import toBack from '@/components/toBack.vue'
 import { useRouter } from 'vue-router'
 
+import { storage } from '@/api/config';
+import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
+
 import { useTrackStore } from '@/store'
 const TrackStore = useTrackStore()
 
@@ -12,8 +15,6 @@ const props = defineProps({
   id: { type: Object, required: true},
 })
 
-
-const stocazzissimo = ref(null)
 //On mounted faccio andare SearchHandler che popola thisTrack con l'id della Props
 onMounted(()=>{
     thisTrack.value = null
@@ -28,12 +29,17 @@ const router = useRouter()
 const SrcOptions = ref([
   'spotify','tidal','youtube'
 ])
+let uploader;
+let loaded = ref()
+let imgPreview = ref()
+let uploaded = ref()
+let progressBar = ref()
+let progress = ref()
+let progressNumber = ref()
+
 // function get thisTrack
 async function  searchHandler() {
     thisTrack.value = await TrackStore.getTrack(props.id)//get('Tracks', props.id);
-    console.log(thisTrack.value,'<--- HANDLER thistrack')
-    console.log(thisTrack.value.Src?.Option)
-
 }
 // function delete thisTrack
 function deleteHandler(id) {
@@ -42,9 +48,10 @@ function deleteHandler(id) {
 }
 
 async function updateHandler(id, updateTrack) {
-    //update(colRef, id, updateTrack);
-    await TrackStore.updateTrack(id, updateTrack)
+    await uploadFile(uploaded.value)
+    TrackStore.updateTrack(id, updateTrack)
     .then(() =>{
+        console.log(thisTrack.value,'dovrebbe esserci l src')
         router.push('/dashboard');
     })
     .catch(error => {
@@ -55,14 +62,68 @@ async function updateHandler(id, updateTrack) {
         })
     searchHandler();
 }
-function stocazzo(){
-    console.log(thisTrack.value,'sstocazzo', stocazzissimo,'quest?')
+
+// function pick your file
+function uploadStart() {
+  uploader.click();
+}
+
+function previewImage(event) {
+  uploaded.value = event.target.files[0];
+  console.log(uploaded.value, 'in previewImage')
+  if (uploaded != null) {
+    let almostLoad = ref('');
+    almostLoad.value = 'Hai selezionato: ' + uploaded.value.name + ' come Img!';
+    loaded.value.classList.remove('d-none');
+    loaded.value.innerHTML = almostLoad.value;
+    
+    var reader = new FileReader();
+    reader.onload = function(){
+        imgPreview.value.src = reader.result;
+        console.log(reader.result, 'this is render result')
+    };
+    reader.readAsDataURL(uploaded.value);
+  }
+}
+
+
+async function uploadFile(file) {
+  thisTrack.value.Img.Name = file.name;
+  const storagePath = `images/${file.name}`;
+  const storageRefs = storageRef(storage, storagePath);
+  const metadata = {
+    contentType: file.type
+  };
+  const uploadTask = uploadBytesResumable(storageRefs, file, metadata);
+
+  return await new Promise((resolve, reject) => {
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const interpolation = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progress.value.style.width = interpolation + '%'
+        progressNumber.value.innerHTML = interpolation + '%'
+      },
+      (error) => {
+        console.log('questo è l errore: ', error);
+        reject(error);
+      },
+      async () => {
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        thisTrack.value.Img.Path = downloadURL;
+        resolve(downloadURL);
+      }
+    )
+  });
 }
 
 </script>
 <template>
     <div class="editTrack" v-if="thisTrack">
         <div class="container-fluid">
+            <div ref="progressBar" class="progressBar">
+                <div ref="progress" class="progress"><span ref="progressNumber">666</span></div>
+            </div>
             <toBack  where="/dashboard"/>
             <div class="row editHeader">
                 <div class="col-6 ">
@@ -120,13 +181,22 @@ function stocazzo(){
                     </div>
                     <div class="label">
                         <label for="title">Get link:</label>
-                        <input type="text" v-model="thisTrack.Src.Href"  name="src" :placeholder="thisTrack.Src.Href" required>
+                        <input type="text" v-model="thisTrack.Src.Href"  name="src" :placeholder="thisTrack.Src?.Href" required v-if="thisTrack.Src?.Href">
                     </div>
                 </div>                
                 <div class="col-6 img squareHole">
                     <div class="label">
                         <label for="title">Get Image:</label>
-                        <input type="text" v-model="thisTrack.Src.Href"  name="src" :placeholder="thisTrack.Src.Href" required>
+                        <div class="imageContainer">
+                            <button class="btn btn-primary" @click="uploadStart">Pick your new Img</button>
+
+                            <img :src="thisTrack.Img?.Path" ref="imgPreview" class="imgPreview"/>
+                            <input type="file" 
+                            style="display:none" 
+                            id="uploader" class="mt-3" ref="uploader" @change="previewImage"
+                            accept="image/*" />
+                            <div  ref="loaded" class="d-none">burp</div>
+                        </div>
                     </div>
                 </div>
                 <div class="col-12 my-5">
@@ -190,6 +260,14 @@ margin-top: calc(var(--borderSize) - var(--borderSize)  - var(--borderSize));
         }
         .img{
             margin-top: calc(var(--borderSize) - var(--borderSize)  - var(--borderSize));
+            .imageContainer {
+                display:flex;
+                justify-content: space-between;
+                .imgPreview{
+                    width: 7rem;
+                }
+            }
+
 
         }
         .squareHole{
@@ -203,6 +281,31 @@ margin-top: calc(var(--borderSize) - var(--borderSize)  - var(--borderSize));
                 backdrop-filter: blur(10px);
                 background: rgba(255,255,255,.2);
             }
+        }
+    }
+}
+.progressBar{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: var(--marginT);
+    background: transparent;
+    transform: scale(1.02);
+    .progress{
+        height: 100%;
+        background: var(--brandPrimary);
+        width: 0%;
+        transition: .2s all ease-in-out;
+        border-radius: 0;
+        transform: skewX(-30deg);
+        display:flex;
+        justify-content: flex-end;
+        align-items: center;
+        span{
+            font-size: 1.7rem;
+            color: var(--textLight);
+            margin-right: 1rem;
         }
     }
 }
