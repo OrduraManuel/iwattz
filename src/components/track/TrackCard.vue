@@ -26,12 +26,13 @@ function getHitClass(boolean){
 <template>
   <Suspense>
     <template #default>
-      <div class="galleryImg trackCard" :class="getHitClass(props.thisTrack.isFav)">
-        <a class="photoDownload" :href="props.thisTrack.Src.Href">{{ props.thisTrack.Src.Option }}</a>
+
+      <router-link class="galleryImg trackCard" :class="getHitClass(props.thisTrack.isFav)" :to="{name: 'SelectedTrack', params: {id: props.thisTrack.id}}">
+        <a class="photoDownload" :href="props.thisTrack.Src.Href" target="_blank">{{ props.thisTrack.Src.Option }}</a>
         <img class="imageMasonry"  v-if="isImageLoaded" :src="props.thisTrack.Img.Path" />
         <p class="photoArtist" style="background-color: purple;color:white;">{{ props.thisTrack.Author }}</p>
         <p class="newHit" v-if="props.thisTrack.isFav "> New Hit</p>
-      </div>
+      </router-link >
     </template>
     <template #fallback>
       <div class="galleryImg skeletonCard">

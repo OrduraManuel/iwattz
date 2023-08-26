@@ -8,8 +8,23 @@ import Selections from "@/views/Selections.vue";
 // auth
 import FirstLog from "@/views/auth/FirstLog.vue";
 import Dashboard from "@/views/auth/Dashboard.vue";
-import CreateObj from "@/views/auth/CreateObj.vue";
-import TrackDetails from "@/views/tracks/TrackDetails.vue";
+
+//Tracks
+import CreateTrack from "@/views/auth/Tracks/CreateTrack.vue";
+import EditTrack from "@/views/auth/Tracks/editTrack.vue";
+import SelectedTrack from "@/views/SelectedTrack.vue";
+
+
+
+//Authors
+import CreateAuthor from "@/views/auth/Authors/CreateAuthor.vue";
+import EditAuthor from "@/views/auth/Authors/editAuthor.vue";
+
+
+// dashboard
+import TracksDashboard from "@/views/auth/Tracks/table.vue";
+import AuthorsDashboard from "@/views/auth/Authors/table.vue";
+
 
 import NotFound from "@/views/404.vue";
 import networkError from '@/views/networkError.vue'
@@ -75,17 +90,38 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
     beforeEnter: requireAuth,
+    children: [
+      { path: 'Tracks', name: 'TrackTable', component: TracksDashboard},
+      { path: 'Authors', name: 'AuthorTable',component: AuthorsDashboard},
+    
+    ]
   },
   {
-    path: '/create',
-    name: 'Create',
-    component: CreateObj,
-    beforeEnter: requireAuth,
+    path: '/dashboard/Tracks/create',
+    name: 'createTrack',
+    component: CreateTrack,
   },
   {
-    path: '/track/:id',
-    name: 'TrackDetails',
-    component: TrackDetails,
+    path: '/dashboard/Author/create',
+    name: 'createAuthor',
+    component: CreateAuthor,
+  },
+  {
+    path: '/dashboard/Tracks/edit:id',
+    name: 'EditTrack',
+    component: EditTrack,
+    props: true,
+  },
+  {
+    path: '/selections/Track:id',
+    name: 'SelectedTrack',
+    component: SelectedTrack,
+    props: true,
+  },
+  {
+    path: '/dashboard/Authors/edit:id',
+    name: 'EditAuthor',
+    component: EditAuthor,
     props: true,
   },
   {

@@ -1,5 +1,4 @@
 <script setup>
-  import tableDashboard from "@/components/auth/tableDashboard.vue";
   import toBack from "@/components/toBack.vue";
 </script>
 <template>
@@ -8,8 +7,18 @@
       <toBack where="/" />
       <div class="row">
         <div class="col-12">
-          <tableDashboard />
-          <router-link class="createBtn" to="create"> ADD </router-link>
+          <div class="links">
+            <router-link :to="{name: 'TrackTable'}">Tracks</router-link>
+            <router-link :to="{name: 'AuthorTable'}">Authors</router-link>            
+            <router-link to="">Img Manager</router-link>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <div class="content">
+            <router-view></router-view>
+          </div>
         </div>
       </div>
     </div>
@@ -17,30 +26,30 @@
 </template>
 <style lang="scss" scoped>
 #dashboard {
-  .createBtn {
-    position: absolute;
-    bottom: 9.5vh;
-    right: 7.5vw;
-    width: 66px;
-    height: 66px;
-    border: 2px solid white;
-    display: flex;
-    justify-content: center;
+  display:flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  .row{
+  display:flex;
+  justify-content: flex-start;
+  }
+
+  .links{
+    width: 100%;
+    height: var(--marginT);
+    display:flex;
+    justify-content: space-around;
     align-items: center;
     color: white;
-    transform: scale(1);
-    -webkit-transition: all 1.5s ease;
-    -moz-transition: all 1.5s ease;
-    -ms-transition: all 1.5s ease;
-    -o-transition: all 1.5s ease;
-    transition: all 1.5s ease;
-
-    &:hover {
-      border: 2px solid white;
-      color: black;
-      background: white;
-      transform: scale(1.2);
+    background: purple;
+    a{
+      color: white;
     }
+  }
+  .content{
+    //background: rgba(255,255,255,.5);
+    width: 100%;
+    height: 100%;
   }
 }
 </style>
