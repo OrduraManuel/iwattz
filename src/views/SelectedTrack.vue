@@ -2,6 +2,8 @@
 import { watchEffect, ref, onMounted } from 'vue';
 
 import toBack from '@/components/toBack.vue'
+import ModalContactMe from '@/components/modal/ModalContact.vue'
+import ModalBtn from '@/components/modal/BtnModal.vue'
 import trackPlayer from '@/components/track/trackPlayer.vue'
 
 import { useRouter } from 'vue-router'
@@ -32,19 +34,30 @@ async function  searchHandler() {
 //const router = useRouter()
 </script>
 <template>
-    
-    <div class="row" v-if="selectedTrack">
-        <toBack  where="/selections"/>
-            <div class="col-8">
-                <p>{{ selectedTrack }}</p>
+    <div id="selected">
+        <div class="row" v-if="selectedTrack">
+            <toBack  where="/selections"/>
+            <div class="content">
+                <div class="col-12 col-md-8">
+                    <p>questa è la selezionata: {{ selectedTrack }}</p>
+                </div>
+                <div class="col-12 col-md-4">
+                    <trackPlayer :song="selectedTrack" />
+                </div>
             </div>
-            <div class="col-4">
-                <trackPlayer :song="selectedTrack" />
-            </div>
+            <ModalBtn />
         </div>
-
+        <ModalContactMe />
+    </div>
 </template>
 <style lang="scss" scoped>
+#selected{
+    position: relative;
+    .content{
+        display: flex;
+        align-items: center;
+    }
+}
 .selectedTrack{
     h1{
         color: white;

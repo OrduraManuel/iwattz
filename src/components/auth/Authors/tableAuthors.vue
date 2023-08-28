@@ -17,16 +17,9 @@ const { nextAuthors } = storeToRefs(AuthorStore)
 const { prevAuthors } = storeToRefs(AuthorStore)
 const { Author } = storeToRefs(AuthorStore) // for manage the modal's opening
 
-async function  searchHandler() {
-	await AuthorStore.getAllAuthors('Number')
-  .then(()=>{
-console.log('dont do nothing please')
-  })
-}
 async function  limitHandler() {
   await AuthorStore.getLimitedAuthors( perPage.value, 'Number')
   .then(()=>{
-    console.log('questo è Authorlimit: ',AuthorsLimit.value)
     prevBtn.value.classList.add('disabled')
     nextBtn.value.classList.remove('disabled')
   })
@@ -38,16 +31,11 @@ async function  nextHandler() {
     let firstAuthors = Authors.value[0]
     let lastAuthors = Authors.value[Authors.value.length - 1]
     let nextAuthorsId = await Reflect.get(nextAuthors.value,'id')
-    console.log('questo è reflect NEXT: ', nextAuthorsId,'lastAuthors: ', lastAuthors.id )
-
     if( lastAuthors.id == nextAuthorsId){
-      console.log('siamo uguali disabilitiamo il NEXT')
       nextBtn.value.classList.add('disabled')
     }
     let prevAuthorsId = await Reflect.get(prevAuthors.value,'id')
-    console.log('questo è reflect PREV: ', prevAuthorsId,'firstAuthors: ', firstAuthors )
     if( firstAuthors.id != prevAuthorsId){
-      console.log('siamo uguali disabilitiamo il PREV')
       prevBtn.value.classList.remove('disabled')
     }
   })
@@ -59,12 +47,10 @@ async function  prevHandler() {
     let lastAuthors = Authors.value[Authors.value.length - 1]
     let nextAuthorsId = Reflect.get(nextAuthors.value,'id')
     if( lastAuthors.id != nextAuthorsId){
-      console.log('siamo uguali disabilitiamo il btnNext')
       nextBtn.value.classList.remove('disabled')
     }
     let prevAuthorsId = Reflect.get(prevAuthors.value,'id')
     if( firstAuthors.id == prevAuthorsId){
-      console.log('siamo uguali disabilitiamo il btnNext')
       prevBtn.value.classList.add('disabled')
     }
   })
@@ -83,10 +69,8 @@ function activeModal(thisAuthor){
 }
 
 watchEffect( () =>{
-	Authors.value = null;
   //perPage.value = 1;
-	Author.value = null;
-		searchHandler();
+	//Author.value = null;
     limitHandler();
 });
 

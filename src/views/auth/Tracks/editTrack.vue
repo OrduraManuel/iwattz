@@ -7,8 +7,14 @@ import { useRouter } from 'vue-router'
 import { storage } from '@/api/config';
 import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-import { useTrackStore } from '@/store'
+import { useTrackStore, useAuthorStore } from '@/store'
+import { storeToRefs } from 'pinia';
+
 const TrackStore = useTrackStore()
+const AuthorStore = useAuthorStore()
+const { Authors } = storeToRefs(AuthorStore)
+
+
 
 //props ID passata 
 const props = defineProps({
@@ -36,10 +42,13 @@ let uploaded = ref()
 let progressBar = ref()
 let progress = ref()
 let progressNumber = ref()
+const AuthorsList = ref()
 
 // function get thisTrack
 async function  searchHandler() {
     thisTrack.value = await TrackStore.getTrack(props.id)//get('Tracks', props.id);
+    await AuthorStore.getAllAuthors('Number')
+    AuthorsList.value = Authors.value
 }
 // function delete thisTrack
 function deleteHandler(id) {
@@ -48,7 +57,10 @@ function deleteHandler(id) {
 }
 
 async function updateHandler(id, updateTrack) {
-    await uploadFile(uploaded.value)
+    console.log(uploaded.value,'questo è uploaded all handler')
+    if(uploaded.value != null || undefined){
+        await uploadFile(uploaded.value)
+    }
     TrackStore.updateTrack(id, updateTrack)
     .then(() =>{
         console.log(thisTrack.value,'dovrebbe esserci l src')
@@ -146,7 +158,19 @@ async function uploadFile(file) {
                 <div class="col-4 author squareHole">       
                     <div class="label">
                         <label for="title">Track Author:</label>
-                        <input type="text" name="author" v-model="thisTrack.Author"  :placeholder="thisTrack.Author"  required> <!--v-model="newAuthor" :placeholder="props.thisTrack.Author" -->
+                        <div class="gridWrapper">
+                            <label :for="Author" class="radioCard" v-for="AuthorList in AuthorsList" :key="AuthorList.Number">
+                                <input type="radio" v-model="thisTrack.Author" :id="AuthorList" :value="AuthorList.id" required/>
+                                <div class="cardContentWrapper">
+                                <span class="checkIcon">
+                                    <!--<i class="fa-brands" :class="'fa-'+SrcOption"></i>-->
+                                </span>
+                                <div class="cardContent">
+                                    <h4>{{ AuthorList.Name }}</h4>
+                                </div>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-4 number ">

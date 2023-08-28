@@ -7,17 +7,38 @@ let props = defineProps({
 
 const isImageLoaded = ref(false);
 
-onMounted(() => {
+
+import { useAuthorStore } from '@/store'
+import { storeToRefs } from 'pinia';
+const AuthorStore = useAuthorStore()
+const { Authors } = storeToRefs(AuthorStore)
+
+const AuthorName = ref()
+
+onMounted(()  => {
   const image = new Image();
   image.src = props.thisTrack.Img.Path;
   image.onload = () => {
     isImageLoaded.value = true;
   };
+  findAuthor()
 });
+
+async function findAuthor(){
+  let Arr = Authors.value
+  Authors.value.forEach(Author =>{
+    if(Author.id == props.thisTrack.Author){
+      AuthorName.value = Author.Name
+      console.log(AuthorName.value,'values')
+    }
+
+  })
+  console.log(AuthorName.value, 'QUESTOOOOOOOpunto find')
+}
 </script>
-<template>
+<template v-if="Authors">
     <td class='td tdNumber text-truncate'>{{props.thisTrack.Number}}</td>
-    <td class='td text-truncate'>{{props.thisTrack.Author}}</td>
+    <td class='td text-truncate'>{{AuthorName}}</td>
     <td class='td text-truncate'>{{props.thisTrack.Title}}</td>
     <td class='td text-truncate'>{{props.thisTrack.isFav}}</td>
     <td class='td text-truncate'>

@@ -17,12 +17,6 @@ const { nextTracks } = storeToRefs(TrackStore)
 const { prevTracks } = storeToRefs(TrackStore)
 const { Track } = storeToRefs(TrackStore) // for manage the modal's opening
 
-async function  searchHandler() {
-	await TrackStore.getAllTracks('Number')
-  .then(()=>{
-console.log('dont do nothing please')
-  })
-}
 async function  limitHandler() {
   await TrackStore.getLimitedTracks( perPage.value, 'Number')
   .then(()=>{
@@ -83,10 +77,8 @@ function activeModal(thisTrack){
 }
 
 watchEffect( () =>{
-	Tracks.value = null;
-  //perPage.value = 1;
-	Track.value = null;
-		searchHandler();
+
+	//Track.value = null;
     limitHandler();
 });
 

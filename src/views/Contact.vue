@@ -1,5 +1,7 @@
 <script setup>
 import toBack from '@/components/toBack.vue'
+import ModalContactMe from '@/components/modal/ModalContact.vue'
+import ModalBtn from '@/components/modal/BtnModal.vue'
 </script>
 
 <template>
@@ -41,7 +43,9 @@ import toBack from '@/components/toBack.vue'
                 </p>
             </div>
         </div>
-    </div>
+        <ModalBtn />
+        </div>
+        <ModalContactMe />
 </section>
 </template>
 <style lang="scss" scoped>

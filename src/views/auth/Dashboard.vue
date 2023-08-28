@@ -1,5 +1,42 @@
 <script setup>
-  import toBack from "@/components/toBack.vue";
+import { watchEffect, onMounted, ref } from 'vue';
+
+import toBack from "@/components/toBack.vue";
+
+import { useAuthorStore, useTrackStore } from '@/store'
+import { storeToRefs } from 'pinia';
+
+// Gestione Authors
+const AuthorStore = useAuthorStore()
+const { Authors } = storeToRefs(AuthorStore)
+const { AuthorsLimit } = storeToRefs(AuthorStore)
+const { nextAuthors } = storeToRefs(AuthorStore)
+const { prevAuthors } = storeToRefs(AuthorStore)
+const { Author } = storeToRefs(AuthorStore) // for manage the modal's opening
+
+// Gestione Tracks
+const TrackStore = useTrackStore()
+const { Tracks } = storeToRefs(TrackStore)
+const { TracksLimit } = storeToRefs(TrackStore)
+const { nextTracks } = storeToRefs(TrackStore)
+const { prevTracks } = storeToRefs(TrackStore)
+const { Track } = storeToRefs(TrackStore) // for manage the modal's opening
+
+
+async function  searchHandler() {
+	await AuthorStore.getAllAuthors('Number')
+  await TrackStore.getAllTracks('Number')
+  .then(()=>{
+console.log('dont do nothing please')
+  })
+}
+onMounted(() => {
+  watchEffect(() => {
+    Authors.value = null;
+    Tracks.value = null;
+    searchHandler();
+  });
+});
 </script>
 <template>
   <div id="dashboard">

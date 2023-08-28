@@ -1,5 +1,8 @@
 <script setup>
 import toBack from '@/components/toBack.vue'
+import ModalContactMe from '@/components/modal/ModalContact.vue'
+import ModalBtn from '@/components/modal/BtnModal.vue'
+
 </script>
 
 <template>
@@ -14,7 +17,7 @@ import toBack from '@/components/toBack.vue'
                 </div>
                 <div class="col-12 ">
                     <h3 class="section-header mt-5">
-                        Here's  how<span> our</span>
+                        Here's  how<span> our</span>what
                         <span>mixing</span> & <span>mastering</span>
                         process <span>works!</span>
                     </h3>
@@ -45,6 +48,11 @@ import toBack from '@/components/toBack.vue'
                      </p>
                 </div>
             </div>
+            <ModalBtn />
         </div>
-    </section>   
+        <ModalContactMe />
+    </section>  
 </template>
+
+<style lang="scss" scoped>
+</style>

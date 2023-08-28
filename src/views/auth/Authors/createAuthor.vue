@@ -86,7 +86,7 @@ async function uploadFile(file) {
   console.log(file, 'zzzzzzzzthis is el in uploadFile');
 
   Author.value.Img.Name = file.name;
-  const storagePath = `images/${file.name}`;
+  const storagePath = `${Author.value.Name}/${file.name}`;
   const storageRefs = storageRef(storage, storagePath);
   const metadata = {
     contentType: file.type

@@ -9,7 +9,11 @@
   </div>
 </template>
 <script setup>
-import { inject, ref, watchEffect } from 'vue'
+import { inject, ref, watchEffect, onMounted } from 'vue'
+
+import { useTrackStore, useAuthorStore } from '@/store'
+import { storeToRefs } from 'pinia';
+
 import NewNav from "@/components/NewNav.vue";
 import Borders from "@/components/Borders.vue";
 //import Slider from '@/components/Slider.vue';
@@ -36,6 +40,20 @@ let flashDiv
    }
  }
 
+
+const TrackStore = useTrackStore()
+const { Tracks } = storeToRefs(TrackStore)
+
+const AuthorStore = useTrackStore()
+const { Authors } = storeToRefs(AuthorStore)
+
+async function  searchHandler() {
+	await TrackStore.getAllTracks('Number');
+  await AuthorStore.getAllTracks('Number');
+}
+onMounted(() => {
+        searchHandler()
+})
 </script>
 <style lang="scss">
 .homethis {
