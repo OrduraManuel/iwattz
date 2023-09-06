@@ -6,7 +6,7 @@ import Contact from "@/views/Contact.vue";
 import Selections from "@/views/Selections.vue";
 
 // auth
-import FirstLog from "@/views/auth/FirstLog.vue";
+import FirstLog from "@/views/auth/firstLog.vue";
 import Dashboard from "@/views/auth/Dashboard.vue";
 
 //Tracks
