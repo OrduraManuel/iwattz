@@ -10,7 +10,7 @@ import FirstLog from "@/views/auth/firstLog.vue";
 import Dashboard from "@/views/auth/Dashboard.vue";
 
 //Tracks
-import CreateTrack from "@/views/auth/Tracks/CreateTrack.vue";
+import CreateTrack from "@/views/auth/Tracks/createTrack.vue";
 import EditTrack from "@/views/auth/Tracks/editTrack.vue";
 import SelectedTrack from "@/views/SelectedTrack.vue";
 
