@@ -27,7 +27,7 @@ import AuthorsDashboard from "@/views/auth/Authors/Table.vue";
 
 
 import NotFound from "@/views/404.vue";
-import networkError from '@/views/networkError.vue'
+import networkError from '@/views/NetworkError.vue'
 
 // firebase imports
 import { auth } from '@/api/config'
