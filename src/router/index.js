@@ -17,7 +17,7 @@ import SelectedTrack from "@/views/SelectedTrack.vue";
 
 
 //Authors
-import CreateAuthor from "@/views/auth/Authors/CreateAuthor.vue";
+import CreateAuthor from "@/views/auth/Authors/createAuthor.vue";
 import EditAuthor from "@/views/auth/Authors/editAuthor.vue";
 
 
