@@ -20,9 +20,13 @@ const { Track } = storeToRefs(TrackStore) // for manage the modal's opening
 async function  limitHandler() {
   await TrackStore.getLimitedTracks( perPage.value, 'Number')
   .then(()=>{
-    console.log('questo è tracklimit: ',TracksLimit.value)
     prevBtn.value.classList.add('disabled')
-    nextBtn.value.classList.remove('disabled')
+      if( perPage.value > Tracks.value.length){
+      nextBtn.value.classList.add('disabled')
+      console.log('Authors.lenght',Tracks.value.length)
+    }else{
+      nextBtn.value.classList.remove('disabled')
+    }
   })
 }
 async function  nextHandler() {
@@ -85,7 +89,7 @@ watchEffect( () =>{
 
 </script>
 <template>
-  <div class='table-responsive'>
+  <div class='table-responsive' id="tableTracks">
 
     <table class='tableDashboard' v-if='TracksLimit'>
     <thead>
@@ -155,67 +159,5 @@ watchEffect( () =>{
     <!--v-if=' sel !== null'-->
 </template>
 <style scoped lang="scss">
-table{
-  tbody{
-    tr{
 
-        @include delay(slideInRight, 3, .35s); 
-    }
-  }
-}
-.pagination{
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-.post {
-  width: 220px;
-  height: 80px;
-}
-.post .avatar {
-  float: left;
-  width: 52px;
-  height: 52px;
-  background-color: #ccc;
-  border-radius: 25%;
-  margin: 8px;
-  background-image: linear-gradient(90deg, #ddd 0px, #e8e8e8 40px, #ddd 80px);
-  background-size: 600px;
-  animation: shine-avatar 1.6s infinite linear;
-}
-.post .line {
-  float: left;
-  width: 140px;
-  height: 16px;
-  margin-top: 12px;
-  border-radius: 7px;
-  background-image: linear-gradient(90deg, #ddd 0px, #e8e8e8 40px, #ddd 80px);
-  background-size: 600px;
-  animation: shine-lines 1.6s infinite linear;
-}
-.post .avatar + .line {
-  margin-top: 11px;
-  width: 100px;
-}
-.post .line ~ .line {
-  background-color: #ddd;
-}
-
-@keyframes shine-lines {
-  0% {
-    background-position: -100px;
-  }
-  40%, 100% {
-    background-position: 140px;
-  }
-}
-@keyframes shine-avatar {
-  0% {
-    background-position: -32px;
-  }
-  40%, 100% {
-    background-position: 208px;
-  }
-}
 </style>

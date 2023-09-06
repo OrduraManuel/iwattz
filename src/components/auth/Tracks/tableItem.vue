@@ -25,7 +25,7 @@ onMounted(()  => {
 });
 
 async function findAuthor(){
-  let Arr = Authors.value
+  //let Arr = Authors.value
   Authors.value.forEach(Author =>{
     if(Author.id == props.thisTrack.Author){
       AuthorName.value = Author.Name

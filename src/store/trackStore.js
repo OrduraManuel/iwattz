@@ -66,6 +66,7 @@ export const useTrackStore = defineStore('trackStore', () => {
       return await search("Tracks", attr) 
       .then(response => {
         Tracks.value = response
+        console.log(Tracks.value, 'dati-TRACKS storati')
       })
       .catch((error) => {
         throw error;

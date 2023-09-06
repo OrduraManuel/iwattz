@@ -21,7 +21,12 @@ async function  limitHandler() {
   await AuthorStore.getLimitedAuthors( perPage.value, 'Number')
   .then(()=>{
     prevBtn.value.classList.add('disabled')
-    nextBtn.value.classList.remove('disabled')
+    if( perPage.value > Authors.value.length){
+      nextBtn.value.classList.add('disabled')
+      console.log('Authors.lenght',Authors.value.length)
+    }else{
+      nextBtn.value.classList.remove('disabled')
+    }
   })
 }
 async function  nextHandler() {
@@ -31,6 +36,7 @@ async function  nextHandler() {
     let firstAuthors = Authors.value[0]
     let lastAuthors = Authors.value[Authors.value.length - 1]
     let nextAuthorsId = await Reflect.get(nextAuthors.value,'id')
+
     if( lastAuthors.id == nextAuthorsId){
       nextBtn.value.classList.add('disabled')
     }
@@ -77,8 +83,7 @@ watchEffect( () =>{
 
 </script>
 <template>
-  <div class='table-responsive'>
-
+  <div class='table-responsive' id="tableAuthors">
     <table class='tableDashboard' v-if='AuthorsLimit'>
     <thead>
       <tr class='tableHead'>
@@ -146,68 +151,3 @@ watchEffect( () =>{
   </template>
     <!--v-if=' sel !== null'-->
 </template>
-<style scoped lang="scss">
-table{
-  tbody{
-    tr{
-
-        @include delay(slideInRight, 3, .35s); 
-    }
-  }
-}
-.pagination{
-  width: 100%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-}
-.post {
-  width: 220px;
-  height: 80px;
-}
-.post .avatar {
-  float: left;
-  width: 52px;
-  height: 52px;
-  background-color: #ccc;
-  border-radius: 25%;
-  margin: 8px;
-  background-image: linear-gradient(90deg, #ddd 0px, #e8e8e8 40px, #ddd 80px);
-  background-size: 600px;
-  animation: shine-avatar 1.6s infinite linear;
-}
-.post .line {
-  float: left;
-  width: 140px;
-  height: 16px;
-  margin-top: 12px;
-  border-radius: 7px;
-  background-image: linear-gradient(90deg, #ddd 0px, #e8e8e8 40px, #ddd 80px);
-  background-size: 600px;
-  animation: shine-lines 1.6s infinite linear;
-}
-.post .avatar + .line {
-  margin-top: 11px;
-  width: 100px;
-}
-.post .line ~ .line {
-  background-color: #ddd;
-}
-
-@keyframes shine-lines {
-  0% {
-    background-position: -100px;
-  }
-  40%, 100% {
-    background-position: 140px;
-  }
-}
-@keyframes shine-avatar {
-  0% {
-    background-position: -32px;
-  }
-  40%, 100% {
-    background-position: 208px;
-  }
-}
-</style>

@@ -1,5 +1,5 @@
 <script setup>
-  import { Swiper, SwiperSlide } from 'swiper/vue';
+import { Swiper, SwiperSlide } from 'swiper/vue';
 import { EffectFade, Autoplay } from 'swiper/modules';
 
 const modules = [EffectFade, Autoplay]

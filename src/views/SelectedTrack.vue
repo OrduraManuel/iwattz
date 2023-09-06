@@ -5,6 +5,8 @@ import toBack from '@/components/toBack.vue'
 import ModalContactMe from '@/components/modal/ModalContact.vue'
 import ModalBtn from '@/components/modal/BtnModal.vue'
 import trackPlayer from '@/components/track/trackPlayer.vue'
+import AuthorCard from '@/components/author/AuthorCard.vue'
+
 
 import { useRouter } from 'vue-router'
 
@@ -28,7 +30,7 @@ const selectedTrack = ref({});
 // function get selectedTrack
 async function  searchHandler() {
     selectedTrack.value = await TrackStore.getTrack(props.id)//get('Tracks', props.id);
-    console.log(selectedTrack.value,'questa è la traccia su cui lavoreremo')
+    console.log(selectedTrack.value.Author,'ID AUTHOR DI SELECTEDTRACK')
 }
 
 //const router = useRouter()
@@ -38,8 +40,8 @@ async function  searchHandler() {
         <div class="row" v-if="selectedTrack">
             <toBack  where="/selections"/>
             <div class="content">
-                <div class="col-12 col-md-8">
-                    <p>questa è la selezionata: {{ selectedTrack }}</p>
+                <div class="col-12 col-md-6">
+                    <AuthorCard :thisTrack="selectedTrack"></AuthorCard>
                 </div>
                 <div class="col-12 col-md-4">
                     <trackPlayer :song="selectedTrack" />
@@ -55,6 +57,7 @@ async function  searchHandler() {
     position: relative;
     .content{
         display: flex;
+        justify-content: space-around;
         align-items: center;
     }
 }

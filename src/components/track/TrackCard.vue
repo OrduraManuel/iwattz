@@ -6,49 +6,48 @@ let props = defineProps({
 });
 
 const isImageLoaded = ref(false);
+
+
+import { useAuthorStore } from '@/store'
+import { storeToRefs } from 'pinia';
+const AuthorStore = useAuthorStore()
+const { Authors } = storeToRefs(AuthorStore)
+
+const AuthorName = ref()
+
+
 onMounted(() => {
   const image = new Image();
   image.src = props.thisTrack.Img.Path;
   image.onload = () => {
     isImageLoaded.value = true;
   };
+  findAuthor()
 });
 
-function getHitClass(boolean){
-    console.log('this is my boolean: ', boolean)
-    if(boolean === true){
-        return 'hitClass'
-    }else{
-        return ''
+async function findAuthor(){
+  await Authors.value.forEach(Author =>{
+    if(Author.id == props.thisTrack.Author){
+      AuthorName.value = Author.Name
     }
+  })
 }
-</script>
-<template>
-  <Suspense>
-    <template #default>
 
+</script>
+    <template v-if="Authors.value">
       <router-link class="galleryImg trackCard" :to="{name: 'SelectedTrack', params: {id: props.thisTrack.id}}">
-        <div :class="getHitClass(props.thisTrack.isFav)">
-        <span></span>
-        <span></span>
-        <span></span>
-        <span></span>
+        <div class="hitClass"  v-if="props.thisTrack.isFav">
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
         </div>  
-          <a class="photoDownload" :href="props.thisTrack.Src.Href" target="_blank">{{ props.thisTrack.Src.Option }}</a>
           <img class="imageMasonry"  v-if="isImageLoaded" :src="props.thisTrack.Img.Path" />
-          <p class="photoArtist" style="background-color: purple;color:white;">{{ props.thisTrack.Author }}</p>
+          <div class="photoArtist">{{AuthorName}}</div>
           <p class="newHit" v-if="props.thisTrack.isFav "> New Hit</p>
       </router-link >
     </template>
-    <template #fallback>
-      <div class="galleryImg skeletonCard">
-        <a class="photoDownload"></a>
-        <img class="imageMasonry" />
-        <p class="photoArtist"></p>
-      </div>
-    </template>
-  </Suspense>
-</template>
+
 
 <style scoped lang="scss">
 .trackCard{
@@ -66,9 +65,9 @@ function getHitClass(boolean){
     background: white;
 }
 
+
 .hitClass{
 
-    //padding: 10px 20px;
     span{
             position: absolute;
             display: block;

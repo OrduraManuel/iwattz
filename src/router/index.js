@@ -6,28 +6,28 @@ import Contact from "@/views/Contact.vue";
 import Selections from "@/views/Selections.vue";
 
 // auth
-import FirstLog from "@/views/auth/FirstLog.vue";
+import FirstLog from "@/views/auth/firstLog.vue";
 import Dashboard from "@/views/auth/Dashboard.vue";
 
 //Tracks
-import CreateTrack from "@/views/auth/Tracks/CreateTrack.vue";
+import CreateTrack from "@/views/auth/Tracks/createTrack.vue";
 import EditTrack from "@/views/auth/Tracks/editTrack.vue";
 import SelectedTrack from "@/views/SelectedTrack.vue";
 
 
 
 //Authors
-import CreateAuthor from "@/views/auth/Authors/CreateAuthor.vue";
+import CreateAuthor from "@/views/auth/Authors/createAuthor.vue";
 import EditAuthor from "@/views/auth/Authors/editAuthor.vue";
 
 
 // dashboard
-import TracksDashboard from "@/views/auth/Tracks/table.vue";
-import AuthorsDashboard from "@/views/auth/Authors/table.vue";
+import TracksDashboard from "@/views/auth/Tracks/Table.vue";
+import AuthorsDashboard from "@/views/auth/Authors/Table.vue";
 
 
 import NotFound from "@/views/404.vue";
-import networkError from '@/views/networkError.vue'
+import networkError from '@/views/NetworkError.vue'
 
 // firebase imports
 import { auth } from '@/api/config'
