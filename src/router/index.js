@@ -22,8 +22,8 @@ import EditAuthor from "@/views/auth/Authors/editAuthor.vue";
 
 
 // dashboard
-import TracksDashboard from "@/views/auth/Tracks/table.vue";
-import AuthorsDashboard from "@/views/auth/Authors/table.vue";
+import TracksDashboard from "@/views/auth/Tracks/Table.vue";
+import AuthorsDashboard from "@/views/auth/Authors/Table.vue";
 
 
 import NotFound from "@/views/404.vue";
