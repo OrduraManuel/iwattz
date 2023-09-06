@@ -1,11 +1,13 @@
 <script setup>
-import { Swiper, SwiperSlide } from 'swiper/vue';
-import { EffectFade, Autoplay } from 'swiper/modules';
-
-const modules = [EffectFade, Autoplay]
 // Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/effect-fade';
+
+import { Swiper, SwiperSlide } from 'swiper/vue';
+import { EffectFade, Autoplay } from 'swiper/modules';
+
+
+const modules = [EffectFade, Autoplay]
 
 </script>
 

@@ -1,6 +1,9 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 
+import { useAuthorStore } from '@/store'
+import { storeToRefs } from 'pinia';
+
 let props = defineProps({
 	thisTrack: Object,
 });
@@ -8,8 +11,7 @@ let props = defineProps({
 const isImageLoaded = ref(false);
 
 
-import { useAuthorStore } from '@/store'
-import { storeToRefs } from 'pinia';
+
 const AuthorStore = useAuthorStore()
 const { Authors } = storeToRefs(AuthorStore)
 
