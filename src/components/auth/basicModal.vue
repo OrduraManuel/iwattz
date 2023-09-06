@@ -1,9 +1,8 @@
 <script setup>
+import { ref } from 'vue';
 let props = defineProps({
 	thisTrack: Object,
 });
-
-import { ref } from 'vue';
 // import loader from "@/components/loader.vue";
 
 

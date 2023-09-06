@@ -12,6 +12,12 @@
             padding:  1.5rem 1.5rem 1.5rem 1.5rem;
         }
     }
+    tbody{
+      tr{
+          @include delay(slideInRight, 6, .35s); 
+      }
+    }
+
     .td{
         padding:  .45rem .45rem .45rem 0;
         border-bottom: var(--border);
@@ -52,4 +58,11 @@
         //border-radius: var(--radiusL);
         //outline: var(--border);
       }
+      .pagination{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+      }
+      
   }

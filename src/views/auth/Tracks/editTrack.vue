@@ -7,8 +7,14 @@ import { useRouter } from 'vue-router'
 import { storage } from '@/api/config';
 import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-import { useTrackStore } from '@/store'
+import { useTrackStore, useAuthorStore } from '@/store'
+import { storeToRefs } from 'pinia';
+
 const TrackStore = useTrackStore()
+const AuthorStore = useAuthorStore()
+const { Authors } = storeToRefs(AuthorStore)
+
+
 
 //props ID passata 
 const props = defineProps({
@@ -20,6 +26,7 @@ onMounted(()=>{
     thisTrack.value = null
     //SrcOptions = null
   searchHandler()
+  //findAuthor()
 })
 
 const thisTrack = ref({});
@@ -29,18 +36,39 @@ const router = useRouter()
 const SrcOptions = ref([
   'spotify','tidal','youtube'
 ])
-let uploader;
-let loaded = ref()
+
+let uploaderMp3 = ref() //btn
+let uploadedMp3 = ref() //img
+let loadedMp3 = ref() //?
+let thisTrackMp3 = ref()
+let mp3Preview = ref()
+
+let uploaderImg = ref()
+let uploadedImg = ref()
+let loadedImg = ref()
 let imgPreview = ref()
-let uploaded = ref()
+
+let uploadPath = ref()
+
 let progressBar = ref()
 let progress = ref()
 let progressNumber = ref()
+const AuthorsList = ref()
+const AuthorName = ref()
 
 // function get thisTrack
 async function  searchHandler() {
     thisTrack.value = await TrackStore.getTrack(props.id)//get('Tracks', props.id);
+    await AuthorStore.getAllAuthors('Number')
+    AuthorsList.value = Authors.value
+    Authors.value.forEach(async Author =>{
+        if(Author.id == thisTrack.value.Author){
+            AuthorName.value = await Author.Name
+            console.log(AuthorName.value,'questo è AUTHOR NAMEEEEE')
+        }
+    })
 }
+
 // function delete thisTrack
 function deleteHandler(id) {
     TrackStore.deleteTrack(id)
@@ -48,7 +76,12 @@ function deleteHandler(id) {
 }
 
 async function updateHandler(id, updateTrack) {
-    await uploadFile(uploaded.value)
+    if(uploadedImg.value != null || undefined){
+        await uploadFile(uploadedImg.value)
+    }
+    if(uploadedMp3.value != null || undefined){
+        await uploadFile(uploadedMp3.value)
+    }    
     TrackStore.updateTrack(id, updateTrack)
     .then(() =>{
         console.log(thisTrack.value,'dovrebbe esserci l src')
@@ -63,37 +96,74 @@ async function updateHandler(id, updateTrack) {
     searchHandler();
 }
 
-// function pick your file
-function uploadStart() {
-  uploader.click();
+// function pick your Img
+function uploadStartImg() {
+  uploaderImg.value.click();
+}
+// function pick your Mp3
+function uploadStartMp3() {
+  uploaderMp3.value.click();
 }
 
 function previewImage(event) {
-  uploaded.value = event.target.files[0];
-  console.log(uploaded.value, 'in previewImage')
-  if (uploaded != null) {
-    let almostLoad = ref('');
-    almostLoad.value = 'Hai selezionato: ' + uploaded.value.name + ' come Img!';
-    loaded.value.classList.remove('d-none');
-    loaded.value.innerHTML = almostLoad.value;
+  uploadedImg.value = event.target.files[0];
+  if (uploadedImg != null) {
+    let almostImg = ref('');
+    almostImg.value = 'Hai selezionato: ' + uploadedImg.value.name + ' come Img!';
+    loadedImg.value.classList.remove('d-none');
+
+    loadedImg.value.innerHTML = almostImg.value;
     
     var reader = new FileReader();
     reader.onload = function(){
         imgPreview.value.src = reader.result;
         console.log(reader.result, 'this is render result')
     };
-    reader.readAsDataURL(uploaded.value);
+    reader.readAsDataURL(uploadedImg.value);
+  }
+}
+function previewMp3(event) {
+  uploadedMp3.value = event.target.files[0];
+  console.log(uploadedMp3.value,'questo è il file audio')
+  if (uploadedMp3 != null) {
+    let reader = new FileReader();
+    reader.readAsDataURL(uploadedMp3.value);
+    reader.addEventListener('load', function(){
+        mp3Preview.value.src = reader.result
+    })
+    let almostMp3 = ref('');
+    mp3Preview.value.classList.remove('d-none');
+    console.log(thisTrackMp3.value,'perchè non ti metti d-none')
+    thisTrackMp3.value.classList.add('d-none')
+    console.log(thisTrackMp3.value,'ha messo il d-none')
+    almostMp3.value = 'Hai selezionato: ' + uploadedMp3.value.name + ' come Mp3!';
+    loadedMp3.value.classList.remove('d-none');
+    loadedMp3.value.innerHTML = almostMp3.value;
+
+  } else {
+    console.log('uploaded è null')
   }
 }
 
-
 async function uploadFile(file) {
-  thisTrack.value.Img.Name = file.name;
-  const storagePath = `images/${file.name}`;
+
+  function renamePath(myName){
+    const withoutSpace = myName.split(' ').join('-')
+    uploadPath.value =  withoutSpace.split(`'`).join('-')
+    console.log(uploadPath.value,'questo è UPLOAD PATHHHHHHHHH')
+}
+await renamePath(AuthorName.value)
+
+
+const storagePath = `${uploadPath.value}/${file.name}`;
   const storageRefs = storageRef(storage, storagePath);
   const metadata = {
     contentType: file.type
   };
+  if(file.type == 'image/jpeg'){
+    thisTrack.value.Img.Name = file.name;
+    console.log('image')
+  }
   const uploadTask = uploadBytesResumable(storageRefs, file, metadata);
 
   return await new Promise((resolve, reject) => {
@@ -102,15 +172,29 @@ async function uploadFile(file) {
       (snapshot) => {
         const interpolation = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         progress.value.style.width = interpolation + '%'
-        progressNumber.value.innerHTML = interpolation + '%'
+        if(file.type == 'image/jpeg'){
+            progressNumber.value.innerHTML = 'caricamento cover: '+ interpolation + '%'
+        }
+        if(file.type == 'audio/mpeg'){
+            progressNumber.value.innerHTML = 'caricamento audio: '+ interpolation + '%'
+        }
+        //progressNumber.value.innerHTML = interpolation + '%'
       },
       (error) => {
         console.log('questo è l errore: ', error);
         reject(error);
       },
       async () => {
+        console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref);
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        thisTrack.value.Img.Path = downloadURL;
+        if(file.type == 'image/jpeg'){
+            thisTrack.value.Img.Path = downloadURL;
+          console.log('image')
+        }
+        if(file.type == 'audio/mpeg'){
+            thisTrack.value.Src.Song = downloadURL;
+          console.log('image')
+        }
         resolve(downloadURL);
       }
     )
@@ -143,10 +227,22 @@ async function uploadFile(file) {
                         <input type="text" name="title" v-model="thisTrack.Title"  :placeholder="thisTrack.Title"  required> <!--v-model="newAuthor" :placeholder="props.thisTrack.Author" -->
                     </div>
                 </div>
-                <div class="col-4 author squareHole">       
+                <div class="col-4 author squareHole" style="overflow:scroll">       
                     <div class="label">
                         <label for="title">Track Author:</label>
-                        <input type="text" name="author" v-model="thisTrack.Author"  :placeholder="thisTrack.Author"  required> <!--v-model="newAuthor" :placeholder="props.thisTrack.Author" -->
+                        <div class="gridWrapper">
+                            <label :for="Author" class="radioCard" v-for="AuthorList in AuthorsList" :key="AuthorList.Number">
+                                <input type="radio" v-model="thisTrack.Author" :id="AuthorList" :value="AuthorList.id" required/>
+                                <div class="cardContentWrapper">
+                                <span class="checkIcon">
+                                    <!--<i class="fa-brands" :class="'fa-'+SrcOption"></i>-->
+                                </span>
+                                <div class="cardContent">
+                                    <h4>{{ AuthorList.Name }}</h4>
+                                </div>
+                                </div>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="col-4 number ">
@@ -155,7 +251,7 @@ async function uploadFile(file) {
                         <input type="number" name="number" v-model="thisTrack.Number" :placeholder="thisTrack.Number" required> <!-- v-model="newNumber" :placeholder="props.thisTrack.Number" -->
                     </div>
                 </div>
-                <div class="col-6 link squareHole">
+                <div class="col-4 link squareHole">
                     <div class="label">
                         <label for="title">Da dove proviene il link:</label>
                         <div class="gridWrapper" >
@@ -184,18 +280,33 @@ async function uploadFile(file) {
                         <input type="text" v-model="thisTrack.Src.Href"  name="src" :placeholder="thisTrack.Src?.Href" required v-if="thisTrack.Src?.Href">
                     </div>
                 </div>                
-                <div class="col-6 img squareHole">
+                <div class="col-4 img squareHole">
                     <div class="label">
                         <label for="title">Get Image:</label>
                         <div class="imageContainer">
-                            <button class="btn btn-primary" @click="uploadStart">Pick your new Img</button>
+                            <button class="btn btn-primary" @click="uploadStartImg">Pick your new Img</button>
 
                             <img :src="thisTrack.Img?.Path" ref="imgPreview" class="imgPreview"/>
                             <input type="file" 
-                            style="display:none" 
-                            id="uploader" class="mt-3" ref="uploader" @change="previewImage"
+                            style="display:none" id="uploaderImg" class="mt-3" 
+                            ref="uploaderImg" @change="previewImage"
                             accept="image/*" />
-                            <div  ref="loaded" class="d-none">burp</div>
+                            <div  ref="loadedImg" class="d-none">burp</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 mp3 squareHole">
+                    <div class="label">
+                        <label for="title">Get Mp3:</label>
+                        <div class="mp3Container">
+                            <button class="btn btn-primary" @click="uploadStartMp3">Pick your new Mp3</button>
+                            <audio controls class=""  :src="thisTrack.Src?.Song" ref="thisTrackMp3" v-if="thisTrack.Src?.Song"></audio>
+                            <audio controls class="d-none"  ref="mp3Preview"></audio>
+                            <input type="file" 
+                            style="display:none" id="uploaderMp3" class="mt-3" 
+                            ref="uploaderMp3" @change="previewMp3"
+                            accept="audio/*" />
+                            <div  ref="loadedMp3" class="d-none">burp</div>
                         </div>
                     </div>
                 </div>

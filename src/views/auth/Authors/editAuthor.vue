@@ -89,7 +89,18 @@ function previewImage(event) {
 
 async function uploadFile(file) {
   thisAuthor.value.Img.Name = file.name;
-  const storagePath = `images/${file.name}`;
+
+
+  const uploadPath = ref()
+
+function renamePath(myName){
+    const withoutSpace = myName.split(' ').join('-')
+    uploadPath.value =  withoutSpace.split(`'`).join('-')
+}
+await renamePath(thisAuthor.value.Name)
+
+
+const storagePath = `${uploadPath.value}/${file.name}`;
   const storageRefs = storageRef(storage, storagePath);
   const metadata = {
     contentType: file.type
@@ -102,7 +113,9 @@ async function uploadFile(file) {
       (snapshot) => {
         const interpolation = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         progress.value.style.width = interpolation + '%'
-        progressNumber.value.innerHTML = interpolation + '%'
+        if(file.type == 'image/jpeg'){
+            progressNumber.value.innerHTML = 'caricamento cover: '+ interpolation + '%'
+        }
       },
       (error) => {
         console.log('questo è l errore: ', error);
@@ -110,7 +123,10 @@ async function uploadFile(file) {
       },
       async () => {
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        thisAuthor.value.Img.Path = downloadURL;
+        if(file.type == 'image/jpeg'){
+            thisAuthor.value.Img.Path = downloadURL;
+        }
+
         resolve(downloadURL);
       }
     )

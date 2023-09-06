@@ -4,20 +4,17 @@ import { onUnmounted, onMounted,watchEffect, ref  } from 'vue'
 import toBack from '@/components/toBack.vue'
 import TrackCard from '@/components/track/TrackCard.vue'
 
-import { useTrackStore } from '@/store'
+import { useTrackStore, useAuthorStore } from '@/store'
 import { storeToRefs } from 'pinia';
 
 const TrackStore = useTrackStore()
 const { Tracks } = storeToRefs(TrackStore)
 
+const AuthorStore = useTrackStore()
+const { Authors } = storeToRefs(AuthorStore)
 
-async function  searchHandler() {
-	await TrackStore.getAllTracks('Number');
-}
 
 watchEffect( () =>{
-	Tracks.value = null;
-	searchHandler();
 });
 
 const containerApp = document.getElementById('app')

@@ -1,5 +1,7 @@
 <script setup>
 import toBack from '@/components/toBack.vue';
+import ModalContactMe from '@/components/modal/ModalContact.vue'
+import ModalBtn from '@/components/modal/BtnModal.vue'
 </script>
 
 <template>
@@ -27,6 +29,8 @@ import toBack from '@/components/toBack.vue';
                         <p>If you want a company that will truly care about your sound and collaborate with you to realize your vision, <a class="link-underline" href="#">IWATTZ</a> will be sure to deliver.</p>
                     </div>
                 </div>
-            </div>
+                <ModalBtn />
+        </div>
+        <ModalContactMe />
         </section>
 </template>

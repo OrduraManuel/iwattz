@@ -66,6 +66,7 @@ export const useAuthorStore = defineStore('AuthorStore', () => {
       return await search("Authors", attr) 
       .then(response => {
         Authors.value = response
+        console.log(Authors.value, 'dati-AUTHORS storati')
       })
       .catch((error) => {
         throw error;

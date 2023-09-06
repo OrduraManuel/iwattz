@@ -8,6 +8,10 @@
 @import "auth/firstLog.scss";
 @import "auth/cardAuth.scss";
 @import "auth/tableDashboard.scss";
+//----//Tracks
+@import "auth/tracks/tableTracks.scss";
+//----//Authors
+@import "auth/authors/tableAuthors.scss";
 
 //pages
 @import "pages/home.scss"; //fatt

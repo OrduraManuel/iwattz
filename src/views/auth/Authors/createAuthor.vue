@@ -20,8 +20,7 @@ const currentUser = getUser;
 
 const AuthorStore = useAuthorStore()
 const { Authors } = storeToRefs(AuthorStore)
-//const { Author } = storeToRefs(AuthorStore)
-//const newAuthor = computed(() => Author.value);
+
 
 const SrcOptions = [
   'Rock','Pop','Rap', 'Raggae', 'Metal'
@@ -58,10 +57,15 @@ async function searchHandler() {
   AuthorsNumber.value = await AuthorStore.numberOfAuthors();
   AuthorsNumber.value++;
   Author.value.Number = AuthorsNumber.value
+
 }
 
 let uploader;
 let uploaded = ref()
+
+let progressBar = ref()
+let progress = ref()
+let progressNumber = ref()
 
 // function pick your file
 function uploadStart() {
@@ -82,11 +86,17 @@ function previewImage(event) {
 }
 
 async function uploadFile(file) {
-  console.log('uploadFile here');
-  console.log(file, 'zzzzzzzzthis is el in uploadFile');
-
+  
   Author.value.Img.Name = file.name;
-  const storagePath = `images/${file.name}`;
+
+  const uploadPath = ref()
+  function renamePath(myName){
+    const withoutSpace = myName.split(' ').join('-')
+    uploadPath.value =  withoutSpace.split(`'`).join('-')
+}
+await renamePath(Author.value.Name)
+console.log(uploadPath.value,'questa è la path che inietterà')
+  const storagePath = `${uploadPath.value}/${file.name}`;
   const storageRefs = storageRef(storage, storagePath);
   const metadata = {
     contentType: file.type
@@ -97,8 +107,11 @@ async function uploadFile(file) {
     uploadTask.on(
       'state_changed',
       (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log('Upload is ' + progress + '% done');
+        const interpolation = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progress.value.style.width = interpolation + '%'
+        if(file.type == 'image/jpeg'){
+            progressNumber.value.innerHTML = 'caricamento cover: '+ interpolation + '%'
+        }
       },
       (error) => {
         console.log('questo è l errore: ', error);
@@ -107,7 +120,10 @@ async function uploadFile(file) {
       async () => {
         console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref);
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-        Author.value.Img.Path = downloadURL;
+        if(file.type == 'image/jpeg'){
+          Author.value.Img.Path = downloadURL;
+          console.log('image')
+        }
         resolve(downloadURL);
       }
     )
@@ -152,10 +168,13 @@ const resetAuthor = () => {
 <template>
   <div id="create" v-if="Author">
     <div class="container-fluid">
+      <div ref="progressBar" class="progressBar">
+        <div ref="progress" class="progress"><span ref="progressNumber">666</span></div>
+      </div>
       <toBack where="/Dashboard" />
       <div class="row">
         <div class="col-12">
-          <form  action="#" @submit.prevent class="createAuthorForm">
+          <form  id="createForm" action="#" @submit.prevent class="createAuthorForm">
             <div class="containerFirst">
               <div class="label">
                 <label for="title">Author name:</label>
@@ -197,7 +216,16 @@ const resetAuthor = () => {
                 <div id="almostLoad" class="d-none">burp</div>
               </div>
             </div>
-            <button @click="handleSubmit">Add Author</button>
+            <div class="ctaContainer">
+              <a class="createBtn" @click="handleSubmit">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+                Add Author
+              </a>
+            </div>
+            
           </form>
         </div>
       </div>
@@ -211,6 +239,138 @@ const resetAuthor = () => {
   color: white;
   background: purple;
 }
-
-
+#createForm{
+  position: relative;
+.ctaContainer{
+    position: absolute;
+    display: inline-block;
+    bottom: calc(var(--marginB) / 2);
+    right: calc(var(--marginR) / 2);
+    width: 6rem!important;
+    height: 6rem!important;
+}
+a{
+    cursor: pointer;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    display: inline-block;
+    padding: 10px 20px;
+    color: var(--brandPrimary);
+    font-size: 16px;
+    text-decoration: none;
+    text-transform: uppercase;
+    overflow: hidden;
+    transition: .5s;
+    margin-top: 40px;
+    letter-spacing: 4px;
+        &:hover{
+            background: var(--brandPrimary);
+            color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 5px var(--brandPrimary),
+                        0 0 25px var(--brandPrimary),
+                        0 0 50px var(--brandPrimary),
+                        0 0 100px var(--brandPrimary);
+            }
+        span{
+            position: absolute;
+            display: block;
+            &:nth-child(1){
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(90deg, transparent, var(--brandPrimary));
+                animation: btn-anim1 1s linear infinite;
+            }
+            &:nth-child(2) {
+                top: -100%;
+                right: 0;
+                width: 2px;
+                height: 100%;
+                background: linear-gradient(180deg, transparent, var(--brandPrimary));
+                animation: btn-anim2 1s linear infinite;
+                animation-delay: .25s
+            }
+            &:nth-child(3) {
+                bottom: 0;
+                right: -100%;
+                width: 100%;
+                height: 2px;
+                background: linear-gradient(270deg, transparent, var(--brandPrimary));
+                animation: btn-anim3 1s linear infinite;
+                animation-delay: .5s
+            }
+            &:nth-child(4) {
+                bottom: -100%;
+                left: 0;
+                width: 2px;
+                height: 100%;
+                background: linear-gradient(360deg, transparent, var(--brandPrimary));
+                animation: btn-anim4 1s linear infinite;
+                animation-delay: .75s
+                }
+        }    
+    }
+  }
+  .progressBar{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: var(--marginT);
+    background: transparent;
+    transform: scale(1.02);
+    .progress{
+        height: 100%;
+        background: var(--brandPrimary);
+        width: 0%;
+        transition: .2s all ease-in-out;
+        border-radius: 0;
+        transform: skewX(-30deg);
+        display:flex;
+        justify-content: flex-end;
+        align-items: center;
+        span{
+            font-size: 1.7rem;
+            color: var(--textLight);
+            margin-right: 1rem;
+        }
+    }
+}
+    @keyframes btn-anim1 {
+  0% {
+    left: -100%;
+  }
+  50%,100% {
+    left: 100%;
+  }
+}
+@keyframes btn-anim2 {
+  0% {
+    top: -100%;
+  }
+  50%,100% {
+    top: 100%;
+  }
+}
+@keyframes btn-anim3 {
+  0% {
+    right: -100%;
+  }
+  50%,100% {
+    right: 100%;
+  }
+}
+@keyframes btn-anim4 {
+  0% {
+    bottom: -100%;
+  }
+  50%,100% {
+    bottom: 100%;
+  }
+}
 </style> 
