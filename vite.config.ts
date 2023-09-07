@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import postcssNesting from 'postcss-nesting';
 import vue from '@vitejs/plugin-vue';
 import path from 'path';
 import { fileURLToPath, URL } from 'node:url';
@@ -17,6 +18,11 @@ export default defineConfig({
         additionalData: '@import "./src/assets/scss/style.scss";',
       },
     },
+    postcss: {
+      plugins: [
+        postcssNesting
+      ],
+    }
   },
   server: {
     port: 8082,

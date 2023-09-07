@@ -56,16 +56,16 @@ const modules = [EffectFade, Autoplay]
         }
     }
     .kenburns-slide-1 {
-        background-image: url(src/assets/img/homeHero/hero-bg-1.jpg);
+        background-image: url(/images/homeHero/hero-bg-1.jpg);
         }
     .kenburns-slide-2 {
-        background-image: url(src/assets/img/homeHero/hero-bg-2.jpg);
+        background-image: url(/images/homeHero/hero-bg-2.jpg);
         }
     .kenburns-slide-3 {
-        background-image: url(src/assets/img/homeHero/hero-bg-3.jpg);
+        background-image: url(/images/homeHero/hero-bg-3.jpg);
         }
     .kenburns-slide-4 {
-        background-image: url(src/assets/img/homeHero/hero-bg-4.jpg);
+        background-image: url(/images/homeHero/hero-bg-4.jpg);
         }
 }
 </style>
