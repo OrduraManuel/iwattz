@@ -4,7 +4,7 @@
       <li class="move">
         <router-link :to="`/`">
           <span>
-            <img id="logo" alt="Logo" src="@/assets/img/logo.png" style="width: 80px" />
+            <img id="logo" alt="Logo" src="/images/icon/logo.png" style="width: 80px" />
           </span>
         </router-link>
       </li>
