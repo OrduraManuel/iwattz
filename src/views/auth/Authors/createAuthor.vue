@@ -217,7 +217,6 @@ const resetAuthor = () => {
                         <h4>{{ SrcOption }}</h4>
                       </div>
                     </div>
-                    
                   </label>
                 </div>
                 <textarea rows="" cols="40" name="notes" v-model="Author.Descr" placeholder="Inserisci una descrizione dell autore">
@@ -229,7 +228,7 @@ const resetAuthor = () => {
                 </button>
                 <img :src="null" ref="imgPreview" class="imgPreview"/>
                 <input style="display:none" type="file" 
-                id="uploaderImg" class="mt-3" 
+                id="uploaderImg" class="mt-3"
                 ref="uploaderImg" @change="pickImage"
                 accept="image/*" />
                 <div id="almostLoad" class="d-none">burp</div>
