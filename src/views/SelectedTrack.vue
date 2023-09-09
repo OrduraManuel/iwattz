@@ -2,10 +2,10 @@
 import { watchEffect, ref, onMounted } from 'vue';
 
 import toBack from '@/components/toBack.vue'
-import ModalContactMe from '@/components/modal/ModalContact.vue'
-import ModalBtn from '@/components/modal/BtnModal.vue'
+import ModalContactMe from '@/components/modal/modalContact.vue'
+import ModalBtn from '@/components/modal/btnModal.vue'
 import trackPlayer from '@/components/track/trackPlayer.vue'
-import AuthorCard from '@/components/author/AuthorCard.vue'
+import AuthorCard from '@/components/author/authorCard.vue'
 
 
 import { useRouter } from 'vue-router'

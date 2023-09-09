@@ -27,8 +27,8 @@
  font-size: 1.1rem;
  display: flex;
  justify-content: center;
- align-items: center;
- width: 14.8rem;
+ align-items: flex-end;
+ width: 10rem;
  height: 8rem;
  font-weight: 500;
  letter-spacing: 0.05rem;
@@ -288,7 +288,7 @@ transform: translate(-50%,50%);
  
  @media only screen and (max-width: 640px) {
    .navigation-left {
-      left: calc(var(--marginNL) * 1.45);
+      //left: calc(var(--marginNL) * 1.45);
    }
  }
  
@@ -346,7 +346,7 @@ transform: translate(-50%,50%);
      -ms-text-size-adjust: 100%;
  display: flex;
  justify-content: center;
- align-items: center;
+ align-items: flex-end;
  outline: none;
  margin: 0;
  width: calc(var(--dashboardBtnSize) * 4); //100%
@@ -393,7 +393,7 @@ transform: translate(-50%,50%);
          .nav-indicator-wrapper {
             transform: translate(-50%, 50%);
              position: absolute;
-             bottom:50%;
+             bottom:42%;
              left: 0%;
              right: 0%;
              margin-left: auto; 

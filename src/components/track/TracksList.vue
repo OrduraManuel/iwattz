@@ -53,7 +53,7 @@ export default {
       <transition-group tag="ul" name="slideInUp" class="listTrack" appear>
         <li  v-for="Track in Tracks" :key="Track.id"  >
           <div class="forContent" >
-            <router-link :to="{ name:'EditTrack', params: {id: Track.id}}">
+            <router-link :to="{ name:'editTrack', params: {id: Track.id}}">
               testone
             </router-link>
             <div class="details">

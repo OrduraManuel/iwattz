@@ -16,13 +16,15 @@ import { useRouter } from 'vue-router'
       const { login, error } = useLogin()
       await login(email, password)
         if(!error.value) {
+          alert('Welcome: '+ email +' you are back!')
             //this.GStore.FlashMessage = 'you re a successfully logged ' + email
         setTimeout(()=>{
             //this.GStore.FlashMessage = ''
         },3000)
         router.push('/')
       }else{
-        error
+        alert('Email or Pswd error ',  error)
+       
       }
     }
   

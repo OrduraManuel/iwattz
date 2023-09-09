@@ -1,9 +1,9 @@
 <script setup>
-  import tableTracks from "@/components/auth/Tracks/tableTracks.vue";  
+  import tableTracks from "@/components/auth/tracks/tableTracks.vue";  
   import toBack from "@/components/toBack.vue";
 </script>
 <template>
-  <div id="dashboard trackDashboard">
+  <div id="trackDashboard">
     <div class="container-fluid">
       <toBack where="/" />
       <div class="row">

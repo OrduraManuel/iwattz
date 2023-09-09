@@ -25,6 +25,6 @@ onMounted(() => {
     </td>
     <td class='td text-truncate'><a :href="props.thisAuthor.Src" target="_blank">Spotify</a></td>
     <td class='td'>
-        <router-link class='my-auto btn btn-success' :to='{ name:"EditAuthor", params: {id: props.thisAuthor.id}}'> edit</router-link>
+        <router-link class='my-auto btn btn-success' :to='{ name:"editAuthor", params: {id: props.thisAuthor.id}}'> edit</router-link>
     </td>    
 </template>

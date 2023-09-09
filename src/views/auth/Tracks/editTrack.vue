@@ -10,6 +10,9 @@ import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebas
 import { useTrackStore, useAuthorStore } from '@/store'
 import { storeToRefs } from 'pinia';
 
+//import imageCompression from 'browser-image-compression';
+import { resizeAndSetImage, previewImage } from '@/assets/js/resize.js';
+
 const TrackStore = useTrackStore()
 const AuthorStore = useAuthorStore()
 const { Authors } = storeToRefs(AuthorStore)
@@ -45,6 +48,7 @@ let mp3Preview = ref()
 
 let uploaderImg = ref()
 let uploadedImg = ref()
+let resizedImg = ref()
 let loadedImg = ref()
 let imgPreview = ref()
 
@@ -105,23 +109,65 @@ function uploadStartMp3() {
   uploaderMp3.value.click();
 }
 
+
+function pickImage(event) {
+  previewImage(event, uploadedImg, imgPreview); // Chiamata alla funzione importata
+}
+/*
+
 function previewImage(event) {
   uploadedImg.value = event.target.files[0];
+  console.log(uploadedImg.value,'guarda il peso è APPENA caricata')
   if (uploadedImg != null) {
-    let almostImg = ref('');
-    almostImg.value = 'Hai selezionato: ' + uploadedImg.value.name + ' come Img!';
-    loadedImg.value.classList.remove('d-none');
-
-    loadedImg.value.innerHTML = almostImg.value;
-    
-    var reader = new FileReader();
-    reader.onload = function(){
-        imgPreview.value.src = reader.result;
-        console.log(reader.result, 'this is render result')
-    };
-    reader.readAsDataURL(uploadedImg.value);
   }
+  // Verifica il tipo di file, ad esempio, se è un'immagine
+  if (!uploadedImg.value.type.startsWith('image/')) {
+    console.error('Il file selezionato non è un\'immagine.');
+    alert('Il file selezionato non è un\'immagine.');
+    return;
+  }
+  const maxSizeKB = 500; // Massima dimensione in kilobyte
+  const maxWidthOrHeight = 500; // Massima larghezza o altezza
+
+    // Leggi il file come blob
+    const reader = new FileReader();
+  reader.onload = function() {
+    const img = new Image();
+    img.src = reader.result;
+    img.onload = function(){
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Calcola le nuove dimensioni in base al maxWidthOrHeight
+        let newWidth, newHeight;
+        if(img.width > img.height){
+            newWidth = maxWidthOrHeight;
+            newHeight = (img.height / img.width) * maxWidthOrHeight;
+        } else {
+            newHeight = maxWidthOrHeight;
+            newWidth = (img.width / img.height) * maxWidthOrHeight;
+        }
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+        canvas.toBlob((blob) => {
+            if(blob.size / 1024 <= maxSizeKB){
+                console.log(uploadedImg.value,'BEFORE new file')
+                uploadedImg.value = new File([blob],uploadedImg.value.name, {type: uploadedImg.value.type});
+                imgPreview.value.src = URL.createObjectURL(uploadedImg.value);
+                console.log(uploadedImg.value,'AFTER new file')
+            }else{
+                console.error('L\'immagine selezionata supera la dimensione massima consentita.');
+                alert('L\'immagine selezionata supera la dimensione massima consentita.');
+            }
+        }, uploadedImg.value.type, 0.9);
+    };
+  };
+  reader.readAsDataURL(uploadedImg.value)
+  console.log(uploadedImg.value,'guarda il peso è dopo il reader')
 }
+*/
 function previewMp3(event) {
   uploadedMp3.value = event.target.files[0];
   console.log(uploadedMp3.value,'questo è il file audio')
@@ -160,7 +206,7 @@ const storagePath = `${uploadPath.value}/${file.name}`;
   const metadata = {
     contentType: file.type
   };
-  if(file.type == 'image/jpeg'){
+  if(file.type.startsWith('image/')){
     thisTrack.value.Img.Name = file.name;
     console.log('image')
   }
@@ -289,7 +335,7 @@ const storagePath = `${uploadPath.value}/${file.name}`;
                             <img :src="thisTrack.Img?.Path" ref="imgPreview" class="imgPreview"/>
                             <input type="file" 
                             style="display:none" id="uploaderImg" class="mt-3" 
-                            ref="uploaderImg" @change="previewImage"
+                            ref="uploaderImg" @change="pickImage"
                             accept="image/*" />
                             <div  ref="loadedImg" class="d-none">burp</div>
                         </div>

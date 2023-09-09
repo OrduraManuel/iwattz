@@ -1,5 +1,5 @@
 <script setup>
-  import tableAuthors from "@/components/auth/Authors/tableAuthors.vue";
+  import tableAuthors from "@/components/auth/authors/tableAuthors.vue";
   import toBack from "@/components/toBack.vue";
 </script>
 <template>
@@ -31,7 +31,7 @@
     .ctaContainer{
     position: absolute;
     display: inline-block;
-    bottom: calc(var(--marginB) / 2);
+    bottom: calc(var(--marginB) - var(--marginB));
     right: calc(var(--marginR) / 2);
     width: 6rem!important;
     height: 6rem!important;

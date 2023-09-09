@@ -128,9 +128,9 @@ watchEffect(async () => {
   currentPath.value = response;
 
   if (currentPath.value === '/') {
-    leftPositionStyle.left = 'var(--marginNL)';
+    leftPositionStyle.left = 'calc(var(--marginNL) + var(--marginNL))';
     leftPositionStyle.opacity = '1';
-    rightPositionStyle.right = 'var(--marginNR)';
+    rightPositionStyle.right = 'calc(var(--marginNR) + var(--marginNR)';
     rightPositionStyle.opacity = '1';
     bottomPositionStyle.bottom = 'var(--marginNB)';
     bottomPositionStyle.opacity = '1';

@@ -17,6 +17,13 @@
   top: 0;
   margin: 0;
 }
+@media  only screen and (max-width: 960px) {
+  #app{
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+}
 
 #FlashMessage{
   //@include delay(slideInRight, 1, .5s);

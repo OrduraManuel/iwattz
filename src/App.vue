@@ -14,10 +14,9 @@ import { inject, ref, watchEffect, onMounted } from 'vue'
 import { useTrackStore, useAuthorStore } from '@/store'
 import { storeToRefs } from 'pinia';
 
-import NewNav from "@/components/NewNav.vue";
+import NewNav from "@/components/newNav.vue";
 import Borders from "@/components/borders.vue";
-//import Slider from '@/components/Slider.vue';
-import Swiping from "@/components/Swiping.vue";
+import Swiping from "@/components/swiping.vue";
 
 // GSTORE DA RIPOSIZIONARE
 

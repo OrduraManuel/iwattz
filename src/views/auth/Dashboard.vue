@@ -42,17 +42,15 @@ onMounted(() => {
   <div id="dashboard">
     <div class="container-fluid">
       <toBack where="/" />
-      <div class="tabs row">
-        <div class="col-12">
+      <div class="row">
+        <div class="col-12 tabs">
           <div class="links">
-            <router-link type="button" :to="{name: 'TrackTable'}"><span>Tracks</span></router-link>
-            <router-link :to="{name: 'AuthorTable'}"><span>Authors</span></router-link>            
+            <router-link type="button" :to="{name: 'trackTable'}"><span>Tracks</span></router-link>
+            <router-link :to="{name: 'authorTable'}"><span>Authors</span></router-link>            
             <!--<router-link to="404"><span>Img Manager</span></router-link>-->
           </div>
         </div>
-      </div>
-      <div class="content row">
-        <div class="col-12">
+        <div class="col-12 contents">
           <div class="content">
             <router-view></router-view>
           </div>
@@ -66,13 +64,16 @@ onMounted(() => {
   display:flex;
   flex-direction: column;
   justify-content: flex-start;
-  .row{
-  display:flex;
-  justify-content: flex-start;
-  padding: 2vw 2vh!important;
-  }
-
-  .links{
+    .row{
+    display:flex;
+    justify-content: flex-start;
+    padding: 2vw 2vh!important;
+      .contents{
+        padding-top: 2vh;
+        width: 100%;
+        height: 100%;
+      }
+      .links{
     width: 100%;
     height: var(--marginT);
     display:flex;
@@ -105,12 +106,25 @@ onMounted(() => {
         span{
           transform: skew(20deg, 0deg);
         }
+      }
     }
   }
-  .content{
-    //background: rgba(255,255,255,.5);
-    width: 100%;
-    height: 100%;
+}
+@media only screen and (max-width: 575px){
+  #dashboard{
+    .container-fluid{
+      padding: 0!important;
+      .row{
+      padding: 0!important;
+      .col-12{
+        padding: 0!important;
+        .content{
+          margin-top:4vh;
+        }
+      }
+    }
+    }
+
   }
 }
 </style>

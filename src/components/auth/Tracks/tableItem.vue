@@ -47,6 +47,6 @@ async function findAuthor(){
     </td>
     <td class='td text-truncate'><a :href="props.thisTrack.Src" target="_blank">Spotify</a></td>
     <td class='td'>
-        <router-link class='my-auto btn btn-success' :to='{ name:"EditTrack", params: {id: props.thisTrack.id}}'> edit</router-link>
+        <router-link class='my-auto btn btn-success' :to='{ name:"editTrack", params: {id: props.thisTrack.id}}'> edit</router-link>
     </td>    
 </template>

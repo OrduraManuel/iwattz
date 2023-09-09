@@ -1,33 +1,33 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/Home.vue'
-import About from "@/views/About.vue";
-import Services from "@/views/Services.vue";
-import Contact from "@/views/Contact.vue";
-import Selections from "@/views/Selections.vue";
+import Home from '@/views/home.vue'
+import About from "@/views/about.vue";
+import Services from "@/views/services.vue";
+import Contact from "@/views/contact.vue";
+import Selections from "@/views/selections.vue";
 
 // auth
 import FirstLog from "@/views/auth/firstLog.vue";
-import Dashboard from "@/views/auth/Dashboard.vue";
+import Dashboard from "@/views/auth/dashboard.vue";
 
 //Tracks
-import CreateTrack from "@/views/auth/Tracks/createTrack.vue";
-import EditTrack from "@/views/auth/Tracks/editTrack.vue";
-import SelectedTrack from "@/views/SelectedTrack.vue";
+import CreateTrack from "@/views/auth/tracks/createTrack.vue";
+import EditTrack from "@/views/auth/tracks/editTrack.vue";
+import SelectedTrack from "@/views/selectedTrack.vue";
 
 
 
 //Authors
-import CreateAuthor from "@/views/auth/Authors/createAuthor.vue";
-import EditAuthor from "@/views/auth/Authors/editAuthor.vue";
+import CreateAuthor from "@/views/auth/authors/createAuthor.vue";
+import EditAuthor from "@/views/auth/authors/editAuthor.vue";
 
 
 // dashboard
-import TracksDashboard from "@/views/auth/Tracks/Table.vue";
-import AuthorsDashboard from "@/views/auth/Authors/Table.vue";
+import TracksDashboard from "@/views/auth/tracks/table.vue";
+import AuthorsDashboard from "@/views/auth/authors/table.vue";
 
 
 import NotFound from "@/views/404.vue";
-import networkError from '@/views/NetworkError.vue'
+import NetworkError from '@/views/networkError.vue'
 
 // firebase imports
 import { auth } from '@/api/config'
@@ -57,76 +57,76 @@ const requireAuth = async (to, from, next) => {
 const routes = [
   {
     path: '/',
-    name: 'Home',
+    name: 'home',
     component: Home,
   },
   {
     path: '/about',
-    name: 'About',
+    name: 'about',
     component: About,
   },
   {
     path: '/services',
-    name: 'Services',
+    name: 'services',
     component: Services,
   },
   {
     path: '/contact',
-    name: 'Contact',
+    name: 'contact',
     component: Contact,
   },
   {
     path: '/selections',
-    name: 'Selections',
+    name: 'selections',
     component: Selections,
   },
   {
     path: '/firstLog',
-    name: 'FirstLog',
+    name: 'firstLog',
     component: FirstLog,
   },
   {
     path: '/dashboard',
-    name: 'Dashboard',
+    name: 'dashboard',
     component: Dashboard,
     beforeEnter: requireAuth,
     children: [
-      { path: 'Tracks', name: 'TrackTable', component: TracksDashboard},
-      { path: 'Authors', name: 'AuthorTable',component: AuthorsDashboard},
+      { path: 'tracks', name: 'trackTable', component: TracksDashboard},
+      { path: 'authors', name: 'authorTable',component: AuthorsDashboard},
     
     ]
   },
   {
-    path: '/dashboard/Tracks/create',
+    path: '/dashboard/tracks/create',
     name: 'createTrack',
     component: CreateTrack,
   },
   {
-    path: '/dashboard/Author/create',
+    path: '/dashboard/author/create',
     name: 'createAuthor',
     component: CreateAuthor,
   },
   {
-    path: '/dashboard/Tracks/edit:id',
-    name: 'EditTrack',
+    path: '/dashboard/tracks/edit:id',
+    name: 'editTrack',
     component: EditTrack,
     props: true,
   },
   {
-    path: '/selections/Track:id',
-    name: 'SelectedTrack',
+    path: '/selections/track/:id',
+    name: 'selectedTrack',
     component: SelectedTrack,
     props: true,
   },
   {
-    path: '/dashboard/Authors/edit:id',
-    name: 'EditAuthor',
+    path: '/dashboard/authors/edit:id',
+    name: 'editAuthor',
     component: EditAuthor,
     props: true,
   },
   {
     path: '/:catchAll(.*)',
-    name: 'NotFound',
+    name: 'notFound',
     component: NotFound,
   },
   {
@@ -138,7 +138,7 @@ const routes = [
   {
     path: '/networkError',
     name: 'networkError',
-    component: networkError,
+    component: NetworkError,
   }
 ];
 
