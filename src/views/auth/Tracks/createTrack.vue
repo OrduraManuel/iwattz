@@ -15,6 +15,8 @@ import getUser from '@/auth/getUser';
 
 import { useRouter } from "vue-router";
 
+import { resizeAndSetImage, previewImage } from '@/assets/js/resize.js';
+
 const router = useRouter();
 const currentUser = getUser;
 
@@ -84,6 +86,9 @@ async function searchHandler() {
 
 //let uploader;
 let uploaderImg = ref()
+let uploadedImg = ref()
+let imgPreview = ref()
+
 let uploaderMp3 = ref()
 let progressBar = ref()
 let progress = ref()
@@ -97,6 +102,16 @@ function uploadStartMp3() {
   uploaderMp3.value.click();
 }
 
+async function pickImage(event) {
+  await previewImage(event, uploadedImg, imgPreview); // Chiamata alla funzione importata
+    let almostLoad = ref('');
+    almostLoad.value = 'Hai selezionato: ' + uploadedImg.value.name + ' come Img!';
+    let loaded = document.getElementById('almostLoad');
+    loaded.classList.remove('d-none');
+    loaded.innerHTML = almostLoad.value;
+}
+
+/*
 function previewImage(event) {
   uploaderImg.value = event.target.files[0];
   console.log(uploaderImg.value, 'in previewImage')
@@ -110,6 +125,7 @@ function previewImage(event) {
     console.log('uploaded è null')
   }
 }
+*/
 function previewMp3(event) {
   uploaderMp3.value = event.target.files[0];
   console.log(uploaderMp3.value, 'in previewImage')
@@ -275,8 +291,11 @@ const resetTrack = () => {
                 <span class="mb-2">Upload this Img</span>
                 <button class="btn btn-primary" @click="uploadStartImg">Choose your Img
                 </button>
-                <input style="display:none" type="file" id="uploader" class="mt-3" ref="uploaderImg" @change="previewImage"
-                  accept="image/*" />
+                <img :src="null" ref="imgPreview" class="imgPreview"/>
+                <input style="display:none" type="file" 
+                id="uploaderImg" class="mt-3" 
+                ref="uploaderImg" @change="pickImage"
+                accept="image/*" />
                 <div id="almostLoad" class="d-none">burp</div>
               </div>
               <div class="Mp3">
@@ -310,7 +329,9 @@ const resetTrack = () => {
   color: white;
   background: purple;
 }
-
+  .imgPreview{
+    width: 7rem;
+  }
 .progressBar{
     position: absolute;
     top:0;

@@ -5,35 +5,50 @@
         <span></span>
         <span></span>
         <span></span>
-        Contact me
+        Contact
     </a>
 </div>
 </template>
 <style lang="scss" scoped>
+@media  only screen and (max-width: 575px) {
+  .ctaContainer{
+    //position: fixed!important;
+    bottom: 0rem!important;
+    right: 0rem!important;
+    width: 100vw!important;
+    height: 7vh!important;
+    backdrop-filter: blur(3rem);
+    a{
+      margin-top: 0;
+    }
+  }
+
+}
 .ctaContainer{
-    position: absolute;
+    position: fixed;
     display: inline-block;
-    bottom: calc(var(--marginB) / 2);
-    right: calc(var(--marginR) / 2);
-    width: 6rem!important;
-    height: 6rem!important;
+    bottom: calc(var(--marginB) + 2%);
+    right: calc(var(--marginR) + 2%);
+    width: 10rem;
+    height: 3rem;
 }
 a{
     cursor: pointer;
     position: relative;
+    width:100%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
     display: inline-block;
-    padding: 10px 20px;
+    padding: 5% 10%;
     color: var(--brandPrimary);
-    font-size: 16px;
+    font-size: 1.2rem;
     text-decoration: none;
     text-transform: uppercase;
     overflow: hidden;
     transition: .5s;
-    margin-top: 40px;
     letter-spacing: 4px;
         &:hover{
             background: var(--brandPrimary);

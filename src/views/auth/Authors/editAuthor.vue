@@ -7,6 +7,8 @@ import { useRouter } from 'vue-router'
 import { storage } from '@/api/config';
 import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
+import { resizeAndSetImage, previewImage } from '@/assets/js/resize.js';
+
 import { useAuthorStore } from '@/store'
 const AuthorStore = useAuthorStore()
 
@@ -32,7 +34,7 @@ const SrcOptions = [
 let uploader;
 let loaded = ref()
 let imgPreview = ref()
-let uploaded = ref()
+let uploadedImg = ref()
 let progressBar = ref()
 let progress = ref()
 let progressNumber = ref()
@@ -48,7 +50,7 @@ function deleteHandler(id) {
 }
 
 async function updateHandler(id, updateAuthor) {
-    await uploadFile(uploaded.value)
+    await uploadFile(uploadedImg.value)
     AuthorStore.updateAuthor(id, updateAuthor)
     .then(() =>{
         console.log(thisAuthor.value,'dovrebbe esserci l src')
@@ -67,13 +69,74 @@ async function updateHandler(id, updateAuthor) {
 function uploadStart() {
   uploader.click();
 }
+function pickImage(event) {
+  previewImage(event, uploadedImg, imgPreview); // Chiamata alla funzione importata
+}
 
+/*
 function previewImage(event) {
-  uploaded.value = event.target.files[0];
-  console.log(uploaded.value, 'in previewImage')
+  uploadedImg.value = event.target.files[0];
+  console.log(uploadedImg.value,'guarda il peso è APPENA caricata')
+  if (uploadedImg != null) {
+  }
+  // Verifica il tipo di file, ad esempio, se è un'immagine
+  if (!uploadedImg.value.type.startsWith('image/')) {
+    console.error('Il file selezionato non è un\'immagine.');
+    alert('Il file selezionato non è un\'immagine.');
+    return;
+  }
+  const maxSizeKB = 500; // Massima dimensione in kilobyte
+  const maxWidthOrHeight = 500; // Massima larghezza o altezza
+
+    // Leggi il file come blob
+    const reader = new FileReader();
+  reader.onload = function() {
+    const img = new Image();
+    img.src = reader.result;
+    img.onload = function(){
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        // Calcola le nuove dimensioni in base al maxWidthOrHeight
+        let newWidth, newHeight;
+        if(img.width > img.height){
+            newWidth = maxWidthOrHeight;
+            newHeight = (img.height / img.width) * maxWidthOrHeight;
+        } else {
+            newHeight = maxWidthOrHeight;
+            newWidth = (img.width / img.height) * maxWidthOrHeight;
+        }
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+        ctx.drawImage(img, 0, 0, newWidth, newHeight);
+
+        canvas.toBlob((blob) => {
+            if(blob.size / 1024 <= maxSizeKB){
+                console.log(uploadedImg.value,'BEFORE new file')
+                uploadedImg.value = new File([blob],uploadedImg.value.name, {type: uploadedImg.value.type});
+                imgPreview.value.src = URL.createObjectURL(uploadedImg.value);
+                console.log(uploadedImg.value,'AFTER new file')
+            }else{
+                console.error('L\'immagine selezionata supera la dimensione massima consentita.');
+                alert('L\'immagine selezionata supera la dimensione massima consentita.');
+            }
+        }, uploadedImg.value.type, 0.9);
+    };
+  };
+  reader.readAsDataURL(uploadedImg.value)
+  console.log(uploadedImg.value,'guarda il peso è dopo il reader')
+}
+
+*/
+
+
+/*
+function previewImage(event) {
+  uploadedImg.value = event.target.files[0];
+  console.log(uploadedImg.value, 'in previewImage')
   if (uploaded != null) {
     let almostLoad = ref('');
-    almostLoad.value = 'Hai selezionato: ' + uploaded.value.name + ' come Img!';
+    almostLoad.value = 'Hai selezionato: ' + uploadedImg.value.name + ' come Img!';
     loaded.value.classList.remove('d-none');
     loaded.value.innerHTML = almostLoad.value;
     
@@ -82,10 +145,10 @@ function previewImage(event) {
         imgPreview.value.src = reader.result;
         console.log(reader.result, 'this is render result')
     };
-    reader.readAsDataURL(uploaded.value);
+    reader.readAsDataURL(uploadedImg.value);
   }
 }
-
+*/
 
 async function uploadFile(file) {
   thisAuthor.value.Img.Name = file.name;
@@ -208,7 +271,7 @@ const storagePath = `${uploadPath.value}/${file.name}`;
                             <img :src="thisAuthor.Img?.Path" ref="imgPreview" class="imgPreview"/>
                             <input type="file" 
                             style="display:none" 
-                            id="uploader" class="mt-3" ref="uploader" @change="previewImage"
+                            id="uploader" class="mt-3" ref="uploader" @change="pickImage"
                             accept="image/*" />
                             <div  ref="loaded" class="d-none">burp</div>
                         </div>

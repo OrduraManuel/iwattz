@@ -15,6 +15,8 @@ import getUser from '@/auth/getUser';
 
 import { useRouter } from "vue-router";
 
+import { resizeAndSetImage, previewImage } from '@/assets/js/resize.js';
+
 const router = useRouter();
 const currentUser = getUser;
 
@@ -60,8 +62,10 @@ async function searchHandler() {
 
 }
 
-let uploader;
-let uploaded = ref()
+//let uploader;
+let uploaderImg = ref()
+let uploadedImg = ref()
+let imgPreview = ref()
 
 let progressBar = ref()
 let progress = ref()
@@ -69,14 +73,25 @@ let progressNumber = ref()
 
 // function pick your file
 function uploadStart() {
-  uploader.click();
+  uploaderImg.value.click();
 }
+
+async function pickImage(event) {
+  await previewImage(event, uploadedImg, imgPreview); // Chiamata alla funzione importata
+    let almostLoad = ref('');
+    almostLoad.value = 'Hai selezionato: ' + uploadedImg.value.name + ' come Img!';
+    let loaded = document.getElementById('almostLoad');
+    loaded.classList.remove('d-none');
+    loaded.innerHTML = almostLoad.value;
+}
+
+/*
 function previewImage(event) {
-  uploaded.value = event.target.files[0];
-  console.log(uploaded.value, 'in previewImage')
+  uploadedImg.value = event.target.files[0];
+  console.log(uploadedImg.value, 'in previewImage')
   if (uploaded != null) {
     let almostLoad = ref('');
-    almostLoad.value = 'Hai selezionato: ' + uploaded.value.name + ' come Img!';
+    almostLoad.value = 'Hai selezionato: ' + uploadedImg.value.name + ' come Img!';
     let loaded = document.getElementById('almostLoad');
     loaded.classList.remove('d-none');
     loaded.innerHTML = almostLoad.value;
@@ -84,6 +99,7 @@ function previewImage(event) {
     console.log('uploaded è null')
   }
 }
+*/
 
 async function uploadFile(file) {
   
@@ -133,7 +149,7 @@ console.log(uploadPath.value,'questa è la path che inietterà')
 // function create
 const handleSubmit = async () => {
   try {
-    const downloadURL = await uploadFile(uploaded.value);
+    const downloadURL = await uploadFile(uploadedImg.value);
     if (downloadURL) {
       await createAuthor(downloadURL);
       resetAuthor();
@@ -211,8 +227,11 @@ const resetAuthor = () => {
                 <span class="mb-2">Upload this Img</span>
                 <button class="btn btn-primary" @click="uploadStart">Choose your Img
                 </button>
-                <input style="display:none" type="file" id="uploader" class="mt-3" ref="uploader" @change="previewImage"
-                  accept="image/*" />
+                <img :src="null" ref="imgPreview" class="imgPreview"/>
+                <input style="display:none" type="file" 
+                id="uploaderImg" class="mt-3" 
+                ref="uploaderImg" @change="pickImage"
+                accept="image/*" />
                 <div id="almostLoad" class="d-none">burp</div>
               </div>
             </div>
@@ -239,6 +258,9 @@ const resetAuthor = () => {
   color: white;
   background: purple;
 }
+.imgPreview{
+    width: 7rem;
+  }
 #createForm{
   position: relative;
 .ctaContainer{

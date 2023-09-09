@@ -2,7 +2,7 @@
 import { onUnmounted, onMounted,watchEffect, ref  } from 'vue'
 
 import toBack from '@/components/toBack.vue'
-import TrackCard from '@/components/track/TrackCard.vue'
+import TrackCard from '@/components/track/trackCard.vue'
 
 import { useTrackStore, useAuthorStore } from '@/store'
 import { storeToRefs } from 'pinia';

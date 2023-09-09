@@ -22,7 +22,6 @@
 </template>
 
 <script setup>
-import AppNavbar from "@/components/AppNavbar.vue";
 import getUser from "@/auth/getUser";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";

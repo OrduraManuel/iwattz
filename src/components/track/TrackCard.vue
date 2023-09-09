@@ -37,7 +37,7 @@ async function findAuthor(){
 
 </script>
     <template v-if="Authors.value">
-      <router-link class="galleryImg trackCard" :to="{name: 'SelectedTrack', params: {id: props.thisTrack.id}}">
+      <router-link class="galleryImg trackCard" :to="{name: 'selectedTrack', params: {id: props.thisTrack.id}}">
         <div class="hitClass"  v-if="props.thisTrack.isFav">
           <span></span>
           <span></span>

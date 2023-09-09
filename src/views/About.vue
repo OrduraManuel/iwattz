@@ -1,7 +1,7 @@
 <script setup>
 import toBack from '@/components/toBack.vue';
-import ModalContactMe from '@/components/modal/ModalContact.vue'
-import ModalBtn from '@/components/modal/BtnModal.vue'
+import ModalContactMe from '@/components/modal/modalContact.vue'
+import ModalBtn from '@/components/modal/btnModal.vue'
 </script>
 
 <template>
