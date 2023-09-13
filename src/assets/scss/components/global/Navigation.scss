@@ -449,12 +449,10 @@ transform: translate(-50%,50%);
          }
  }
  /*
-
  .navigation-dashboard .move a {
     width: calc(var(--dashboardBtnSize) *1.5);
     height: calc(var(--dashboardBtnSize)* 1.5);
  }
-
  */
  @media only screen and (max-width: 960px) {
    .nav-indicator::before {
