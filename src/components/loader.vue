@@ -1,9 +1,7 @@
 <template>
-<div class="container-fluid loader">
-    <div class="row">
+    <div class="loader">
         <v-slot>
 
         </v-slot>
     </div>
-</div>
 </template>

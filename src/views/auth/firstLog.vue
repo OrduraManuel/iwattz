@@ -3,16 +3,14 @@
     import signUp from '@/components/auth/signUp.vue'
     import toBack from '@/components/toBack.vue'
 </script>
-<template>
-    <div class="container-fluid firstLog" >
+<template >
+    <section class="firstLog">
         <toBack  where="/"/>
         <div class="row">
             <div class="col-12">
                 <logIn class="logIn"/>
                 <signUp class="signUp"/>
             </div>
-
         </div>
-
-    </div>
+    </section>
 </template>

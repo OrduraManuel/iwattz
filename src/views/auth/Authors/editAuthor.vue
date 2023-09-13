@@ -199,12 +199,12 @@ const storagePath = `${uploadPath.value}/${file.name}`;
 </script>
 <template>
     <div class="editAuthor" v-if="thisAuthor">
-        <div class="container-fluid">
             <div ref="progressBar" class="progressBar">
                 <div ref="progress" class="progress"><span ref="progressNumber">666</span></div>
             </div>
             <toBack  where="/dashboard"/>
-            <div class="row editHeader">
+            <div class="row">
+            <div class="editHeader">
                 <div class="col-6 ">
                     <p>Stai modificando: </p>
                     <div class="label">
@@ -215,7 +215,7 @@ const storagePath = `${uploadPath.value}/${file.name}`;
 
                 </div>
             </div>
-            <div class="row editBody">
+            <div class="editBody">
                 <div class="col-4 title squareHole">
                     <div class="label">
                         <label for="title">Author Name:</label>
@@ -284,7 +284,7 @@ const storagePath = `${uploadPath.value}/${file.name}`;
                     </div>
                 </div>
             </div>
-        </div>
+            </div>
     </div>
 </template>
     <style lang="scss" scoped>
