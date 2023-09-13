@@ -89,13 +89,8 @@ watchEffect( () =>{
       <tr class='tableHead'>
         <th class='col colNumber'>#</th>
         <th class='col'>Author</th>
-        <th class='col'>Title</th>
-        <th class='col'>isFav</th>
         <th class='col'>Image</th>
-        <th class='col'>Url</th>
         <th class='col'>Action</th>
-        <th class='col'></th>
-
       </tr>
       
     </thead>

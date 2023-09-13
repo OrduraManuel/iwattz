@@ -68,6 +68,8 @@
  .navigation-left.navigation-left-position-primary,
  .navigation-dashboard.dashboard-position,
  .navigation-dashboard.navigation-dashboard-position-primary,
+ .navigation-logout.dashboard-position,
+ .navigation-logout.navigation-dashboard-position-primary,
  .navigation-top,
  .navigation-top.top-position,
  .navigation-top.navigation-top-position-primary {
@@ -143,7 +145,7 @@
        }
      }
      a.router.dashboard{
-      margin-right: calc(var(--borderSize) - var(--borderSize) - var(--borderSize));
+      margin-right: 0!important;
      }
      a.logout{
      position: relative;
@@ -202,11 +204,6 @@
    }
 }
 
- @media only screen and (max-width: 640px) {
-   .navigation-dashboard {
-     bottom: 0%;
-   }
- }
  .navigation-right {
  margin-top: -4vh;
  right: var(--marginNR);
@@ -451,10 +448,32 @@ transform: translate(-50%,50%);
            }
          }
  }
- @media only screen and (--maxSm) {
+ /*
+
+ .navigation-dashboard .move a {
+    width: calc(var(--dashboardBtnSize) *1.5);
+    height: calc(var(--dashboardBtnSize)* 1.5);
+ }
+
+ */
+ @media only screen and (max-width: 960px) {
    .nav-indicator::before {
      padding: 2rem;
    }
+
+   .navigation-dashboard .move a, .navigation-logout .move a {
+    width: calc(var(--dashboardBtnSize) *1.5)!important;
+    height: calc(var(--dashboardBtnSize)* 1.5)!important;
+ }
+ .navigation-dashboard {
+  bottom: 0!important;
+  right: 0!important;
+ }
+ .navigation-logout {
+  top: 0!important;
+  right: 0!important;
+ }
+
  }
  
   .navigation-center {
@@ -467,7 +486,7 @@ transform: translate(-50%,50%);
     top: 66%;
     }
     
-    @media only screen and (--maxSm) {
+    @media only screen and (max-width: 960px) {
       .navigation-center {
         right: 50%;
         top: 66%;

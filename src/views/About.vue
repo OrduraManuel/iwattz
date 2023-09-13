@@ -6,8 +6,7 @@ import ModalBtn from '@/components/modal/btnModal.vue'
 
 <template>
     <section id="about" >
-            <div class="container-fluid">
-                <toBack  where="/"/>
+        <toBack  where="/"/>
                 <div class="row">
                     <div class="col-lg-12">
                         <h2 class="section-heading-all">
@@ -28,9 +27,10 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                     <div class="col-md-4 section-txt">
                         <p>If you want a company that will truly care about your sound and collaborate with you to realize your vision, <a class="link-underline" href="#">IWATTZ</a> will be sure to deliver.</p>
                     </div>
-                </div>
+
                 <ModalBtn />
-        </div>
+                </div>
+
         <ModalContactMe />
         </section>
 </template>

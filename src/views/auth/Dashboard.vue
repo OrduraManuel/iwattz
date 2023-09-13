@@ -39,10 +39,11 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div id="dashboard">
-    <div class="container-fluid">
+  <section id="dashboard">
       <toBack where="/" />
       <div class="row">
+
+      
         <div class="col-12 tabs">
           <div class="links">
             <router-link type="button" :to="{name: 'trackTable'}"><span>Tracks</span></router-link>
@@ -56,18 +57,16 @@ onMounted(() => {
           </div>
         </div>
       </div>
-    </div>
-  </div>
+      </section>
 </template>
 <style lang="scss" scoped>
 #dashboard {
   display:flex;
   flex-direction: column;
   justify-content: flex-start;
-    .row{
-    display:flex;
-    justify-content: flex-start;
-    padding: 2vw 2vh!important;
+  .row{
+    width: 100%;
+  }
       .contents{
         padding-top: 2vh;
         width: 100%;
@@ -108,22 +107,15 @@ onMounted(() => {
         }
       }
     }
-  }
 }
 @media only screen and (max-width: 575px){
   #dashboard{
-    .container-fluid{
-      padding: 0!important;
-      .row{
-      padding: 0!important;
       .col-12{
         padding: 0!important;
         .content{
           margin-top:4vh;
         }
       }
-    }
-    }
 
   }
 }

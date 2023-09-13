@@ -3,8 +3,6 @@
 </script>
 
 <template>
-  <div class="container-fluid">
-      <div class="row">
           <div class="hero-heading  animate__animated animate__delay animate__fadeInDown">
               <span class=" heroAnimated  d-none d-md-block">Mix</span> 
               <h2 class=" heroAnimated   d-none d-md-block">&</h2>
@@ -17,6 +15,4 @@
                   <h2 class=" heroAnimated mobile">Engineer</h2>
               </div>
           </div>
-      </div>
-  </div>
 </template>

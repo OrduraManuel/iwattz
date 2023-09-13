@@ -36,10 +36,9 @@ async function  searchHandler() {
 //const router = useRouter()
 </script>
 <template>
-    <div id="selected">
-        <div class="row" v-if="selectedTrack">
+    <div id="selected" v-if="selectedTrack">
             <toBack  where="/selections"/>
-            <div class="content">
+            <div class="row content">
                 <div class="col-12 col-md-6">
                     <AuthorCard :thisTrack="selectedTrack"></AuthorCard>
                 </div>
@@ -48,7 +47,7 @@ async function  searchHandler() {
                 </div>
             </div>
             <ModalBtn />
-        </div>
+
         <ModalContactMe />
     </div>
 </template>

@@ -32,7 +32,9 @@
     }
     @media only screen and (max-width: 960px) {
       .section-closer {
-        right: 8%;
-        bottom: 5%;
+        left: 0;
+        top: 0;
+        width: calc(var(--dashboardBtnSize) * 2);
+        height: calc(var(--dashboardBtnSize) * 2);
       } 
     }

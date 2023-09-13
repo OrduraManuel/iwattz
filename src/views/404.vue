@@ -1,16 +1,15 @@
 <template>
-    <div class="container-fluid">
         <toBack where="/Dashboard"/>
         <div class="row">
-            <div class="notFound">
-                <h1>Ooops!</h1>
-            <h3>This {{resource}} url isn't exist.</h3>
-            <h3>It looks like you're experiencingg some network issues, please take a breath and
-                <a href="#" @click="$router.go(-1)">here</a> for turn back </h3>
+            <div class="col-12">
+                <div class="notFound">
+                    <h1>Ooops!</h1>
+                <h3>This {{resource}} url isn't exist.</h3>
+                <h3>It looks like you're experiencingg some network issues, please take a breath and
+                    <a href="#" @click="$router.go(-1)">here</a> for turn back </h3>
+                </div>
             </div>
         </div>
-    </div>
-
   </template>
   <script>
   import toBack from '@/components/toBack.vue';
