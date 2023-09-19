@@ -62,6 +62,12 @@ export const useAuthorStore = defineStore('AuthorStore', () => {
       let item = JSON.parse(JSON.stringify(getId))
       return item[0]
     }
+
+    const getAuthorById = (id) => {
+      const _author = Authors.value.find((author) => author.id === id);
+      return JSON.parse(JSON.stringify(_author));
+    }
+
     const getAllAuthors = async (attr) =>{
       return await search("Authors", attr) 
       .then(response => {
@@ -121,7 +127,7 @@ export const useAuthorStore = defineStore('AuthorStore', () => {
     getLimitedAuthors,
     getNextAuthors,
     getPrevAuthors,
-    
+    getAuthorById,
   }
 });
 

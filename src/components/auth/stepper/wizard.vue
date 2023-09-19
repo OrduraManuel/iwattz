@@ -1,6 +1,48 @@
+<template>
+  <form @submit="onSubmit">
+    <slot />
+
+    <div>
+      <button v-if="hasPrevious" type="button" @click="goToPrev" class="ctaContainer prev">    
+          <a class="createBtn"> <!--{name: 'createTrack'}-->
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Previous
+          </a>
+      </button>
+      <button type="submit" class="ctaContainer" v-if="!isLastStep">    
+          <a class="createBtn"> <!--{name: 'createTrack'}-->
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Next
+          </a>
+      </button>
+      <button @click="handleFormSubmit" class="ctaContainer" v-if="isLastStep">    
+          <a class="createBtn"> <!--{name: 'createTrack'}-->
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            Submit
+          </a>
+      </button>
+
+     <!-- <button type="submit">{{ isLastStep ? "Submit" : "Next" }}</button>-->
+    </div>
+  </form>
+</template>
+
+<style lang="scss">
+
+</style>
+
 <script setup>
 import { useForm } from "vee-validate";
-import { ref, computed, provide } from "vue";
+import { ref, computed, provide, getCurrentInstance } from "vue";
 
 const props = defineProps({
   validationSchema: {
@@ -11,6 +53,8 @@ const props = defineProps({
 
 const formData = ref({});
 const currentStepIdx = ref(0);
+
+const { emit } = getCurrentInstance();
 
 // Injects the starting step, child <form-steps> will use this to generate their ids
 const stepCounter = ref(0);
@@ -66,7 +110,7 @@ const onSubmit = handleSubmit((values) => {
 
   }
 
-  emit("submit", formData.value);
+  emit("submitEvent", formData.value);
 });
 
 const handleFormSubmit = () => {
@@ -88,45 +132,3 @@ function goToPrev() {
   });
 }
 </script>
-
-<template>
-    <form @submit="onSubmit">
-      <slot />
-  
-      <div>
-        <button v-if="hasPrevious" type="button" @click="goToPrev" class="ctaContainer prev">    
-            <a class="createBtn"> <!--{name: 'createTrack'}-->
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              Previous
-            </a>
-        </button>
-        <button type="submit" class="ctaContainer" v-if="!isLastStep">    
-            <a class="createBtn"> <!--{name: 'createTrack'}-->
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              Next
-            </a>
-        </button>
-        <button @click="handleFormSubmit" class="ctaContainer" v-if="isLastStep">    
-            <a class="createBtn"> <!--{name: 'createTrack'}-->
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              Submit
-            </a>
-        </button>
-
-       <!-- <button type="submit">{{ isLastStep ? "Submit" : "Next" }}</button>-->
-      </div>
-    </form>
-  </template>
-  
-<style lang="scss">
-
-</style>
