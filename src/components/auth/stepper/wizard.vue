@@ -61,13 +61,19 @@ const onSubmit = handleSubmit((values) => {
   }
   if (isLastStep.value) {
     //emit("submit", formData.value);
-    emit("submit", 'arfonso');
+    //emit("submit", 'arfonso');
     console.log('lastStep è TRUE: ',isLastStep.value)
 
   }
 
   emit("submit", formData.value);
 });
+
+const handleFormSubmit = () => {
+  if (isLastStep.value) {
+    //window.addEventListener('submitClicked', handleSubmit);
+  }
+};
 
 function goToPrev() {
   if (currentStepIdx.value === 0) {
@@ -97,13 +103,22 @@ function goToPrev() {
               Previous
             </a>
         </button>
-        <button type="submit" class="ctaContainer" >    
+        <button type="submit" class="ctaContainer" v-if="!isLastStep">    
             <a class="createBtn"> <!--{name: 'createTrack'}-->
               <span></span>
               <span></span>
               <span></span>
               <span></span>
-              {{ isLastStep ? "Submit" : "Next" }}
+              Next
+            </a>
+        </button>
+        <button @click="handleFormSubmit" class="ctaContainer" v-if="isLastStep">    
+            <a class="createBtn"> <!--{name: 'createTrack'}-->
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+              Submit
             </a>
         </button>
 

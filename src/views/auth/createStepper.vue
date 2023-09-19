@@ -196,57 +196,103 @@
   <script setup>
 
   // manage modal
-
 import ModalChoice from '@/components/modal/modalCreate.vue'
 import ModalBtn from '@/components/modal/btnModal.vue'
 
-
-// import data
+// import BACK
 import toBack from '@/components/toBack.vue';
 
-import { watchEffect, ref, onMounted } from 'vue';
+// import vue stuff
+import { watchEffect, ref, onMounted, onUnmounted } from 'vue';
+import { useRouter } from "vue-router";
 
-// firebase imports
-
+// firebase Storage imports
 import { storage } from '@/api/config';
 import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
+// firebase Auth imports
+import getUser from '@/auth/getUser';
+
+// import store
 import { useTrackStore, useAuthorStore } from '@/store'
 import { storeToRefs } from 'pinia';
 
-import getUser from '@/auth/getUser';
-
-import { useRouter } from "vue-router";
-
+// import custom js
 import { resizeAndSetImage, previewImage } from '@/assets/js/resize.js';
 
+// validation scheme and Stepper components
+import { Field, ErrorMessage } from "vee-validate";
+import * as yup from "yup";
+import Wizard from "@/components/auth/stepper/wizard.vue";
+import Step from "@/components/auth/stepper/step.vue";
+
+// onMounted 
+onMounted(() => {
+    // Ascolta l'evento 'submitClicked' emesso dal componente Wizard
+    //window.addEventListener('submitClicked', handleSubmit);
+
+  watchEffect(() => {
+    TracksNumber.value = null;
+
+  });
+});
+// // // // STEP 0
+
+  // This is the validationSchema for wizard.vue and step.vue
+  const validationSchema = [
+    yup.object({
+        fullName: yup.string().required().label("Full Name"),
+        trackAuthor: yup
+        .string()
+        .required()
+        .oneOf([yup.ref("trackAuthor")],"Choose one author"),
+    }),
+    yup.object({
+        // without vee validation control       
+    }),
+    yup.object({
+        linkTo: yup.string().required().label("linkTo"),
+        trackSrcOption: yup
+        .string()
+        .required()
+        .oneOf([yup.ref("trackSrcOption")],"Choose one option"),
+    }),
+    yup.object({
+                // without vee validation control - nothing is required
+    })
+  ];
+
+// const 
 const router = useRouter();
 const currentUser = getUser;
 
+// const store
 const TrackStore = useTrackStore()
 const { Tracks } = storeToRefs(TrackStore)
 const AuthorStore = useAuthorStore()
-const AuthorsList = ref()
 const { Authors } = storeToRefs(AuthorStore)
-
 const { Track } = storeToRefs(TrackStore)
 
-// upload IMG
-//let uploader;
+
+const AuthorsList = ref()
+
+// const 4 submit
+const AuthorName = ref()
+const TracksNumber = ref()
+
+// let upload IMG
 let uploaderImg = ref()
 let uploadedImg = ref()
 let resizedImg = ref()
 let loadedImg = ref()
 let imgPreview = ref()
 
-//upload Mp3
+// let upload Mp3
 let uploaderMp3 = ref() //btn
 let uploadedMp3 = ref() //img
 let loadedMp3 = ref() //?
 let thisTrackMp3 = ref()
 let mp3Preview = ref()
-
-
 
 //path firebase
 let uploadPath = ref()
@@ -255,6 +301,9 @@ let uploadPath = ref()
 let progressBar = ref()
 let progress = ref()
 let progressNumber = ref()
+
+
+// // // // STEP 2
 
 // function pick your Img
 function uploadStartImg() {
@@ -265,21 +314,18 @@ function uploadStartMp3() {
   uploaderMp3.value.click();
 }
 
+//function start select image
 async function pickImage(event) {
   await previewImage(event, uploadedImg, imgPreview); // Chiamata alla funzione importata
     let almostLoadImg = ref('');
     almostLoadImg.value = 'Hai selezionato:<br/> <i style="font-size: .7rem; font-weight: 500;">' + uploadedImg.value.name + '</i>';
     let loadedImg = document.getElementById('almostLoadImg');
     let btnImg = document.getElementById('btnImg');
-
-    console.log('almost end pickImage')
-
     loadedImg.innerHTML = almostLoadImg.value;
     imgPreview.value.classList.remove('d-none');
     btnImg.setAttribute("style", "margin-top:15%;");
-    
-    console.log('end pickImage')
 }
+//function start select audio
 function pickMp3(event) {
   uploadedMp3.value = event.target.files[0];
   console.log(uploadedMp3.value,'questo è il file audio')
@@ -301,7 +347,9 @@ function pickMp3(event) {
     console.log('uploaded è null')
   }
 }
-// srcOptions  - step 3
+
+// // // // STEP 3
+// let srcOptions  array
 let srcOptions = ref([
   {id: "0",name: 'spotify'},
   {id: "1",name: 'tidal'},
@@ -309,52 +357,17 @@ let srcOptions = ref([
 ])
 
 
-// validation scheme
-  import { Field, ErrorMessage } from "vee-validate";
-  import * as yup from "yup";
-  import Wizard from "@/components/auth/stepper/wizard.vue";
-  import Step from "@/components/auth/stepper/step.vue";
 
-  // Break down the validation steps into multiple schemas
-  const validationSchema = [
-    yup.object({
-        fullName: yup.string().required().label("Full Name"),
-        trackAuthor: yup
-        .string()
-        .required()
-        .oneOf([yup.ref("trackAuthor")],"Choose one author"),
-      //trackTitle: yup.string().required().label("Track title"),
-      //email: yup.string().required().email().label("Email Address"),
-    }),
-    yup.object({
-        // without vee validation control       
-    }),
-    yup.object({
-        linkTo: yup.string().required().label("linkTo"),
-        trackSrcOption: yup
-        .string()
-        .required()
-        .oneOf([yup.ref("trackSrcOption")],"Choose one option"),
-    }),
-    yup.object({
-        //isHit: yup.string().required().label("isHit"),
-    })
-  ];
-  
+  // // // // STEP LAST
   /**
    * Only Called when the last step is submitted
    */
   function onSubmit(formData) {
-    console.log('sono in onsubmit PRIMA la if')
+    console.log('sono in onsubmit(formData)')
     //console.log(JSON.stringify(formData, null, 2),'questo è strinfity di formData');
-    //if(Track.isFav != null || ''){
-    //    console.log('is fav non è null o vuota')
-    //    handleSubmit()
-    //}
-    //handleSubmit()
-    console.log('sono in onsubmit DOPO la if')
   }
 
+  // const promise that do the img and mp3 upload in firebase storage uploadFile(xxx.value), when are completed will do createTrack
   const handleSubmit = async () => {
     console.log('sono dentro handleSubmit')
   try {
@@ -372,11 +385,15 @@ let srcOptions = ref([
     });
   }
 };
+  // const createTracj put img and mp3 path in the pinia object Track before to inizialize createTrack(Track.value)
+
 const createTrack = async (downloadIMG, downloadMP3) => {
   Track.value.Img.Path = downloadIMG;
   Track.value.Src.Song = downloadMP3;
   await TrackStore.createTrack(Track.value);
 };
+  // const resetTrack reset my store Track.value
+
 const resetTrack = () => {
   Track.value = {
     Number: '',
@@ -387,58 +404,57 @@ const resetTrack = () => {
     isFav: false
   };
 };
+  // function uploadFile(file) create a folder in firebase storage with the author's name of this track and upload this one, managed the process with one progress bar
+
 async function uploadFile(file){
+    const uploadPath = ref()
 
-const uploadPath = ref()
-
-function renamePath(myName){
-  const withoutSpace = myName.split(' ').join('-')
-  uploadPath.value =  withoutSpace.split(`'`).join('-')
-}
-await renamePath(AuthorName.value)
-
-const storagePath = `${uploadPath.value}/${file.name}`;
-
-const storageRefs = storageRef(storage, storagePath);
-const metadata = {
-  contentType: file.type
-};
-if(file.type == 'image/jpeg'){
-  Track.value.Img.Name = file.name;
-  console.log('image')
-}
-const uploadTask = uploadBytesResumable(storageRefs, file, metadata);
-
-return await new Promise((resolve, reject) => {
-  uploadTask.on(
-    'state_changed',
-    (snapshot) => {
-      const interpolation = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-      progress.value.style.width = interpolation + '%'
-      progressNumber.value.innerHTML = interpolation + '%'
-    },
-    (error) => {
-      console.log('questo è l errore: ', error);
-      reject(error);
-    },
-    async () => {
-      console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref);
-      const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
-      if(file.type == 'image/jpeg'){
-        Track.value.Img.Path = downloadURL;
-        console.log('image')
-      }
-      if(file.type == 'audio/mpeg'){
-        Track.value.Src.Song = downloadURL;
-        console.log('image')
-      }
-      resolve(downloadURL);
+    function renamePath(myName){
+    const withoutSpace = myName.split(' ').join('-')
+    uploadPath.value =  withoutSpace.split(`'`).join('-')
     }
-  )
-});
-}
+    await renamePath(AuthorName.value)
 
-  </script>
+    const storagePath = `${uploadPath.value}/${file.name}`;
+
+    const storageRefs = storageRef(storage, storagePath);
+    const metadata = {
+        contentType: file.type
+        };
+    if(file.type == 'image/jpeg'){
+    Track.value.Img.Name = file.name;
+    console.log('image')
+    }
+    const uploadTask = uploadBytesResumable(storageRefs, file, metadata);
+
+    return await new Promise((resolve, reject) => {
+    uploadTask.on(
+        'state_changed',
+        (snapshot) => {
+        const interpolation = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        progress.value.style.width = interpolation + '%'
+        progressNumber.value.innerHTML = interpolation + '%'
+        },
+        (error) => {
+        console.log('questo è l errore: ', error);
+        reject(error);
+        },
+        async () => {
+        console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref);
+        const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+        if(file.type == 'image/jpeg'){
+            Track.value.Img.Path = downloadURL;
+            console.log('image')
+        }
+        if(file.type == 'audio/mpeg'){
+            Track.value.Src.Song = downloadURL;
+            console.log('image')
+        }
+        resolve(downloadURL);
+        }
+    )
+    });
+} </script>
   
   <style lang="scss" >
   input,

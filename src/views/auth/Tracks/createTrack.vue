@@ -111,21 +111,6 @@ async function pickImage(event) {
     loaded.innerHTML = almostLoad.value;
 }
 
-/*
-function previewImage(event) {
-  uploaderImg.value = event.target.files[0];
-  console.log(uploaderImg.value, 'in previewImage')
-  if (uploaderImg != null) {
-    let almostLoad = ref('');
-    almostLoad.value = 'Hai selezionato: ' + uploaderImg.value.name + ' come Img!';
-    let loaded = document.getElementById('almostLoad');
-    loaded.classList.remove('d-none');
-    loaded.innerHTML = almostLoad.value;
-  } else {
-    console.log('uploaded è null')
-  }
-}
-*/
 function previewMp3(event) {
   uploaderMp3.value = event.target.files[0];
   console.log(uploaderMp3.value, 'in previewImage')
@@ -141,21 +126,17 @@ function previewMp3(event) {
 }
 
 async function uploadFile(file){
-
   const uploadPath = ref()
-
   function renamePath(myName){
     const withoutSpace = myName.split(' ').join('-')
     uploadPath.value =  withoutSpace.split(`'`).join('-')
 }
-await renamePath(AuthorName.value)
-
-const storagePath = `${uploadPath.value}/${file.name}`;
-
+  await renamePath(AuthorName.value)
+  const storagePath = `${uploadPath.value}/${file.name}`;
   const storageRefs = storageRef(storage, storagePath);
   const metadata = {
-    contentType: file.type
-  };
+      contentType: file.type
+    };
   if(file.type == 'image/jpeg'){
     Track.value.Img.Name = file.name;
     console.log('image')
