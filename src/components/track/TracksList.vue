@@ -47,7 +47,6 @@ export default {
 
 
 <template>
-  <div class="container-fluid">
     <toBack  where="/"/>
     <div class="row">
       <transition-group tag="ul" name="slideInUp" class="listTrack" appear>
@@ -69,7 +68,6 @@ export default {
         </li>   
     </transition-group> 
     </div>
-  </div>
 
   </template>
   

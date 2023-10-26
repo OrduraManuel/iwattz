@@ -79,9 +79,9 @@ onUnmounted(() => {
 
 </script>
 <template>
-    <div id="selections" class="container-fluid">
+    <section  id="selections">
         <toBack  where="/"/>
-        <div class="row" style="padding:10%">
+        <div class="row">
             <div class="col-12">
                 <h2 class="section-heading-all">
                     <span>00.</span> My works selection
@@ -93,7 +93,6 @@ onUnmounted(() => {
                     <TrackCard v-for='Track in Tracks'  :key="Track.id" :thisTrack='Track'/>
                 </div> 
             </div>
-        </div>
-    </div>
-
+        </div>    
+    </section>
 </template>

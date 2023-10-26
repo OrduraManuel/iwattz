@@ -250,12 +250,14 @@ const storagePath = `${uploadPath.value}/${file.name}`;
 </script>
 <template>
     <div class="editTrack" v-if="thisTrack">
-        <div class="container-fluid">
             <div ref="progressBar" class="progressBar">
                 <div ref="progress" class="progress"><span ref="progressNumber">666</span></div>
             </div>
             <toBack  where="/dashboard"/>
-            <div class="row editHeader">
+            <div class="row">
+
+            
+            <div class=" editHeader">
                 <div class="col-6 ">
                     <p>Stai modificando: </p>
                     <div class="label">
@@ -266,7 +268,7 @@ const storagePath = `${uploadPath.value}/${file.name}`;
 
                 </div>
             </div>
-            <div class="row editBody">
+            <div class=" editBody">
                 <div class="col-4 title squareHole">
                     <div class="label">
                         <label for="title">Track Title:</label>
@@ -466,4 +468,5 @@ margin-top: calc(var(--borderSize) - var(--borderSize)  - var(--borderSize));
         }
     }
 }
+
 </style>

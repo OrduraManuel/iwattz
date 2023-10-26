@@ -14,7 +14,7 @@ import CreateTrack from "@/views/auth/tracks/createTrack.vue";
 import EditTrack from "@/views/auth/tracks/editTrack.vue";
 import SelectedTrack from "@/views/selectedTrack.vue";
 
-
+import CreateStepper from "@/views/auth/createStepper.vue";
 
 //Authors
 import CreateAuthor from "@/views/auth/authors/createAuthor.vue";
@@ -139,6 +139,11 @@ const routes = [
     path: '/networkError',
     name: 'networkError',
     component: NetworkError,
+  },
+  {
+    path: '/dashboard/stepperz/createStepper',
+    name: 'createStepper',
+    component: CreateStepper,
   }
 ];
 

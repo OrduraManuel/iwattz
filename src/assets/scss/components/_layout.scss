@@ -7,6 +7,7 @@
 @import "auth/firstLog.scss";
 @import "auth/cardAuth.scss";
 @import "auth/tableDashboard.scss";
+
 //----//Tracks
 @import "auth/tracks/tableTracks.scss";
 //----//Authors
@@ -18,9 +19,9 @@
 
 //GlobalSection
 @import "global/borders.scss"; // fatt
-@import "global/navigation.scss"; // fatt
+@import "global/navigation.scss"; // fattissimo
 @import "global/toBack.scss"; // fatt
-@import "global/masonry.scss"; // css to scss
+@import "global/masonry.scss"; // need to change css into scss
 @import "global/carouselz.scss";
 @import "global/sections.scss"; //fatt
 @import "global/heading.scss"; //fatt
@@ -28,6 +29,7 @@
 @import "global/creditz.scss";
 @import "global/scrollbar.scss";
 @import "global/loader.scss"; // fatt
+@import "global/btnCta.scss"; 
 
 
 

@@ -8,7 +8,24 @@ import { create, search, remove, update, get, getLimited, getNext, getPrev } fro
 
 export const useTrackStore = defineStore('trackStore', () => {
     const router = useRouter();
-    const Track = ref({});
+    const Track = ref({
+      Number: '',
+      Organizer: {
+        id: '666',
+      },
+      Author: '',
+      Title: '',
+      isFav: '',
+      Src: {
+        Href: '',
+        Option: '',
+      },
+      Img: {
+        Name: '',
+        Path: null
+      },
+    });
+
     const Tracks = ref([]);
     const TracksLimit = ref(); // we'll use for create a call with pagination in dashboard: Number element in page / Tracks.length = Number of page to scroll
     const nextTracks = ref();

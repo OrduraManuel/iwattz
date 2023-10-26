@@ -1,41 +1,26 @@
 <script setup>
+const props = defineProps({
+  where: { type: String }
+})
+let isWhere = '#'+props.where
 </script>
 <template>
 <Teleport to="Body">
-    <div class="modal fade " id="ModalContact" tabindex="-1" aria-labelledby="ModalContact" aria-hidden="true">
+    <div class="modal fade" :id="props.where" tabindex="-1" :aria-labelledby="props.where" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="ModalContact">Parlami di te</h5>
+            <h5 class="modal-title" :id="props.where">Pick your choice</h5>
             <a  data-bs-dismiss="modal" aria-label="Close">
               <i class="fal fa-2x fa-window-close"></i>
             </a>
         </div>
         <div class="modal-body">
-            <form>
-              <div class="containerInput">
-                <div class="input NameBox">
-                    <input type="text" name="" required="">
-                    <label>Nome e Cognome</label>  
-                </div>
-                <div class="input CategoryBox">
-                    <input type="text" name="" required="">
-                    <label>Genere musicale</label>  
-                </div>
-              </div>
-                <div class="input CategoryBox">
-                    <textarea rows="5" cols="80" name="talkToYou">
-                    </textarea>
-                    <label>Desrivi il tuo progetto</label> 
-                </div>
-                <a href="#">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    Invia
-                </a>
-            </form>
+        <slot/>
+        </div>
+        <div class="modal-footer" data-bs-dismiss="modal" aria-label="Close">
+            <span class="mx-auto">SUBMIT</span>
+
         </div>
         </div>
     </div>
@@ -59,7 +44,7 @@
     }
   }
 }
-form{
+.modal-body{
     background: black;
     a{
     position: relative;

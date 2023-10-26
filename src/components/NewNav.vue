@@ -82,19 +82,27 @@
       </li>
     </ul>
     <ul
-      ref="dashboardPosition"
+      ref="loginPosition"
       class="fixed-navigation navigation-dashboard dashboard-position"
-      :style="{ bottom: dashboardPositionStyle.bottom, right: dashboardPositionStyle.right, opacity: dashboardPositionStyle.opacity }"
+      :style="{ bottom: loginPositionStyle.bottom, right: loginPositionStyle.right, opacity: loginPositionStyle.opacity }"
     >
       <li class="move">
         <router-link v-if="user" class="router dashboard fa-solid animate__animated animate__delay animate__backInUp" :to="`dashboard`">
           <i class="fa-light fa-comment-music fa-solid animate__animated animate__delay-1s animate__fadeIn"></i>
         </router-link>
-        <router-link v-if="user" class="router logout fa-solid animate__animated animate__delay-1s animate__backInUp" @click="handleClick" :to="`/`">
-          <i class="fa-solid fa-arrow-right-from-bracket fa-solid animate__animated animate__delay-1s animate__fadeIn"></i>
-        </router-link>
         <router-link v-if="!user" class="router firstLog fa-solid animate__animated animate__delay-1s animate__backInUp" :to="`firstLog`">
           <i class="fa-sharp fa-arrow-right-to-arc fa-solid animate__animated animate__delay-2s animate__fadeIn"></i>
+        </router-link>
+      </li>
+    </ul>
+    <ul
+      ref="logoutPosition"
+      class="fixed-navigation navigation-logout dashboard-position"
+      :style="{ top: logoutPositionStyle.top, right: logoutPositionStyle.right, opacity: logoutPositionStyle.opacity }"
+    >
+      <li class="move">
+        <router-link v-if="user" class="router logout fa-solid animate__animated animate__delay-1s animate__backInUp" @click="handleClick" :to="`/`">
+          <i class="fa-solid fa-arrow-right-from-bracket fa-solid animate__animated animate__delay-1s animate__fadeIn"></i>
         </router-link>
       </li>
     </ul>
@@ -121,7 +129,8 @@ const leftPositionStyle = reactive({ left: '0', opacity: '0' });
 const rightPositionStyle = reactive({ right: '0', opacity: '0' });
 const bottomPositionStyle = reactive({ bottom: '0', opacity: '0' });
 const centerPositionStyle = reactive({ top: '0', opacity: '0' });
-const dashboardPositionStyle = reactive({ bottom: '0', right: '0', opacity: '0' });
+const loginPositionStyle = reactive({ bottom: '0', right: '0', opacity: '0' });
+const logoutPositionStyle = reactive({ top: '0', right: '0', opacity: '0' });
 
 watchEffect(async () => {
   const response = router.currentRoute.value.path;
@@ -136,21 +145,28 @@ watchEffect(async () => {
     bottomPositionStyle.opacity = '1';
     centerPositionStyle.top = '77vh';
     centerPositionStyle.opacity = '1';
-    dashboardPositionStyle.bottom = 'var(--marginB)';
-    dashboardPositionStyle.right = 'var(--marginR)';
-    dashboardPositionStyle.opacity = '1';
+    loginPositionStyle.bottom = 'var(--marginB)';
+    loginPositionStyle.right = 'var(--marginR)';
+    loginPositionStyle.opacity = '1';
+    logoutPositionStyle.top = 'var(--marginT)';
+    logoutPositionStyle.right = 'var(--marginR)';
+    logoutPositionStyle.opacity = '1';
   } else {
-    leftPositionStyle.left = '-10%';
+    leftPositionStyle.left = '-25%';
     leftPositionStyle.opacity = '0';
-    rightPositionStyle.right = '-10%';
+    rightPositionStyle.right = '-25%';
     rightPositionStyle.opacity = '0';
-    bottomPositionStyle.bottom = '-10%';
+    bottomPositionStyle.bottom = '-25%!important';
     bottomPositionStyle.opacity = '0';
-    centerPositionStyle.top = '-10%';
+    centerPositionStyle.top = '-25%';
     centerPositionStyle.opacity = '0';
-    dashboardPositionStyle.bottom = '-10%';
-    dashboardPositionStyle.right = '-10%';
-    dashboardPositionStyle.opacity = '0';
+    loginPositionStyle.bottom = '-25%';
+    loginPositionStyle.right = '-25%';
+    loginPositionStyle.opacity = '0';
+    logoutPositionStyle.top = '-25%';
+    logoutPositionStyle.right = '-25%';
+    logoutPositionStyle.opacity = '0';
   }
+
 });
 </script>

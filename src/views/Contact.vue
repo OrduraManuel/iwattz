@@ -6,7 +6,6 @@ import ModalBtn from '@/components/modal/btnModal.vue'
 
 <template>
  <section id="contact">
-    <div class="container-fluid">
         <toBack  where="/"/>
         <div class="row">
             <div class="col-12">
@@ -42,21 +41,11 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                     <a class="link-underline" href="mailto:contact@domainname.com">iwattz@igghysounds.com</a>
                 </p>
             </div>
-        </div>
+        </div>    
         <ModalBtn />
-        </div>
         <ModalContactMe />
 </section>
 </template>
 <style lang="scss" scoped>
-#contact{
-    .container-fluid{
-        width:100%;
-        .row{
-            padding:4vw 4vh ;
-            margin-top: -3vh;
-        }
-    }
-
-}
+//scss
 </style>

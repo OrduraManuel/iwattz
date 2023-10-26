@@ -7,9 +7,10 @@ import ModalBtn from '@/components/modal/btnModal.vue'
 
 <template>
     <section  id="services">
-        <div class="container-fluid">
             <toBack  where="/"/>
             <div class="row">
+                
+            
                 <div class="col-12">
                     <h2 class="section-heading-all">
                         <span>02.</span> Mix & Mastering online
@@ -47,7 +48,6 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                         href="#">Get new fans, engage your audience, and grow!</a>
                      </p>
                 </div>
-            </div>
             <ModalBtn />
         </div>
         <ModalContactMe />
