@@ -9,7 +9,7 @@
   <section id="createStepper">
     <div class="row">
       <div class="col-12">
-        <Wizard :validation-schema="validationSchema" @submitEvent="onSubmit">
+        <Wizard :validation-schema="validationSchema" @submit.prevent > <!-- @submitEvent="onSubmit" -->
           <Step class="slideInUp-enter-to" style="width: 100%; height: 35vh; position: relative">
             <h1>Step 1/4</h1>
             <div class="d-flex justify-content-around">
@@ -133,6 +133,15 @@
                     <span class="hit4"></span>
                   </div>
                 </div>
+                <button @click="handleSubmit" class="ctaContainer">    
+                    <a class="createBtn"> <!--{name: 'createTrack'}-->
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                        Submit
+                    </a>
+                </button>
                 <ErrorMessage name="isHit" />
               </div>
             </div>
@@ -346,18 +355,27 @@ let srcOptions = ref([
 /**
  * @description Only Called when the last step is submitted
  */
-function onSubmit(payload) {
+function onSubmit() {
   console.log("sono in onsubmit(formData)", payload);
-  handleSubmit();
+  console.log("Track.value", Track.value);
+  console.log("payload parse", JSON.parse(JSON.stringify(payload)));
+  //handleSubmit
 }
 
 // const promise that do the img and mp3 upload in firebase storage uploadFile(xxx.value), when are completed will do createTrack
 const handleSubmit = async () => {
   console.log("sono dentro handleSubmit");
   try {
-    const downloadIMG = await uploadFile(uploaderImg.value);
-    const downloadMP3 = await uploadFile(uploaderMp3.value);
-    (downloadIMG && downloadMP3) && await createTrack(downloadIMG, downloadMP3);
+    console.log('sono dentro try')
+    const downloadIMG = await uploadFile(uploadedImg.value);
+    const downloadMP3 = await uploadFile(uploadedMp3.value);
+    console.log(downloadIMG, downloadMP3, 'downloadamelo')
+    if (downloadIMG && downloadMP3) {
+      await createTrack(downloadIMG, downloadMP3);
+
+
+    }
+    //(downloadIMG && downloadMP3) && await createTrack(downloadIMG, downloadMP3);
   } catch (error) {
     debugger
     router.push({
@@ -369,39 +387,51 @@ const handleSubmit = async () => {
 // const createTracj put img and mp3 path in the pinia object Track before to inizialize createTrack(Track.value)
 
 const createTrack = async (downloadIMG, downloadMP3) => {
+    console.log('sono in createTrack')
+
   Track.value.Img.Path = downloadIMG;
   Track.value.Src.Song = downloadMP3;
+  console.log(Track.value,'track.value dicreateTrack')
   await TrackStore.createTrack(Track.value);
   router.push("/dashboard");
-  resetTrack();
+      resetTrack();
 };
 // const resetTrack reset my store Track.value
 
 const resetTrack = () => {
   Track.value = {
-    Number: "",
-    Title: "",
-    Author: "",
-    Img: "",
-    Src: "",
-    isFav: false,
+    Number: '',
+      Organizer: {
+        id: '666',
+      },
+      Author: '',
+      Title: '',
+      isFav: '',
+      Src: {
+        Href: '',
+        Option: '',
+      },
+      Img: {
+        Name: '',
+        Path: null
+      },
   };
 };
 // function uploadFile(file) create a folder in firebase storage with the author's name of this track and upload this one, managed the process with one progress bar
 
 /* TODO: Check dato che la merda di @Dani spacca tutto  */
-const renamePath = async (myName) => {
-  debugger
-  const withoutSpace = myName.split(" ").join("-");
-  return withoutSpace.split(`'`).join("-");
-}
+
 
 async function uploadFile(file) {
+
   const uploadPath = ref();
 
-  // const author = getAuthorById(Track.Author); // TODO: DIOCANE @Dani
-  uploadPath.value = await renamePath(AuthorName.value);
-
+  const renamePath = async (myName) => {
+    const thisAuthor = AuthorStore.getAuthorById(myName); 
+    const withoutSpace = thisAuthor.Name.split(" ").join("-");
+    return withoutSpace.split(`'`).join("-");
+}
+  uploadPath.value = await renamePath(Track.value.Author);
   const storagePath = `${uploadPath.value}/${file.name}`;
 
   const storageRefs = storageRef(storage, storagePath);
@@ -410,7 +440,6 @@ async function uploadFile(file) {
   };
   if (file.type == "image/jpeg") {
     Track.value.Img.Name = file.name;
-    console.log("image");
   }
   const uploadTask = uploadBytesResumable(storageRefs, file, metadata);
 
@@ -679,4 +708,29 @@ select {
     }
   }
 }
+  .progressBar{
+    position: absolute;
+    top:0;
+    left: 0;
+    width: 100vw;
+    height: var(--marginT);
+    background: transparent;
+    transform: scale(1.02);
+    .progress{
+        height: 100%;
+        background: var(--brandPrimary);
+        width: 0%;
+        transition: .2s all ease-in-out;
+        border-radius: 0;
+        transform: skewX(-30deg);
+        display:flex;
+        justify-content: flex-end;
+        align-items: center;
+        span{
+            font-size: 1.7rem;
+            color: var(--textLight);
+            margin-right: 1rem;
+        }
+    }
+  }
 </style>

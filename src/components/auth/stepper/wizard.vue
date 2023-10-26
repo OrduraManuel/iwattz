@@ -21,8 +21,9 @@
             Next
           </a>
       </button>
+      <!--
       <button @click="handleFormSubmit" class="ctaContainer" v-if="isLastStep">    
-          <a class="createBtn"> <!--{name: 'createTrack'}-->
+          <a class="createBtn">
             <span></span>
             <span></span>
             <span></span>
@@ -30,7 +31,7 @@
             Submit
           </a>
       </button>
-
+    -->
      <!-- <button type="submit">{{ isLastStep ? "Submit" : "Next" }}</button>-->
     </div>
   </form>
@@ -87,10 +88,8 @@ const { resetForm, handleSubmit } = useForm({
 // and to submit the form if its the last step
 // parent can opt to listen to either events if interested
 const onSubmit = handleSubmit((values) => {
-  formData.value = {
-    ...formData.value,
-    ...values,
-  };
+
+
 
   // Sets initial values for the values already filled
   // effectively fills the inputs when clicking on "previous"
@@ -107,18 +106,23 @@ const onSubmit = handleSubmit((values) => {
     //emit("submit", formData.value);
     //emit("submit", 'arfonso');
     console.log('lastStep è TRUE: ',isLastStep.value)
+    formData.value = {
+    ...formData.value,
+    ...values,
+  };
 
   }
 
-  emit("submitEvent", formData.value);
+  //emit("submitEvent", formData.value);
 });
 
+/*
 const handleFormSubmit = () => {
   if (isLastStep.value) {
     //window.addEventListener('submitClicked', handleSubmit);
   }
 };
-
+*/
 function goToPrev() {
   if (currentStepIdx.value === 0) {
     return;
