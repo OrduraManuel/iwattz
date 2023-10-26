@@ -1,5 +1,51 @@
+#createStepper{
+    .ctaContainer{
+        @media  only screen and (max-width: 960px) {
+            width: 70vw!important;
+        }
+    }
+    .ctaContainer.prev{
+        bottom: calc(var(--marginB) + 2%);
+        left: calc(var(--marginL) + 2%);
+        @media  only screen and (max-width: 960px) {
+                left: 0rem!important;
+                width: 30vw!important;
+            }
+        a{
+            color: var(--txtLight);
+            &:hover{
+                    background: var(--txtLight);
+                    color: var(--txtDark);
+                    border-radius: 5px;
+                    box-shadow: 0 0 5px var(--txtLight),
+                                0 0 25px var(--txtLight),
+                                0 0 50px var(--txtLight),
+                                0 0 100px var(--txtLight);
+                    }
+            span{
+                &:nth-child(1){
+                        background: linear-gradient(90deg, transparent, var(--txtLight));
+                    }
+                &:nth-child(2){
+                        background: linear-gradient(90deg, transparent, var(--txtLight));
+                    }
+                &:nth-child(3){
+                        background: linear-gradient(90deg, transparent, var(--txtLight));
+                    }
+                &:nth-child(4){
+                        background: linear-gradient(90deg, transparent, var(--txtLight));
+                    }
+            }
+        }
+    
+    }
+}
+
 .ctaContainer{
     position: absolute;
+    outline: none;
+    border: none;
+    background: transparent;
     display: inline-block;
     bottom: calc(var(--marginB) + 2%);
     right: calc(var(--marginR) + 2%);

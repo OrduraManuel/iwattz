@@ -79,6 +79,71 @@
       -o-transition: all 1.5s ease;
          transition: all 1.5s ease;
  }
+ .navigation-logout {
+  justify-content: end;
+ right: 0vw;
+ bottom: 0vh;
+ width: 33vw;
+ height: var(--dashboardBtnSize);
+ overflow:visible;
+ .move{
+   display: flex;
+   justify-content: end;
+   a{
+     width: var(--dashboardBtnSize); // larghezza tasti dashboard VARIABILE
+     height: var(--dashboardBtnSize); // altezza tasti dashboard VARIABILE
+     //margin-right: 5%;
+     border: var(--border);  //border VARIABILE
+     color: var(--borderColor);  //border colore VARIABILE
+     filter: alpha(opacity=50);
+     opacity: 0.5;
+     transform: scale(1);
+     display:flex;
+     justify-content: center;
+     align-items: center;
+     &:hover{
+       opacity: 1;
+       filter: alpha(opacity=100);
+       background: var(--borderColor); //border colore VARIABILE
+       cursor: pointer;
+       color: var(--txtDark); //NERO colore VARIABILE
+       transform: scale(1.2);
+     }
+     i{
+       font-weight: 600;
+       font-size: 1.5rem;
+     }
+   }
+   a.logout{
+    position: relative;
+      &:after{
+        content: 'LOGOUT';
+        position: absolute;
+        top: calc(-var(--dashboardBtnPaddingY) + (var(--borderSize)*2)); // 2% è il padding, -4px è il bordo * 2
+        left: var(--dashboardBtnPositionL);
+        padding: var(--dashboardBtnPadding);
+        background: transparent;
+        border: var(--border);
+        color: var(--borderColor);
+        border-radius: var(--radiusS);
+        opacity: 0;
+        -webkit-transition: all 0.3s ease;
+        -moz-transition: all 0.3s ease;
+          -ms-transition: all 0.3s ease;
+        -o-transition: all 0.3s ease;
+        transition: all 0.3s ease;
+        }
+      &:hover{
+        &:after{
+          //top: calc(-.5rem + (var(--borderSize)*2)); // 2% è il padding, -4px è il bordo * 2
+          left: calc(-15rem + (var(--dashboardBtnSize) - var(--dashboardBtnSize) - var(--dashboardBtnSize)));
+          opacity: 1;
+        }
+      }
+    }
+  }
+}
+
 
  .navigation-dashboard {
   justify-content: end;
@@ -147,33 +212,7 @@
      a.router.dashboard{
       margin-right: 0!important;
      }
-     a.logout{
-     position: relative;
-       &:after{
-         content: 'LOGOUT';
-         position: absolute;
-         top: calc(-var(--dashboardBtnPaddingY) + (var(--borderSize)*2)); // 2% è il padding, -4px è il bordo * 2
-         left: var(--dashboardBtnPositionL);
-         padding: var(--dashboardBtnPadding);
-         background: transparent;
-         border: var(--border);
-         color: var(--borderColor);
-         border-radius: var(--radiusS);
-         opacity: 0;
-         -webkit-transition: all 0.3s ease;
-         -moz-transition: all 0.3s ease;
-           -ms-transition: all 0.3s ease;
-         -o-transition: all 0.3s ease;
-         transition: all 0.3s ease;
-         }
-       &:hover{
-         &:after{
-           //top: calc(-.5rem + (var(--borderSize)*2)); // 2% è il padding, -4px è il bordo * 2
-           left: calc(-15rem + (var(--dashboardBtnSize) - var(--dashboardBtnSize) - var(--dashboardBtnSize)));
-           opacity: 1;
-         }
-       }
-     }
+
      a.firstLog{
      position: relative;
        &:after{
@@ -460,7 +499,7 @@ transform: translate(-50%,50%);
    }
 
    .navigation-dashboard .move a, .navigation-logout .move a {
-    width: calc(var(--dashboardBtnSize) *1.5)!important;
+    width: calc(var(--dashboardBtnSize) * 1.5)!important;
     height: calc(var(--dashboardBtnSize)* 1.5)!important;
  }
  .navigation-dashboard {

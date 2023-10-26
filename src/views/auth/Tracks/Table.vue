@@ -9,7 +9,7 @@
         <div class="col-12">
               <tableTracks />
           <div class="ctaContainer">    
-            <router-link class="createBtn" :to="{name: 'createTrack'}"> 
+            <router-link class="createBtn" :to="{name: 'createStepper'}"> <!--{name: 'createTrack'}-->
               <span></span>
               <span></span>
               <span></span>
