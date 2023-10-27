@@ -52,6 +52,7 @@
     width: 10rem!important;
     height: 3.5rem!important;
     @media  only screen and (max-width: 960px) {
+        position: fixed;
             bottom: 0rem!important;
             right: 0rem!important;
             width: 100vw!important;
