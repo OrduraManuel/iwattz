@@ -42,8 +42,9 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                 </p>
             </div>
         </div>    
-        <ModalBtn />
-        <ModalContactMe />
+        <ModalBtn :where="'ModalContact'" />
+
+                <ModalContactMe />
 </section>
 </template>
 <style lang="scss" scoped>

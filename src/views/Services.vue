@@ -48,9 +48,11 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                         href="#">Get new fans, engage your audience, and grow!</a>
                      </p>
                 </div>
-            <ModalBtn />
+                <ModalBtn :where="'ModalContact'" />
         </div>
-        <ModalContactMe />
+
+
+                <ModalContactMe />
     </section>  
 </template>
 
