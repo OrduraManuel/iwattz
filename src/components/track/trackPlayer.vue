@@ -156,10 +156,17 @@ function generateTime() {
   min-height: 100vh;
   // background: url(../img/bg.png) no-repeat center;
   background-size: cover;
-  @media screen and (max-width: 700px) {
-    flex-wrap: wrap;
-    flex-direction: column;
-  }
+  @media only screen and (max-width: 576px) {
+
+                align-content: start;
+                align-items: start;
+                min-height: 70vh;
+                .player-controls{
+                    position: absolute;
+                    bottom: -35%;
+                }
+
+              }
 }
 
 .player {

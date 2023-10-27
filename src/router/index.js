@@ -10,20 +10,20 @@ import FirstLog from "@/views/auth/FirstLog.vue";
 import Dashboard from "@/views/auth/Dashboard.vue";
 
 //Tracks
-import CreateTrack from "@/views/auth/tracks/CreateTrack.vue";
-import EditTrack from "@/views/auth/tracks/EditTrack.vue";
+import CreateTrack from "@/views/auth/Tracks/CreateTrack.vue";
+import EditTrack from "@/views/auth/Tracks/EditTrack.vue";
 import SelectedTrack from "@/views/SelectedTrack.vue";
 
 import CreateStepper from "@/views/auth/CreateStepper.vue";
 
 //Authors
-import CreateAuthor from "@/views/auth/authors/CreateAuthor.vue";
-import EditAuthor from "@/views/auth/authors/EditAuthor.vue";
+import CreateAuthor from "@/views/auth/Authors/CreateAuthor.vue";
+import EditAuthor from "@/views/auth/Authors/EditAuthor.vue";
 
 
 // dashboard
-import TracksDashboard from "@/views/auth/tracks/Table.vue";
-import AuthorsDashboard from "@/views/auth/authors/Table.vue";
+import TracksDashboard from "@/views/auth/Tracks/Table.vue";
+import AuthorsDashboard from "@/views/auth/Authors/Table.vue";
 
 
 import NotFound from "@/views/404.vue";

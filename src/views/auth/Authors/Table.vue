@@ -1,5 +1,5 @@
 <script setup>
-  import tableAuthors from "@/components/auth/authors/tableAuthors.vue";
+  import tableAuthors from "@/components/auth/Authors/tableAuthors.vue";
   import toBack from "@/components/toBack.vue";
 </script>
 <template>
