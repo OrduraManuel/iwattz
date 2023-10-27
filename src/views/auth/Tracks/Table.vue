@@ -1,5 +1,5 @@
 <script setup>
-  import tableTracks from "@/components/auth/tracks/tableTracks.vue";  
+  import tableTracks from "@/components/auth/Tracks/tableTracks.vue";  
   import toBack from "@/components/toBack.vue";
 </script>
 <template>
