@@ -21,15 +21,6 @@
             Next
           </a>
       </button>
-      <button @click="handleFormSubmit" class="ctaContainer" v-if="isLastStep">    
-          <a class="createBtn"> <!--{name: 'createTrack'}-->
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            Submit
-          </a>
-      </button>
 
      <!-- <button type="submit">{{ isLastStep ? "Submit" : "Next" }}</button>-->
     </div>

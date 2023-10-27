@@ -130,4 +130,3 @@ export const useAuthorStore = defineStore('AuthorStore', () => {
     getAuthorById,
   }
 });
-
