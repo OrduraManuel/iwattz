@@ -17,8 +17,6 @@ const TrackStore = useTrackStore()
 const AuthorStore = useAuthorStore()
 const { Authors } = storeToRefs(AuthorStore)
 
-
-
 //props ID passata 
 const props = defineProps({
   id: { type: Object, required: true},
@@ -109,65 +107,10 @@ function uploadStartMp3() {
   uploaderMp3.value.click();
 }
 
-
 function pickImage(event) {
   previewImage(event, uploadedImg, imgPreview); // Chiamata alla funzione importata
 }
-/*
 
-function previewImage(event) {
-  uploadedImg.value = event.target.files[0];
-  console.log(uploadedImg.value,'guarda il peso è APPENA caricata')
-  if (uploadedImg != null) {
-  }
-  // Verifica il tipo di file, ad esempio, se è un'immagine
-  if (!uploadedImg.value.type.startsWith('image/')) {
-    console.error('Il file selezionato non è un\'immagine.');
-    alert('Il file selezionato non è un\'immagine.');
-    return;
-  }
-  const maxSizeKB = 500; // Massima dimensione in kilobyte
-  const maxWidthOrHeight = 500; // Massima larghezza o altezza
-
-    // Leggi il file come blob
-    const reader = new FileReader();
-  reader.onload = function() {
-    const img = new Image();
-    img.src = reader.result;
-    img.onload = function(){
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-
-        // Calcola le nuove dimensioni in base al maxWidthOrHeight
-        let newWidth, newHeight;
-        if(img.width > img.height){
-            newWidth = maxWidthOrHeight;
-            newHeight = (img.height / img.width) * maxWidthOrHeight;
-        } else {
-            newHeight = maxWidthOrHeight;
-            newWidth = (img.width / img.height) * maxWidthOrHeight;
-        }
-        canvas.width = newWidth;
-        canvas.height = newHeight;
-        ctx.drawImage(img, 0, 0, newWidth, newHeight);
-
-        canvas.toBlob((blob) => {
-            if(blob.size / 1024 <= maxSizeKB){
-                console.log(uploadedImg.value,'BEFORE new file')
-                uploadedImg.value = new File([blob],uploadedImg.value.name, {type: uploadedImg.value.type});
-                imgPreview.value.src = URL.createObjectURL(uploadedImg.value);
-                console.log(uploadedImg.value,'AFTER new file')
-            }else{
-                console.error('L\'immagine selezionata supera la dimensione massima consentita.');
-                alert('L\'immagine selezionata supera la dimensione massima consentita.');
-            }
-        }, uploadedImg.value.type, 0.9);
-    };
-  };
-  reader.readAsDataURL(uploadedImg.value)
-  console.log(uploadedImg.value,'guarda il peso è dopo il reader')
-}
-*/
 function previewMp3(event) {
   uploadedMp3.value = event.target.files[0];
   console.log(uploadedMp3.value,'questo è il file audio')
@@ -250,25 +193,18 @@ const storagePath = `${uploadPath.value}/${file.name}`;
 </script>
 <template>
     <div class="editTrack" v-if="thisTrack">
-            <div ref="progressBar" class="progressBar">
-                <div ref="progress" class="progress"><span ref="progressNumber">666</span></div>
-            </div>
-            <toBack  where="/dashboard"/>
-            <div class="row">
+        <div ref="progressBar" class="progressBar">
+            <div ref="progress" class="progress"><span ref="progressNumber">666</span></div>
+        </div>
+        <toBack  where="/dashboard"/>
 
-            
-            <div class=" editHeader">
-                <div class="col-6 ">
+            <div class="row">
+                <div class=" editHeader col-12 ">
                     <p>Stai modificando: </p>
                     <div class="label">
                         <h4>{{thisTrack.Title}}</h4>
                     </div>
                 </div>
-                <div class="col-6">
-
-                </div>
-            </div>
-            <div class=" editBody">
                 <div class="col-4 title squareHole">
                     <div class="label">
                         <label for="title">Track Title:</label>
@@ -327,7 +263,7 @@ const storagePath = `${uploadPath.value}/${file.name}`;
                         <label for="title">Get link:</label>
                         <input type="text" v-model="thisTrack.Src.Href"  name="src" :placeholder="thisTrack.Src?.Href" required v-if="thisTrack.Src?.Href">
                     </div>
-                </div>                
+                </div>   
                 <div class="col-4 img squareHole">
                     <div class="label">
                         <label for="title">Get Image:</label>
@@ -365,7 +301,6 @@ const storagePath = `${uploadPath.value}/${file.name}`;
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 </template>
     <style lang="scss" scoped>
@@ -388,7 +323,6 @@ const storagePath = `${uploadPath.value}/${file.name}`;
                 margin-top: .3rem;
             }
         }
-
     }
     .editBody{
         .label{
@@ -415,7 +349,7 @@ const storagePath = `${uploadPath.value}/${file.name}`;
                 }
             }
         .link{
-margin-top: calc(var(--borderSize) - var(--borderSize)  - var(--borderSize));
+            margin-top: calc(var(--borderSize) - var(--borderSize)  - var(--borderSize));
         }
         .img{
             margin-top: calc(var(--borderSize) - var(--borderSize)  - var(--borderSize));
@@ -423,7 +357,7 @@ margin-top: calc(var(--borderSize) - var(--borderSize)  - var(--borderSize));
                 display:flex;
                 justify-content: space-between;
                 .imgPreview{
-                    width: 7rem;
+                    width: 3rem;
                 }
             }
 

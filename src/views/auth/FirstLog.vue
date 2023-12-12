@@ -9,7 +9,7 @@
         <div class="row">
             <div class="col-12">
                 <logIn class="logIn"/>
-                <signUp class="signUp"/>
+                <!--<signUp class="signUp"/>-->
             </div>
         </div>
     </section>
