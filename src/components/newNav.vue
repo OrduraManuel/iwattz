@@ -26,7 +26,7 @@
           <span class="effect-navigation"
             ><span class="nav-indicator-wrapper"
               ><span class="nav-indicator"></span></span
-            >About me</span
+            >IgghySound</span
           >
         </router-link>
       </li>
@@ -60,7 +60,7 @@
           <span class="effect-navigation"
             ><span class="nav-indicator-wrapper"
               ><span class="nav-indicator"></span></span
-            >Contact</span
+            >Contattami</span
           >
         </router-link>
       </li>
@@ -76,7 +76,7 @@
           <span class="effect-navigation"
             ><span class="nav-indicator-wrapper"
               ><span class="nav-indicator"></span></span
-            >Work's selections</span
+            >Portfolio tracce</span
           >
         </router-link>
       </li>
@@ -143,7 +143,7 @@ watchEffect(async () => {
     rightPositionStyle.opacity = '1';
     bottomPositionStyle.bottom = 'var(--marginNB)';
     bottomPositionStyle.opacity = '1';
-    centerPositionStyle.top = '77vh';
+    centerPositionStyle.top = '69vh';
     centerPositionStyle.opacity = '1';
     loginPositionStyle.bottom = 'var(--marginB)';
     loginPositionStyle.right = 'var(--marginR)';
