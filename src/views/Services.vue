@@ -18,34 +18,34 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                 </div>
                 <div class="col-12 ">
                     <h3 class="section-header mt-5">
-                        Here's  how<span> our</span>what
-                        <span>mixing</span> & <span>mastering</span>
-                        process <span>works!</span>
+                        Come funziona? Lavoriamo insieme, ecco gli step:
                     </h3>
                 </div>
                 <div class="col-md-4 col-services section-txt">
-                    <h6 class="services  mt-5">
-                        <span class="awesome">01.</span> Purchase & send your files
+                    <h6 class="services ">
+                        <span class="awesome">01.</span> Mandami una mail
                     </h6>
-                    <p>Choose you files and send us with  <a class="link-underline" href="#">WeTransfer</a>,  <a class="link-underline"
-                        href="#">Dropbox</a> or  <a class="link-underline"
-                        href="#">GDrive</a> with the dry & wet stems of your song.
+                    <p>Contattami alla email: <a class="link-underline" href="#">work@igghysound.com</a> con il link ai file multitraccia del tuo brando da mixare e/o masterizzare.
+                        <br>Potresti usare piattaforme come:
+                        <a class="link-underline" href="https://wetransfer.com/">WeTransfer</a>,  <a class="link-underline"
+                        href="https://www.dropbox.com/">Dropbox</a> o  <a class="link-underline"
+                        href="https://www.google.com/intl/it_it/drive/">GDrive</a>.
                     </p>
                 </div>
                 <div class="col-md-4 col-services section-txt">
                     <h6 class="services">
-                        <span class="awesome">02.</span> We mix your song
+                        <span class="awesome">02.</span> Lavorazioni in corso
                     </h6>
-                    <p>Once the files are received, we mix and master your song in our pristine #1 rated recording studio. <a class="link-underline"
-                       href="#">Turn around time is 5-10 business days</a>.
+                    <p>Entro 5/10 giorni lavorativi dalla ricezione del file avrail il tuo brano per revisione. <a class="link-underline"
+                       href="#">Sono inclusi fino a 3 round di modifiche nel prezzo</a>.
                     </p>
                 </div>
                 <div class="col-md-4 col-services section-txt">
                     <h6 class="services">
-                        <span class="awesome">03.</span> Grow your brand
+                        <span class="awesome">03.</span> Fai grande il tuo Brand!
                     </h6>
-                    <p>After completion, you'll receive your high-quality WAV file ready to upload online.  <a class="link-underline"
-                        href="#">Get new fans, engage your audience, and grow!</a>
+                    <p>Il tuo brano è pronto per essere pubblicato! In alta qualità, <a class="link-underline"
+                        href="#">ottimizzato per l'ascolto su tutte le piattaforme online </a>
                      </p>
                 </div>
                 <ModalBtn :where="'ModalContact'" />

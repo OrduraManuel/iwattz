@@ -12,7 +12,7 @@ console.log(isWhere,'questo è il div')
         <span></span>
         <span></span>
         <span></span>
-        Contact
+        Contattami
     </a>
 </div>
 </template>

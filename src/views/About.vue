@@ -10,22 +10,23 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                 <div class="row">
                     <div class="col-lg-12">
                         <h2 class="section-heading-all">
-                            <span>01.</span> about me:  Igor Ambrosino
+                            <span>01.</span> IgghySound:  Igor Ambrosino
                         </h2>
                     </div>
                     <div class="inner-divider"></div>
                     <div class="col-lg-12">
                         <h3 class="section-header">
-                            We've over a <span>decade</span> of audio <br>
-                            <span>mixing</span> and <span>mastering</span> experience.<br>
-                            IWATTZ and his team 've learned from some of the  <span>best audio engineers in the world</span>.
+                            <br>
+                            Mi occupo di Mix & Mastering da N anni per artisti ed etichette italiane e internazionali <br>
+                            <br>
                         </h3>
                     </div>
                     <div class="col-md-4 section-txt">
-                        <p> We help our clients release songs that everyone can connect to, and listen to over again. We strive to <a class="link-underline" href="#">get the exact sound that is in your head</a> into your mix by any means possibile. .</p>
+                        <p> Ho iniziato nel 2019 come fonico e Mix & Mastering Engineer per l'etichetta indipendente <a class="link-underline" href="https://moldrecordslabel.com/" target="_blank">MOLD Records</a> e dal 2020 collaboro con <a class="link-underline" href="http://www.rickycarioti.com/" target="_blank">Ricky Carioti</a>.</p>
                     </div>
                     <div class="col-md-4 section-txt">
-                        <p>If you want a company that will truly care about your sound and collaborate with you to realize your vision, <a class="link-underline" href="#">IWATTZ</a> will be sure to deliver.</p>
+                        <p>Lavorando ai dischi di diversi artisti mainstream italiani su tracce hip-hop, pop moderno e rock.</p>
+                        <router-link :to="`selections`" class="btn btn-about" >Ascolta i miei lavori</router-link>
                     </div>
 
                 <ModalBtn :where="'ModalContact'" />
@@ -33,3 +34,49 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                 <ModalContactMe />
         </section>
 </template>
+<style scoped lang="scss">
+.section-txt{
+    .btn-about{
+        width: 50%;
+        background: rgba(255,255,255,.08);
+        color: var(--brandPrimary);
+        border: 2px solid var(--brandPrimary);
+        text-transform: uppercase;
+        font-weight: 650;
+        overflow: hidden;
+        position: relative;
+        transition: all .55s ease-in-out;
+        &:hover{
+            background: var(--brandPrimary);
+            border: 2px solid var(--brandPrimary);
+            color: var(--light);
+            transition: all .25s ease-in;
+        }
+        &:after{
+            content: '';
+            position: absolute;
+            width: 20%;
+            height: 120%;
+            background: rgba(255,255,255,0.15);
+            filter: blur(4px);
+            transform: skewX(-55deg);
+            top: -10%;
+            right: 0;
+            animation: specialFade .85s infinite;
+        }
+        &:before{
+            content: '';
+            position: absolute;
+            width: 10%;
+            height: 120%;
+            background: rgba(255,255,255,0.3);
+            filter: blur(4px);
+            transform: skewX(-55deg);
+            top: -10%;
+            right: 0;
+            animation: specialFade 1s infinite;
+            animation-delay: .25s;
+        }
+    }
+}
+</style>
