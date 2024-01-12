@@ -10,15 +10,28 @@ import ModalBtn from '@/components/modal/btnModal.vue'
         <div class="row">
             <div class="col-12">
                 <h2 class="section-heading-all">
-                    <span>03.</span> contact
+                    <span>03.</span> Contattami
                  </h2><!-- page title end -->
             </div>
             <div class="col-lg-12">
                 <h3 class="section-header">
-                please send an e-mail at the <span>address provided below</span> or feel free to <a class="link-underline link-underline-contact contact-modal-launcher" href=
-                "#">use the form</a>.
+                Vuoi lavorare con me alla tua prossima Hit?<br> 
                 </h3><!-- section title end -->
             </div>
+            <div class="col-lg-12">
+                <h3 class="section-header">
+                Mi trovi via email qui: 
+                <a class="link-underline link-underline-contact contact-modal-launcher" href="mailto:contact@domainname.com">iwattz@igghysounds.com</a>
+                </h3><!-- section title end -->
+            </div>
+            <div class="col-lg-12">
+                <h3 class="section-header">
+
+                O su Instagram:
+                <a class="link-underline link-underline-contact contact-modal-launcher" href="https://www.instagram.com/igghysound/" target="_blank">iggysound</a>
+                </h3><!-- section title end -->
+            </div>
+<!--
             <div class="col-4 col-contact section-txt">
                 <h6 class="contact">
                     <span class="awesome">Street</span> Address
@@ -41,9 +54,11 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                     <a class="link-underline" href="mailto:contact@domainname.com">iwattz@igghysounds.com</a>
                 </p>
             </div>
+-->
         </div>    
-        <ModalBtn />
-        <ModalContactMe />
+        <ModalBtn :where="'ModalContact'" />
+
+                <ModalContactMe />
 </section>
 </template>
 <style lang="scss" scoped>

@@ -46,18 +46,19 @@ async function  searchHandler() {
                     <trackPlayer :song="selectedTrack" />
                 </div>
             </div>
-            <ModalBtn />
+            <ModalBtn :where="'ModalContact'"/>
 
-        <ModalContactMe />
+        <ModalContactMe  />
     </div>
 </template>
 <style lang="scss" scoped>
 #selected{
-    position: relative;
+    //position: relative;
     .content{
         display: flex;
         justify-content: space-around;
         align-items: center;
+
     }
 }
 .selectedTrack{
@@ -68,4 +69,22 @@ async function  searchHandler() {
         color: white;
     }
 }
+@media only screen and (max-width: 576px) {
+    #selected{
+        align-content: start;
+        align-items: start;
+          .content {
+            flex-direction: column-reverse;
+            .wrapper{
+                align-content: start;
+                align-items: start;
+                min-height: 70vh;
+                .player-controls{
+                    position: absolute;
+                    bottom: -35%;
+                }
+            }
+          }
+        }
+    }
 </style>

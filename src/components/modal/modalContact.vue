@@ -16,7 +16,7 @@
               <div class="containerInput">
                 <div class="input NameBox">
                     <input type="text" name="" required="">
-                    <label>Nome e Cognome</label>  
+                    <label>Nome</label>  
                 </div>
                 <div class="input CategoryBox">
                     <input type="text" name="" required="">

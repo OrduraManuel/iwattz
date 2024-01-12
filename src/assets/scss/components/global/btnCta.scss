@@ -49,14 +49,15 @@
     display: inline-block;
     bottom: calc(var(--marginB) + 2%);
     right: calc(var(--marginR) + 2%);
-    width: 10rem!important;
+    width: 14rem!important;
     height: 3.5rem!important;
     @media  only screen and (max-width: 960px) {
+        position: fixed;
             bottom: 0rem!important;
             right: 0rem!important;
             width: 100vw!important;
             height: 7vh!important;
-            backdrop-filter: blur(3rem);
+            backdrop-filter: blur(6px);
             padding: 0;
                 a{
                 display: flex;

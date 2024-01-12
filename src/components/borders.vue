@@ -103,8 +103,9 @@ onMounted(() => {
         <div class="borders-introduction-wrapper">
             <div class="border-wrapper" >
                 <div class="border-inner">
+                    
                     <div class="center-space-bottom  d-none d-lg-block">
-                        <span id="claim">il suono della musica</span>
+                        <span id="claim"></span>
                     </div>
                     <div id="border-t">
                         <div id="t1" class="border-bg border-top border-top-1"></div>

@@ -8,7 +8,7 @@ import { watchEffect, ref, onMounted } from 'vue';
 import { storage } from '@/api/config';
 import { ref as storageRef, uploadBytesResumable, getDownloadURL } from 'firebase/storage';
 
-import { useTrackStore, useAuthorStore } from '@/store'
+import { useAuthorStore } from '@/store'
 import { storeToRefs } from 'pinia';
 
 import getUser from '@/auth/getUser';
@@ -20,31 +20,24 @@ import { resizeAndSetImage, previewImage } from '@/assets/js/resize.js';
 const router = useRouter();
 const currentUser = getUser;
 
-const TrackStore = useTrackStore()
-const { Tracks } = storeToRefs(TrackStore)
 const AuthorStore = useAuthorStore()
-const AuthorsList = ref()
 const { Authors } = storeToRefs(AuthorStore)
 
-//const { Track } = storeToRefs(TrackStore)
-//const newTrack = computed(() => Track.value);
 
 const SrcOptions = [
-  'spotify','tidal','youtube'
+  'Rock','Pop','Rap', 'Raggae', 'Metal'
 ]
 
-const Track = ref({
+const Author = ref({
   Number: '',
   Organizer: {
     id: '666',
   },
-  Author: '',
-  Title: '',
-  isFav: '',
-  Src: {
-    Href: '',
-    Option: '',
-  },
+  Name: '',
+  Category: [],
+  Descr: '',
+  Members: [],
+  Songs: [],
   Img: {
     Name: '',
     Path: null
@@ -53,35 +46,20 @@ const Track = ref({
 
 onMounted(() => {
   watchEffect(() => {
-    TracksNumber.value = null;
+    AuthorsNumber.value = null;
     searchHandler();
   });
-  findAuthor()
 });
 
-async function findAuthor(){
-  //let Arr = Authors.value
-  await Authors.value.forEach(Author =>{
-    if(Author.id == Track.Author){
-      AuthorName.value = Author.Name
-      console.log(AuthorName.value,'values')
-    }
-
-  })
-  console.log(AuthorName.value, 'QUESTOOOOOOOpunto find')
-}
-
-let TracksNumber = ref();
+let AuthorsNumber = ref();
 
 
 // function search
 async function searchHandler() {
-  await AuthorStore.getAllAuthors('Number')
-  AuthorsList.value = Authors.value
-  console.log(AuthorsList.value ,'sono gli autori?')
-  TracksNumber.value = await TrackStore.numberOfTracks();
-  TracksNumber.value++;
-  Track.value.Number = TracksNumber.value
+  AuthorsNumber.value = await AuthorStore.numberOfAuthors();
+  AuthorsNumber.value++;
+  Author.value.Number = AuthorsNumber.value
+
 }
 
 //let uploader;
@@ -89,17 +67,13 @@ let uploaderImg = ref()
 let uploadedImg = ref()
 let imgPreview = ref()
 
-let uploaderMp3 = ref()
 let progressBar = ref()
 let progress = ref()
 let progressNumber = ref()
 
 // function pick your file
-function uploadStartImg() {
+function uploadStart() {
   uploaderImg.value.click();
-}
-function uploadStartMp3() {
-  uploaderMp3.value.click();
 }
 
 async function pickImage(event) {
@@ -111,12 +85,13 @@ async function pickImage(event) {
     loaded.innerHTML = almostLoad.value;
 }
 
-function previewMp3(event) {
-  uploaderMp3.value = event.target.files[0];
-  console.log(uploaderMp3.value, 'in previewImage')
-  if (uploaderMp3 != null) {
+/*
+function previewImage(event) {
+  uploadedImg.value = event.target.files[0];
+  console.log(uploadedImg.value, 'in previewImage')
+  if (uploaded != null) {
     let almostLoad = ref('');
-    almostLoad.value = 'Hai selezionato: ' + uploaderMp3.value.name + ' come Mp3!';
+    almostLoad.value = 'Hai selezionato: ' + uploadedImg.value.name + ' come Img!';
     let loaded = document.getElementById('almostLoad');
     loaded.classList.remove('d-none');
     loaded.innerHTML = almostLoad.value;
@@ -124,23 +99,24 @@ function previewMp3(event) {
     console.log('uploaded è null')
   }
 }
+*/
 
-async function uploadFile(file){
+async function uploadFile(file) {
+  
+  Author.value.Img.Name = file.name;
+
   const uploadPath = ref()
   function renamePath(myName){
     const withoutSpace = myName.split(' ').join('-')
     uploadPath.value =  withoutSpace.split(`'`).join('-')
 }
-  await renamePath(AuthorName.value)
+await renamePath(Author.value.Name)
+console.log(uploadPath.value,'questa è la path che inietterà')
   const storagePath = `${uploadPath.value}/${file.name}`;
   const storageRefs = storageRef(storage, storagePath);
   const metadata = {
-      contentType: file.type
-    };
-  if(file.type == 'image/jpeg'){
-    Track.value.Img.Name = file.name;
-    console.log('image')
-  }
+    contentType: file.type
+  };
   const uploadTask = uploadBytesResumable(storageRefs, file, metadata);
 
   return await new Promise((resolve, reject) => {
@@ -149,7 +125,9 @@ async function uploadFile(file){
       (snapshot) => {
         const interpolation = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         progress.value.style.width = interpolation + '%'
-        progressNumber.value.innerHTML = interpolation + '%'
+        if(file.type == 'image/jpeg'){
+            progressNumber.value.innerHTML = 'caricamento cover: '+ interpolation + '%'
+        }
       },
       (error) => {
         console.log('questo è l errore: ', error);
@@ -159,11 +137,7 @@ async function uploadFile(file){
         console.log('questo è lo snapshot ref: ', uploadTask.snapshot.ref);
         const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
         if(file.type == 'image/jpeg'){
-          Track.value.Img.Path = downloadURL;
-          console.log('image')
-        }
-        if(file.type == 'audio/mpeg'){
-          Track.value.Src.Song = downloadURL;
+          Author.value.Img.Path = downloadURL;
           console.log('image')
         }
         resolve(downloadURL);
@@ -175,11 +149,10 @@ async function uploadFile(file){
 // function create
 const handleSubmit = async () => {
   try {
-    const downloadIMG = await uploadFile(uploaderImg.value);
-    const downloadMP3 = await uploadFile(uploaderMp3.value);
-    if (downloadIMG && downloadMP3) {
-      await createTrack(downloadIMG, downloadMP3);
-      resetTrack();
+    const downloadURL = await uploadFile(uploadedImg.value);
+    if (downloadURL) {
+      await createAuthor(downloadURL);
+      resetAuthor();
       router.push('/dashboard');
     }
   } catch (error) {
@@ -190,14 +163,13 @@ const handleSubmit = async () => {
   }
 };
 
-const createTrack = async (downloadIMG, downloadMP3) => {
-  Track.value.Img.Path = downloadIMG;
-  Track.value.Src.Song = downloadMP3;
-  await TrackStore.createTrack(Track.value);
+const createAuthor = async (downloadURL) => {
+  Author.value.Img.Path = downloadURL;
+  await AuthorStore.createAuthor(Author.value);
 };
 
-const resetTrack = () => {
-  Track.value = {
+const resetAuthor = () => {
+  Author.value = {
     Number: '',
     Title: '',
     Author: '',
@@ -210,41 +182,22 @@ const resetTrack = () => {
 
 </script>
 <template>
-  <div id="create" v-if="Track">
+  <div id="create" v-if="Author">
       <div ref="progressBar" class="progressBar">
         <div ref="progress" class="progress"><span ref="progressNumber">666</span></div>
       </div>
       <toBack where="/Dashboard" />
       <div class="row">
-
-      
         <div class="col-12">
-          <form  id="createForm" action="#" @submit.prevent class="createTrackForm">
+          <form  id="createForm" action="#" @submit.prevent class="createAuthorForm">
             <div class="containerFirst">
               <div class="label">
-                <label for="title">Track title:</label>
-                <input type="text" name="title" v-model="Track.Title" placeholder="Inserisci il titolo del libro"
+                <label for="title">Author name:</label>
+                <input type="text" name="name" v-model="Author.Name" placeholder="Inserisci il nome dell autore"
                   required>
-                <label for="title py-3">Track author:</label>
-                <div class="gridWrapper">
-                  <label :for="Author" class="radioCard" v-for="AuthorList in AuthorsList" :key="AuthorList.Number">
-                    <input type="radio" v-model="Track.Author" :id="AuthorList" :value="AuthorList.id" required/>
-                    <div class="cardContentWrapper">
-                      <span class="checkIcon">
-                        <!--<i class="fa-brands" :class="'fa-'+SrcOption"></i>-->
-                      </span>
-                      <div class="cardContent">
-                        <h4>{{ AuthorList.Name }}</h4>
-                      </div>
-                    </div>
-                  </label>
-                </div>
-              </div>
-              <div class="checkLove" :class="{ cta: !isFav, ctaLove: isFav }">
-                <span class="mb-2">Did you love this Track?</span>
-                <i :class="{ icon: true, fas: isFav, far: !isFav }" class="fa-heart fa-2x my-auto"></i>
-                <input type="checkbox" id="checkLove" class=" mt-3" v-model="Track.isFav" value="true" />
-                <label for="checkLove">checkLove</label>
+                <label for="title py-3">Author description:</label>
+                <input type="text" name="author" v-model="Author.Descr" placeholder="Inserisci una descrizione"
+                  required>
               </div>
             </div>
             <div class="containerSecond my-4">
@@ -254,7 +207,7 @@ const resetTrack = () => {
 
                 <div class="gridWrapper">
                   <label :for="SrcOption" class="radioCard" v-for="SrcOption in SrcOptions" :key="SrcOption">
-                    <input type="radio" v-model="Track.Src.Option" :id="SrcOption" :value="SrcOption"/>
+                    <input type="radio" v-model="Author.Category" :id="SrcOption" :value="SrcOption"/>
                     <div class="cardContentWrapper">
                       <span class="checkIcon">
                         <!--<i class="fa-brands" :class="'fa-'+SrcOption"></i>-->
@@ -263,29 +216,20 @@ const resetTrack = () => {
                         <h4>{{ SrcOption }}</h4>
                       </div>
                     </div>
-                    
                   </label>
                 </div>
-                <textarea rows="" cols="40" name="notes" v-model="Track.Src.Href">
-                    </textarea>
+                <textarea rows="" cols="40" name="notes" v-model="Author.Descr" placeholder="Inserisci una descrizione dell autore">
+                </textarea>
               </div>
               <div class="ImgImage">
                 <span class="mb-2">Upload this Img</span>
-                <button class="btn btn-primary" @click="uploadStartImg">Choose your Img
+                <button class="btn btn-primary" @click="uploadStart">Choose your Img
                 </button>
                 <img :src="null" ref="imgPreview" class="imgPreview"/>
                 <input style="display:none" type="file" 
-                id="uploaderImg" class="mt-3" 
+                id="uploaderImg" class="mt-3"
                 ref="uploaderImg" @change="pickImage"
                 accept="image/*" />
-                <div id="almostLoad" class="d-none">burp</div>
-              </div>
-              <div class="Mp3">
-                <span class="mb-2">Upload this Mp3</span>
-                <button class="btn btn-primary" @click="uploadStartMp3">Choose your Mp3
-                </button>
-                <input style="display:none" type="file" id="uploader" class="mt-3" ref="uploaderMp3" @change="previewMp3"
-                  accept=".mp3,audio/*" />
                 <div id="almostLoad" class="d-none">burp</div>
               </div>
             </div>
@@ -298,6 +242,7 @@ const resetTrack = () => {
                 Add Author
               </a>
             </div>
+            
           </form>
         </div>
       </div>
@@ -310,10 +255,15 @@ const resetTrack = () => {
   color: white;
   background: purple;
 }
-  .imgPreview{
+.imgPreview{
     width: 7rem;
   }
-.progressBar{
+
+#createForm{
+  position: relative;
+
+  }
+  .progressBar{
     position: absolute;
     top:0;
     left: 0;
@@ -338,8 +288,4 @@ const resetTrack = () => {
         }
     }
 }
-
-#createForm{
-  position: relative;
-  }  
-</style>
+</style> 

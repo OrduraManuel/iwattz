@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia';
 import { watchEffect, onMounted, ref } from 'vue';
 
 import basicModal from '@/components/auth/basicModal.vue';
-import tableItem from '@/components/auth/authors/tableItem.vue';
+import tableItem from '@/components/auth/Authors/tableItem.vue';
 
 import loader from '@/components/loader.vue';
 

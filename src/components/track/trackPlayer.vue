@@ -156,10 +156,17 @@ function generateTime() {
   min-height: 100vh;
   // background: url(../img/bg.png) no-repeat center;
   background-size: cover;
-  @media screen and (max-width: 700px), (max-height: 500px) {
-    flex-wrap: wrap;
-    flex-direction: column;
-  }
+  @media only screen and (max-width: 576px) {
+
+                align-content: start;
+                align-items: start;
+                min-height: 70vh;
+                .player-controls{
+                    position: absolute;
+                    bottom: -35%;
+                }
+
+              }
 }
 
 .player {
@@ -196,7 +203,7 @@ function generateTime() {
       font-weight: 400;
     }
   }
-  @media screen and (max-width: 576px), (max-height: 500px) {
+  @media screen and (max-width: 576px) {
     width: 95%;
     padding: 20px;
     margin-top: 75px;
@@ -210,7 +217,7 @@ function generateTime() {
     justify-content: space-between;
     position: relative;
     z-index: 4;
-    @media screen and (max-width: 576px), (max-height: 500px) {
+    @media screen and (max-width: 576px) {
       flex-wrap: wrap;
     }
   }
@@ -225,7 +232,7 @@ function generateTime() {
     border-radius: 15px;
     z-index: 1;
 
-    @media screen and (max-width: 576px), (max-height: 500px) {
+    @media screen and (max-width: 576px) {
       margin-top: -70px;
       margin-bottom: 25px;
       width: 290px;
@@ -282,7 +289,7 @@ function generateTime() {
     flex-direction: column;
     align-items: self-end;
 
-    @media screen and (max-width: 576px), (max-height: 500px) {
+    @media screen and (max-width: 576px) {
       flex-direction: row;
       padding-left: 0;
       width: 100%;
@@ -303,7 +310,7 @@ function generateTime() {
       position: relative;
       transition: all 0.3s ease-in-out;
 
-      @media screen and (max-width: 576px), (max-height: 500px) {
+      @media screen and (max-width: 576px) {
         font-size: 26px;
         padding: 5px;
         margin-right: 10px;
@@ -339,7 +346,7 @@ function generateTime() {
         }
       }
 
-      @media screen and (max-width: 576px), (max-height: 500px) {
+      @media screen and (max-width: 576px) {
         &:active {
           color: #532ab9;
 
@@ -365,7 +372,7 @@ function generateTime() {
         width: auto;
         height: auto;
         display: inline-flex;
-        @media screen and (max-width: 576px), (max-height: 500px) {
+        @media screen and (max-width: 576px) {
           margin-left: auto;
           font-size: 75px;
           margin-right: 0;
@@ -436,7 +443,7 @@ function generateTime() {
   padding-right: 60px;
   user-select: none;
 
-  @media screen and (max-width: 576px), (max-height: 500px)  {
+  @media screen and (max-width: 576px)  {
     padding-right: 30px;
   }
 
@@ -445,7 +452,7 @@ function generateTime() {
     font-weight: bold;
     margin-bottom: 12px;
     line-height: 1.3em;
-    @media screen and (max-width: 576px), (max-height: 500px) {
+    @media screen and (max-width: 576px) {
       font-size: 18px;
       margin-bottom: 9px;
     }
@@ -456,7 +463,7 @@ function generateTime() {
     opacity: 0.7;
     line-height: 1.3em;
     min-height: 52px;
-    @media screen and (max-width: 576px), (max-height: 500px)  {
+    @media screen and (max-width: 576px)  {
       font-size: 18px;
       min-height: 50px;
     }

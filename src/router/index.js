@@ -1,33 +1,33 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from '@/views/home.vue'
-import About from "@/views/about.vue";
-import Services from "@/views/services.vue";
-import Contact from "@/views/contact.vue";
-import Selections from "@/views/selections.vue";
+import Home from '@/views/Home.vue'
+import About from "@/views/About.vue";
+import Services from "@/views/Services.vue";
+import Contact from "@/views/Contact.vue";
+import Selections from "@/views/Selections.vue";
 
 // auth
-import FirstLog from "@/views/auth/firstLog.vue";
-import Dashboard from "@/views/auth/dashboard.vue";
+import FirstLog from "@/views/auth/FirstLog.vue";
+import Dashboard from "@/views/auth/Dashboard.vue";
 
 //Tracks
-import CreateTrack from "@/views/auth/tracks/createTrack.vue";
-import EditTrack from "@/views/auth/tracks/editTrack.vue";
-import SelectedTrack from "@/views/selectedTrack.vue";
+import CreateTrack from "@/views/auth/Tracks/CreateTrack.vue";
+import EditTrack from "@/views/auth/Tracks/EditTrack.vue";
+import SelectedTrack from "@/views/SelectedTrack.vue";
 
-import CreateStepper from "@/views/auth/createStepper.vue";
+import CreateStepper from "@/views/auth/CreateStepper.vue";
 
 //Authors
-import CreateAuthor from "@/views/auth/authors/createAuthor.vue";
-import EditAuthor from "@/views/auth/authors/editAuthor.vue";
+import CreateAuthor from "@/views/auth/Authors/CreateAuthor.vue";
+import EditAuthor from "@/views/auth/Authors/EditAuthor.vue";
 
 
 // dashboard
-import TracksDashboard from "@/views/auth/tracks/table.vue";
-import AuthorsDashboard from "@/views/auth/authors/table.vue";
+import TracksDashboard from "@/views/auth/Tracks/Table.vue";
+import AuthorsDashboard from "@/views/auth/Authors/Table.vue";
 
 
 import NotFound from "@/views/404.vue";
-import NetworkError from '@/views/networkError.vue'
+import NetworkError from '@/views/NetworkError.vue'
 
 // firebase imports
 import { auth } from '@/api/config'
