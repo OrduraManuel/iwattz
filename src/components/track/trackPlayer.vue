@@ -153,14 +153,14 @@ function generateTime() {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 100dvh;
   // background: url(../img/bg.png) no-repeat center;
   background-size: cover;
   @media only screen and (max-width: 576px) {
 
                 align-content: start;
                 align-items: start;
-                min-height: 70vh;
+                min-height: 70dvh;
                 .player-controls{
                     position: absolute;
                     bottom: -35%;

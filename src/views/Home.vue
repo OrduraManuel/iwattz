@@ -8,7 +8,7 @@
               <h2 class=" heroAnimated   d-none d-md-block">&</h2>
               <span class="heroAnimated  d-none d-md-block">Mastering</span> 
               <h2 class=" heroAnimated d-none d-md-block">Engineer</h2>
-              <div class="d-md-none" style="margin-top: -10vh">
+              <div class="d-md-none" style="margin-top: -10dvh">
                   <span class=" heroAnimated mobile ">Mix</span> 
                   <h2 class=" heroAnimated mobile">&</h2>
                   <span class="heroAnimated mobile ">Mastering</span> 

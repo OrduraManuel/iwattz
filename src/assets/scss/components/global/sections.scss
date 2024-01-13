@@ -1,7 +1,7 @@
    
 .row{
-  padding:4vw 4vh ;
-  margin-top: -3vh;
+  padding:4vw 4dvh ;
+  margin-top: -3dvh;
 }
 #about, #services, #selections, #dashboard, #contact{
   position: relative;
@@ -23,9 +23,9 @@
     justify-content: center;
     align-content: start;
     align-items: start;
-    margin-bottom:3vh;
+    margin-bottom:3dvh;
     .row{
-      margin-top: 3vh;
+      margin-top: 3dvh;
     }
     }
 } 
@@ -35,7 +35,7 @@
   z-index: 9;
   margin: var(--marginT) var(--marginR) var(--marginB) var(--marginL) !important;
   width: calc(98vw - var(--marginR) - var(--marginL));
-  height: calc(100vh - var(--marginT) - var(--marginB));
+  height: 100dvh;//calc(100dvh - var(--marginT) - var(--marginB));
   display: flex;
   justify-content: center;
   align-content: flex-start;
@@ -52,7 +52,7 @@
   margin: 0%!important;
   z-index: 9;
   width: calc(100vw - 2vw - var(--borderSize) - var(--borderSize));
-  height: calc(100vh - 7vh);
+  height: calc(100dvh - 7dvh);
   overflow-y:auto;
   overflow-x:hidden;
   //overflow-y: auto;
@@ -60,6 +60,8 @@
   }
   .homethis::-webkit-scrollbar {
     width: 1vw!important;
+    height: calc(100dvh - var(--marginT) - var(--marginB));
+
   }
   .homethis::-webkit-scrollbar-track {
     background-color: var(--txtDark)!important;

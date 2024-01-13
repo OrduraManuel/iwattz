@@ -82,7 +82,7 @@
  .navigation-logout {
   justify-content: end;
  right: 0vw;
- bottom: 0vh;
+ bottom: 0dvh;
  width: 33vw;
  height: var(--dashboardBtnSize);
  overflow:visible;
@@ -148,7 +148,7 @@
  .navigation-dashboard {
   justify-content: end;
  right: 0vw;
- bottom: 0vh;
+ bottom: 0dvh;
  width: 33vw;
  height: var(--dashboardBtnSize);
  overflow:visible;
@@ -244,7 +244,7 @@
 }
 
  .navigation-right {
- margin-top: -4vh;
+ margin-top: -4dvh;
  right: var(--marginNR);
  top: 50%;
  -webkit-transform: rotate(90deg);	
@@ -312,7 +312,7 @@ transform: translate(-50%,50%);
  }
 
  .navigation-left {
- margin-top: -3vh;
+ margin-top: -3dvh;
  left: 0%;
  top: 50%;
  -webkit-transform: rotate(-90deg);	

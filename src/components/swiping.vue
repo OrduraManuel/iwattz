@@ -36,7 +36,7 @@ const modules = [EffectFade, Autoplay]
     right: 0;
 }
 .mySwiper{
-    height: 100vh;
+    height: 100dvh;
     width: 100vw;
 
     z-index: 0;

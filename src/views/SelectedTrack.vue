@@ -78,7 +78,7 @@ async function  searchHandler() {
             .wrapper{
                 align-content: start;
                 align-items: start;
-                min-height: 70vh;
+                min-height: 70dvh;
                 .player-controls{
                     position: absolute;
                     bottom: -35%;

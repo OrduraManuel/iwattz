@@ -10,7 +10,7 @@
   <div class="row">
   <div class="col-12">
   <Wizard :validation-schema="validationSchema" @submit.prevent > <!-- @submitEvent="onSubmit" -->
-  <Step class="slideInUp-enter-to" style="width: 100%; height: 35vh; position: relative">
+  <Step class="slideInUp-enter-to" style="width: 100%; height: 35dvh; position: relative">
   <h1>Step 1/4</h1>
   <div class="d-flex justify-content-around">
   <div class="rowTitle">
@@ -42,7 +42,7 @@
   </div>
   </Step>
  
-  <Step class="slideInUp-enter-to" style="width: 100%; height: 35vh">
+  <Step class="slideInUp-enter-to" style="width: 100%; height: 35dvh">
   <h1>step 2/4</h1>
  
   <div class="d-flex justify-content-around">
@@ -78,7 +78,7 @@
   </div>
   </Step>
  
-  <Step class="slideInUp-enter-to" style="width: 100%; height: 35vh">
+  <Step class="slideInUp-enter-to" style="width: 100%; height: 35dvh">
   <h1>step 3/4</h1>
   <div class="row">
   <div class="col-6">
@@ -112,7 +112,7 @@
   </div>
   </div>
   </Step>
-  <Step class="slideInUp-enter-to" style="width: 100%; height: 35vh">
+  <Step class="slideInUp-enter-to" style="width: 100%; height: 35dvh">
   <h1>step 4/4</h1>
   <div class="row">
   <div class="col-12" id="isHit">

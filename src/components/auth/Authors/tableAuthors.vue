@@ -46,7 +46,7 @@ async function  nextHandler() {
     }
   })
 }
-async function  prevHandler() {
+async function  predvhandler() {
   await AuthorStore.getPrevAuthors( perPage.value, 'Number',prevAuthors.value)
   .then(()=>{
     let firstAuthors = Authors.value[0]
@@ -126,7 +126,7 @@ watchEffect( () =>{
           </select>
         </li>
         <li class="page-item">
-          <a class="page-link  disabled" ref="prevBtn" href="#" aria-label="Previous"  @click="prevHandler">
+          <a class="page-link  disabled" ref="prevBtn" href="#" aria-label="Previous"  @click="predvhandler">
             <span aria-hidden="true">PREV</span>
           </a>
         </li>

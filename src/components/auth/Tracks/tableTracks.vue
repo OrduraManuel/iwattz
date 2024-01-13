@@ -50,7 +50,7 @@ async function  nextHandler() {
     }
   })
 }
-async function  prevHandler() {
+async function  predvhandler() {
   await TrackStore.getPrevTracks( perPage.value, 'Number',prevTracks.value)
   .then(()=>{
     let firstTracks = Tracks.value[0]
@@ -134,7 +134,7 @@ watchEffect( () =>{
           </select>
         </li>
         <li class="page-item">
-          <a class="page-link  disabled" ref="prevBtn" href="#" aria-label="Previous"  @click="prevHandler">
+          <a class="page-link  disabled" ref="prevBtn" href="#" aria-label="Previous"  @click="predvhandler">
             <span aria-hidden="true">PREV</span>
           </a>
         </li>

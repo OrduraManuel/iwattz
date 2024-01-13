@@ -68,7 +68,7 @@ onMounted(() => {
     width: 100%;
   }
       .contents{
-        padding-top: 2vh;
+        padding-top: 2dvh;
         width: 100%;
         height: 100%;
       }
@@ -113,7 +113,7 @@ onMounted(() => {
       .col-12{
         padding: 0!important;
         .content{
-          margin-top:4vh;
+          margin-top:4dvh;
         }
       }
 
