@@ -24,7 +24,7 @@ import ModalBtn from '@/components/modal/btnModal.vue'
                     <div class="col-md-4 section-txt">
                         <p> Ho iniziato nel 2019 come fonico e Mix & Mastering Engineer per l'etichetta indipendente <a class="link-underline" href="https://moldrecordslabel.com/" target="_blank">MOLD Records</a> e dal 2020 collaboro con <a class="link-underline" href="http://www.rickycarioti.com/" target="_blank">Ricky Carioti</a>.</p>
                     </div>
-                    <div class="col-md-4 section-txt">
+                    <div class="col-md-4 section-txt mb-5">
                         <p>Lavorando ai dischi di diversi artisti mainstream italiani su tracce hip-hop, pop moderno e rock.</p>
                         <router-link :to="`selections`" class="btn btn-about" >Ascolta i miei lavori</router-link>
                     </div>

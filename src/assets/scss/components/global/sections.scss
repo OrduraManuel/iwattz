@@ -52,7 +52,7 @@
   margin: 0%!important;
   z-index: 9;
   width: calc(100vw - 2vw - var(--borderSize) - var(--borderSize));
-  height: calc(100dvh - 7dvh);
+  height: 100dvh;//calc(100dvh - 7dvh);
   overflow-y:auto;
   overflow-x:hidden;
   //overflow-y: auto;
@@ -67,6 +67,7 @@
     background-color: var(--txtDark)!important;
     outline: var(--border)!important;
     box-shadow: inset 0 0 var(--borderSize) var(--txtLight);
+    height: calc(100dvh - var(--marginT) - var(--marginB));
   }
   .homethis::-webkit-scrollbar-thumb  {
     background-color: var(--txtLight)!important;
